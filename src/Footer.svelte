@@ -5,10 +5,9 @@
 <main>
   <footer class="footer">
     <div class="content has-text-centered">
-      <p>
-        Sources available at <a href="https://github.com/LucasJC/rplanet-staking-configs">github</a>.
-        <strong>LucasJC</strong>
-      </p>
+      <p>Wax address for donations: <strong>glrrk.wam</strong></p>
+      <p>Sources available at <a href="https://github.com/LucasJC/rplanet-index">github</a>. <strong>LucasJC</strong></p>
+      <p><a href="mailto:lucas.couchot+rplstkexpl@gmail.com">Contact me</a></p>
     </div>
   </footer>
 </main>
