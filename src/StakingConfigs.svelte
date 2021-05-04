@@ -2,11 +2,10 @@
 
   import type { StakingConfig, Rarity } from "./types";
 	
+  let error: string;
   let filter: string;
-
-  function equalsIgnoreCase(a: string, b: string) {
-    return a.toUpperCase() === b.toUpperCase();
-  }
+  let result: StakingConfig[];
+  let filteredResult: StakingConfig[];
 
   async function fetchStakingConfigs() {
     const url = "https://chain.wax.io/v1/chain/get_table_rows";
@@ -30,7 +29,26 @@
     return res.json().then(data => data["rows"] as StakingConfig[]);
   };
 
-  let result: Promise<StakingConfig[]> = fetchStakingConfigs();
+  fetchStakingConfigs().then(data => {
+    result = data;
+    filteredResult = result;
+  });
+
+  function filterData() {
+    filteredResult = result.filter(cfg => {
+      if (!filter) {
+        return true;
+      }
+      if (cfg.collection.toUpperCase().includes(filter.toUpperCase()) || cfg.schema.toUpperCase().includes(filter.toUpperCase())) {
+        return true;
+      }
+      if (cfg.rarities.filter(rar => rar.rarity.toUpperCase().includes(filter.toUpperCase())).length > 0) {
+        return true;
+      } 
+      return false;
+    });
+  }
+
 </script>
 
 <main>
@@ -38,7 +56,7 @@
   <div class="section">  
     <form>
       <div class="control has-icons-left has-icons-right">
-        <input class="input" type="text" placeholder="Search" bind:value={filter} >
+        <input class="input" type="text" placeholder="Search" bind:value={filter} on:input={filterData} >
         <span class="icon is-right">
           <i class="fas fa-search"></i>
         </span>
@@ -47,18 +65,19 @@
   </div>
 
   <div class="section">
-    {#if result}
-      {#await result}
-        <p>...waiting</p>
-      {:then configs}
+
+    {#if error}
+      <p style="color: red">Error: {error}</p>
+    {/if}
+
+    {#if filteredResult}
         <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
           <tr>
             <th>Collection</th>
             <th>Schema</th>
             <th>Rarities</th>
           </tr>
-          {#each configs as config}
-            {#if !filter || ( config.collection.toUpperCase().includes(filter.toUpperCase()) || config.schema.toUpperCase().includes(filter.toUpperCase()) ) }
+          {#each filteredResult as config}
               <tr>
                 <td>{config.collection}</td>
                 <td>{config.schema}</td>
@@ -77,12 +96,8 @@
                   </table>
                 </td>
               </tr>
-            {/if}
           {/each}
         </table>
-      {:catch error}
-        <p style="color: red">Error</p>
-      {/await}
     {/if}
   </div>
 </main>
