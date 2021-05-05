@@ -1,9 +1,11 @@
 <script lang="ts">
 	import Footer from "./Footer.svelte";
+	import { GoogleAnalytics } from '@beyonk/svelte-google-analytics'
 	import StakingConfigs from "./StakingConfigs.svelte";
 </script>
 
 <main>
+	<GoogleAnalytics properties={["G-1WNKLF5N10"]} />
 	<p class="title">RPlanet Staking Configuration</p>
 	<StakingConfigs></StakingConfigs>
 	<Footer></Footer>
