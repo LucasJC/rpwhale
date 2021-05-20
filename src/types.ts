@@ -1,23 +1,16 @@
-export class StakingConfig {
+export class PoolConfig {
   id: string;
-  contract: string;
-  author: string;
-  collection: string;
-  schema: string;
-  name_id: string;
-  img_id: string;
-  rarity_id: string;
-  rarities: Rarity[]
-  r1: number;
-  r2: number;
-  r3: number;
+  staked: number;
+  pending_staked: number;
+  stock: string;
+  fraction: string;
+  enabled: number;
 }
 
-export class Rarity {
-  rarity: string;
-  uniq_assets: number;
-  one_asset_value: number;
-  collection_value: number;
-  r1: number;
-  r2: number;
+export class AccountCollectionStaking {
+  collection: string;
+  user: string;
+  staked: number;
+  collected: string;
+  miningPower?: number;
 }
