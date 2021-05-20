@@ -1,16 +1,18 @@
 <script lang="ts">
 import type { AccountCollectionStaking, PoolConfig } from "./types";
 
-
+  let account;
   let totalPower = 0.0;
   let totalCollected = 0.0;
   let collectionsStaking: AccountCollectionStaking[];
-  let account;
+  let lasAccount: string;
   let error: string;
 
   async function executeCalculation() {
     try {
       error = undefined;
+      collectionsStaking = [];
+      lasAccount = account;
       await calculate();
     } catch(error) {
       error = "Error performing calculation. Please try again later =(";
@@ -100,7 +102,7 @@ import type { AccountCollectionStaking, PoolConfig } from "./types";
           <input class="input" type="text" placeholder="WAX Account" bind:value={account}>
         </div>
         <div class="control">
-          <submit class="button is-info" href="#">Calculate</submit>
+          <span class="button is-info" href="#" on:click="{executeCalculation}">Calculate</span>
         </div>
       </div>
     </form>
@@ -108,7 +110,7 @@ import type { AccountCollectionStaking, PoolConfig } from "./types";
 
   <div class="section">
     {#if collectionsStaking}
-      <p class="subtitle">Account <span class="has-text-weight-bold">{account}</span> has a total mining power of <span class="has-text-weight-bold">{format(totalPower)} A/h</span></p>
+      <p class="subtitle">Account <span class="has-text-weight-bold">{lasAccount}</span> has a total mining power of <span class="has-text-weight-bold">{format(totalPower)} A/h</span></p>
       <p class="subtitle">Details:</p>
       <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
         <tr>
