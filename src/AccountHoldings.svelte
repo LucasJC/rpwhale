@@ -1,14 +1,12 @@
 <script lang="ts">
-import { current_component, prevent_default } from "svelte/internal";
-
   import { format } from "./format";
   import { getCurrencyBalance } from "./integration";
   import { account, aetherPrice, caponPrice, eneftPrice, waxonPrice, waxPrice, wecanPrice } from "./store";
-import { ALCOR_MARKET } from "./types";
 
   let balances: Array<{ currency: string, amount: number }>;
 
   $: if ($account && $account !== "") {
+    balances = undefined;
     getCurrencyBalance($account).then(
       (result) => balances = result.map(rs => { 
         const split = rs.split(" ");
