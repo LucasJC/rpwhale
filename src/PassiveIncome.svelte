@@ -1,22 +1,13 @@
 <script lang="ts">
   import { format } from "./format";
-  import { getAetherPriceInWax, getWaxPriceInUSD } from "./integration";
-  import { miningPower } from "./store";
+  import { aetherPrice, miningPower, waxPrice } from "./store";
 
-  let waxPrice: number = 0.0;
-  let aetherPrice: number = 0.0012;
   let aetherInWax: number = 0.0;
   let aetherInUSD: number = 0.0;
 
   $: if($miningPower) {
-    updatePrices();
-    aetherInWax = $miningPower * aetherPrice;
-    aetherInUSD = aetherInWax * waxPrice;
-  }
-
-  function updatePrices() {
-    getWaxPriceInUSD().then(wp => waxPrice = wp.wax.usd);
-    getAetherPriceInWax().then(ap => aetherPrice = ap.last_price);
+    aetherInWax = $miningPower * $aetherPrice;
+    aetherInUSD = aetherInWax * $waxPrice;
   }
 </script>
 
@@ -103,7 +94,7 @@
         </div>
       </div>
       <p>
-        {aetherPrice} Wax/Aether - {waxPrice} USD/Wax
+        {$aetherPrice} Wax/Aether - {$waxPrice} USD/Wax
       </p>
     {/if}
   </div>

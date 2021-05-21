@@ -21,6 +21,14 @@ export class WaxPrice {
   }
 }
 
-export class AetherPrice {
+export class AlcorPrice {
   last_price: number;
+}
+
+export enum ALCOR_MARKET {
+  AETHER = 29,
+  WECAN = 41,
+  CAPON = 43,
+  ENEFT = 45,
+  WAXON = 42
 }

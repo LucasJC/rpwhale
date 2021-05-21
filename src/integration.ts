@@ -1,4 +1,4 @@
-import type { AccountCollectionStaking, AetherPrice, PoolConfig, WaxPrice } from "./types";
+import type { AccountCollectionStaking, AlcorPrice, PoolConfig, WaxPrice } from "./types";
 
 export async function getCurrencyBalance(account: string): Promise<Array<string>> {
   const url = "https://api.wax.alohaeos.com/v1/chain/get_currency_balance";
@@ -19,8 +19,8 @@ export async function getWaxPriceInUSD(): Promise<WaxPrice> {
   return res.json();
 }
 
-export async function getAetherPriceInWax(): Promise<AetherPrice> {
-  const url = "https://wax.alcor.exchange/api/markets/29";
+export async function getAlcorPrice(market: number): Promise<AlcorPrice> {
+  const url = `https://wax.alcor.exchange/api/markets/${market}`;
   const res = await fetch(url)
   return res.json();
 }

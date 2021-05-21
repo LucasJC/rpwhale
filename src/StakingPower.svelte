@@ -80,7 +80,7 @@
         {/each}
         <tr class="has-text-weight-bold">
           <td>Total</td>
-          <td class="has-text-weight-bold">{format(totalCollected)} AETHER</td>
+          <td>{format(totalCollected)} AETHER</td>
           <td>{format(totalPower)} A/h</td>
         </tr>
       </table>
