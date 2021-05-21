@@ -1,6 +1,6 @@
 # rplanet-staking-configs
 
-This is a simple frontend that visualizes [RPlanet](https://rplanet.io) staking configuration for every available collection and allows a very simple collection / schema search.
+This is a simple frontend that visualizes [RPlanet](https://rplanet.io) mining power, current holdings and passive income information for given account.
 
 ## Get started
 

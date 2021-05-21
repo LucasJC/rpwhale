@@ -1,9 +1,34 @@
-import type { AccountCollectionStaking, PoolConfig } from "./types";
+import type { AccountCollectionStaking, AetherPrice, PoolConfig, WaxPrice } from "./types";
+
+export async function getCurrencyBalance(account: string): Promise<Array<string>> {
+  const url = "https://api.wax.alohaeos.com/v1/chain/get_currency_balance";
+  const options = {
+    method: "POST",
+    body: JSON.stringify({
+      code: "e.rplanet",
+      account
+    })
+  };
+  const res = await fetch(url, options);
+  return res.json();
+}
+
+export async function getWaxPriceInUSD(): Promise<WaxPrice> {
+  const url = "https://api.coingecko.com/api/v3/simple/price?ids=wax&vs_currencies=usd";
+  const res = await fetch(url)
+  return res.json();
+}
+
+export async function getAetherPriceInWax(): Promise<AetherPrice> {
+  const url = "https://wax.alcor.exchange/api/markets/29";
+  const res = await fetch(url)
+  return res.json();
+}
 
 export async function getTableRows<T>(code: string, scope: string, table: string, lower_bound = "", upper_bound = ""): Promise<Array<T>> {
   const url = "https://api.wax.alohaeos.com/v1/chain/get_table_rows";
   const options = {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify({
       code,
       index_position: 1,

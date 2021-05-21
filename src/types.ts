@@ -14,3 +14,13 @@ export class AccountCollectionStaking {
   collected: string;
   miningPower?: number;
 }
+
+export class WaxPrice {
+  wax: {
+    usd: number;
+  }
+}
+
+export class AetherPrice {
+  last_price: number;
+}

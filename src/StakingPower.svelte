@@ -1,27 +1,32 @@
 <script lang="ts">
+  import { format } from "./format";
   import { fetchAccountCollectionStaking, fetchStakingConfigs } from "./integration";
+  import { account, miningPower } from "./store";
   import type { AccountCollectionStaking } from "./types";
 
-  let account: string;
   let totalPower = 0.0;
   let totalCollected = 0.0;
   let collectionsStaking: AccountCollectionStaking[];
   let lasAccount: string;
   let error: string;
 
+  $: if ($account) {
+    executeCalculation();
+  }
+
   async function executeCalculation() {
     try {
       error = undefined;
       collectionsStaking = [];
-      lasAccount = account;
-      await calculate();
+      lasAccount = $account;
+      await calculate($account);
     } catch(error) {
       error = "Error performing calculation. Please try again later =(";
     }
   }
 
-  async function calculate() {
-    if (!account) {
+  async function calculate(waxAccount: string) {
+    if (!waxAccount) {
       error = "Please specify a WAX account";
       return;
     }
@@ -31,7 +36,7 @@
       return;
     }
     const configMap = new Map(conf.map(ce => [ce.id, ce]));
-    collectionsStaking = (await Promise.all([...configMap.keys()].map(col => fetchAccountCollectionStaking(account, col)))).filter(el => !!el);
+    collectionsStaking = (await Promise.all([...configMap.keys()].map(col => fetchAccountCollectionStaking(waxAccount, col)))).filter(el => !!el);
     let total = 0;
     let collected = 0;
     collectionsStaking.forEach(cs => {
@@ -49,28 +54,12 @@
     });
     totalCollected = collected;
     totalPower = total;
-  }
-
-  function format(input: number) {
-    return input.toLocaleString('en-us', {minimumFractionDigits: 2});
+    miningPower.set(totalPower);
   }
 
 </script>
 
 <main>
-  
-  <div class="section">
-    <form class="form" on:submit|preventDefault={executeCalculation} >
-      <div class="field is-grouped">
-        <div class="control is-expanded">
-          <input class="input" type="text" placeholder="WAX Account" bind:value={account}>
-        </div>
-        <div class="control">
-          <span class="button is-info" href="#" on:click="{executeCalculation}">Calculate</span>
-        </div>
-      </div>
-    </form>
-  </div>
 
   <div class="section">
     {#if collectionsStaking}
