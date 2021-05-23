@@ -63,7 +63,7 @@
 
   <div class="section">
     {#if collectionsStaking}
-      <p class="subtitle">Account <span class="has-text-weight-bold">{lasAccount}</span> has a total mining power of <span class="has-text-weight-bold">{format(totalPower)} A/h</span></p>
+      <p class="subtitle">Account <span class="has-text-weight-bold">{lasAccount}</span> has a total mining power of <span class="has-text-weight-bold" data-tooltip="Aether generated per hour">{format(totalPower)} A/h</span></p>
       <p class="subtitle">Details:</p>
       <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
         <tr>
@@ -78,7 +78,7 @@
               <td>{format(cs.miningPower)} A/h</td>
             </tr>
         {/each}
-        <tr class="has-text-weight-bold">
+        <tr class="has-text-weight-bold has-background-info-light">
           <td>Total</td>
           <td>{format(totalCollected)} AETHER</td>
           <td>{format(totalPower)} A/h</td>

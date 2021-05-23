@@ -81,7 +81,7 @@
             <td>{format(convertToUSD(b.currency, b.amount))}</td>
           </tr>
         {/each}
-        <tr class="has-text-weight-bold">
+        <tr class="has-text-weight-bold has-background-info-light">
           <td>Total</td>
           <td> - </td>
           <td>{format(totalInWax())}</td>

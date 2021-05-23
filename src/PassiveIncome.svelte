@@ -18,7 +18,7 @@
       <p class="subtitle">Passive income rates:</p>
       <div class="columns">
         <div class="column">
-          <p class="subtitle">Aether</p>
+          <p class="subtitle has-text-centered" data-tooltip="Aether calculated income.">Aether</p>
             <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
               <tr>
                 <th>Period</th>
@@ -43,7 +43,7 @@
             </table>
         </div>
         <div class="column">
-          <p class="subtitle">Wax</p>
+          <p class="subtitle has-text-centered" data-tooltip="Wax calculated income. Defaults to 0 when prices are not available.">Wax</p>
             <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
               <tr>
                 <th>Period</th>
@@ -68,7 +68,7 @@
             </table>
         </div>
         <div class="column">
-          <p class="subtitle">USD</p>
+          <p class="subtitle has-text-centered" data-tooltip="USD calculated income. Defaults to 0 when prices are not available.">USD</p>
           <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
             <tr>
               <th>Period</th>
@@ -94,7 +94,7 @@
         </div>
       </div>
       <p>
-        {$aetherPrice} Wax/Aether - {$waxPrice} USD/Wax
+        <span class="has-tooltip-bottom" data-tooltip="Aether price taken from Alcor Exchange API.">{$aetherPrice} Wax/Aether</span> - <span class="has-tooltip-bottom" data-tooltip="Wax price taken from CoinGecko API.">{$waxPrice} USD/Wax</span>
       </p>
     {/if}
   </div>

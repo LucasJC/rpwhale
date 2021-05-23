@@ -1,4 +1,8 @@
-import type { AccountCollectionStaking, AlcorPrice, PoolConfig, WaxPrice } from "./types";
+import type { AccountCollectionStaking, AlcorPrice, AtomicAsset, PoolConfig, WaxPrice } from "./types";
+
+export async function getAccountAssets(account: string): Promise<Array<AtomicAsset>> {
+  return getTableRows("atomicassets", account, "assets", "", "");
+}
 
 export async function getCurrencyBalance(account: string): Promise<Array<string>> {
   const url = "https://api.wax.alohaeos.com/v1/chain/get_currency_balance";

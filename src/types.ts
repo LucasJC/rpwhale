@@ -32,3 +32,13 @@ export enum ALCOR_MARKET {
   ENEFT = 45,
   WAXON = 42
 }
+
+export class AtomicAsset {
+  asset_id: string;
+  collection_name: string;
+  schema_name: string;
+  template_id: number;
+  ram_payer: string;
+  immutable_serialized_data: number[];
+  mutable_serialized_data: number[];
+}
