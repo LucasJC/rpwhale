@@ -88,7 +88,7 @@ import type { CalculatedBalance } from "./types";
             <td>{format(b.usdAmount)}</td>
           </tr>
         {/each}
-        <tr class="has-text-weight-bold has-background-info-light">
+        <tr class="has-text-weight-bold has-background-info-light has-text-info-dark">
           <td>Total</td>
           <td> - </td>
           <td>{format(totalWax)}</td>

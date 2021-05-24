@@ -102,7 +102,7 @@
               <td>{format(cs.miningPower)} A/h</td>
             </tr>
         {/each}
-        <tr class="has-text-weight-bold has-background-info-light">
+        <tr class="has-text-weight-bold has-background-info-light has-text-info-dark">
           <td>Total</td>
           <td>{format(totalCollected)} AETHER</td>
           <td>{format(totalPower)} A/h</td>

@@ -6,6 +6,25 @@ export const account = writable("");
 
 export const miningPower = writable(0.0);
 
+function createNightMode() {
+  const enabled = localStorage.getItem("dark-mode") || "false";
+  const { subscribe, set } = writable(enabled === "true");
+  return {
+    subscribe,
+    toggle: () => {
+      const on = localStorage.getItem("dark-mode") || "false";
+      if (on == "true") {
+        localStorage.setItem("dark-mode", "false"); 
+        set(false);
+      } else {
+        localStorage.setItem("dark-mode", "true");
+        set(true);
+      }
+    }
+  };
+}
+export const nightMode = createNightMode();
+
 export const waxPrice = readable(0.0, function start(set) {
   getWaxPriceInUSD().then(wp => set(wp.wax.usd));
 });
