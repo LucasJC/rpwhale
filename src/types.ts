@@ -1,4 +1,4 @@
-export class PoolConfig {
+export interface PoolConfig {
   id: string;
   staked: number;
   pending_staked: number;
@@ -7,7 +7,7 @@ export class PoolConfig {
   enabled: number;
 }
 
-export class AccountCollectionStaking {
+export interface AccountCollectionStaking {
   collection: string;
   user: string;
   staked: number;
@@ -15,13 +15,13 @@ export class AccountCollectionStaking {
   miningPower?: number;
 }
 
-export class WaxPrice {
+export interface WaxPrice {
   wax: {
     usd: number;
   };
 }
 
-export class AlcorPrice {
+export interface AlcorPrice {
   last_price: number;
 }
 
@@ -33,13 +33,13 @@ export enum ALCOR_MARKET {
   WAXON = 42,
 }
 
-export class CalculatedBalance {
+export interface CalculatedBalance {
   currency: string;
   amount: number;
-  waxAmount?: number = 0;
-  usdAmount?: number = 0;
+  waxAmount?: number;
+  usdAmount?: number;
 }
-export class AtomicAsset {
+export interface AtomicAsset {
   asset_id: string;
   collection_name: string;
   schema_name: string;

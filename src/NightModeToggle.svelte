@@ -6,9 +6,9 @@
     let darkLink = document.getElementById("dark-theme");
     if ($nightMode && !darkLink) {
       darkLink = document.createElement("link");
-      darkLink["rel"] = "stylesheet";
+      darkLink.setAttribute("rel", "stylesheet");
       darkLink.id = "dark-theme";
-      darkLink["href"] = "https://unpkg.com/bulma-prefers-dark";
+      darkLink.setAttribute("href", "https://unpkg.com/bulma-prefers-dark");
       document.head.appendChild(darkLink);
     }
     if (!$nightMode && darkLink) {
