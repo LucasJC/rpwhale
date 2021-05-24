@@ -12,7 +12,7 @@
   let collectionsStaking: AccountCollectionStaking[];
   let lastAccount: string;
   let rank: string = "";
-  let error: string;
+  let error: string | undefined;
 
   $: if ($account) {
     executeCalculation();
@@ -41,13 +41,15 @@
       return;
     }
     const configMap = new Map(conf.map((ce) => [ce.id, ce]));
-    collectionsStaking = (
-      await Promise.all(
-        [...configMap.keys()].map((col) =>
-          fetchAccountCollectionStaking(waxAccount, col)
-        )
+    const collectionsStakingRes = await Promise.all(
+      [...configMap.keys()].map((col) =>
+        fetchAccountCollectionStaking(waxAccount, col)
       )
-    ).filter((el) => !!el);
+    );
+
+    collectionsStaking = collectionsStakingRes.filter(
+      (el) => !!el
+    ) as AccountCollectionStaking[];
     let total = 0;
     let collected = 0;
     collectionsStaking.forEach((cs) => {
@@ -56,8 +58,11 @@
         if (cs.collection === "s.rplanet") {
           cs.miningPower = cs.staked / 10000;
         } else {
-          const poolRewards = Number(collectionConfig.fraction.split(" ")[0]);
-          cs.miningPower = (cs.staked * poolRewards) / collectionConfig.staked;
+          const poolRewards = Number(
+            collectionConfig?.fraction.split(" ")[0] || 0
+          );
+          cs.miningPower =
+            (cs.staked * poolRewards) / (collectionConfig?.staked || 0);
         }
         collected += Number(cs.collected.split(" ")[0]);
         total += cs.miningPower;
@@ -114,7 +119,7 @@
           <tr>
             <td>{cs.collection}</td>
             <td>{cs.collected}</td>
-            <td>{format(cs.miningPower)} A/h</td>
+            <td>{format(cs?.miningPower || 0)} A/h</td>
           </tr>
         {/each}
         <tr

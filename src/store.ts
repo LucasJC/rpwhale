@@ -13,7 +13,7 @@ export const accountQueryParams = {
    */
   get(): string {
     const search = new URLSearchParams(document.location.search);
-    return search.get("account");
+    return search.get("account") || "";
   },
 
   /**
@@ -22,7 +22,7 @@ export const accountQueryParams = {
   set(account: string): void {
     const search = new URLSearchParams(document.location.search);
     search.set("account", account);
-    history.pushState(null, null, "?" + search.toString());
+    history.pushState(null, document.title, "?" + search.toString());
   },
 };
 

@@ -65,7 +65,8 @@ export async function getTableRows<T>(
     }),
   };
   const res = await fetch(url, options);
-  return res.json().then((data) => data["rows"]);
+  const body = await res.json();
+  return body.rows;
 }
 
 export async function fetchStakingConfigs(): Promise<PoolConfig[]> {

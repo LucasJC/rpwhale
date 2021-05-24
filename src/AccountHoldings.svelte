@@ -12,7 +12,7 @@
   } from "./store";
   import type { CalculatedBalance } from "./types";
 
-  let balances: Array<CalculatedBalance>;
+  let balances: Array<CalculatedBalance> = [];
   let totalWax: number = 0.0;
   let totalUSD: number = 0.0;
 
@@ -26,7 +26,7 @@
     $wecanPrice &&
     $waxPrice
   ) {
-    balances = undefined;
+    balances = [];
     getBalances().then((b) => {
       balances = updateBalances(b);
     });
@@ -51,16 +51,19 @@
   ): Array<CalculatedBalance> {
     totalWax = 0;
     totalUSD = 0;
-    if (balances) {
-      for (let blc of balances) {
-        const price = getPrice(blc.currency);
-        blc.waxAmount = blc.amount * price;
-        blc.usdAmount = blc.waxAmount * $waxPrice;
-        totalWax += blc.waxAmount;
-        totalUSD += blc.usdAmount;
-      }
-    }
-    return balances;
+    return balances.map((blc) => {
+      const price = getPrice(blc.currency);
+      const waxAmount = blc.amount * price;
+      const usdAmount = (blc.waxAmount || 0) * $waxPrice;
+      totalWax += waxAmount;
+      totalUSD += usdAmount;
+
+      return {
+        ...blc,
+        waxAmount,
+        usdAmount,
+      };
+    });
   }
 
   function getPrice(currency: string): number {
@@ -88,7 +91,7 @@
 
 <main>
   <div class="section">
-    {#if balances}
+    {#if balances.length > 0}
       <p class="subtitle">Account holdings:</p>
       <table
         class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
@@ -103,8 +106,8 @@
           <tr>
             <td>{b.currency}</td>
             <td>{format(b.amount)}</td>
-            <td>{format(b.waxAmount)}</td>
-            <td>{format(b.usdAmount)}</td>
+            <td>{format(b.waxAmount || 0)}</td>
+            <td>{format(b.usdAmount || 0)}</td>
           </tr>
         {/each}
         <tr
