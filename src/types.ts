@@ -33,6 +33,12 @@ export enum ALCOR_MARKET {
   WAXON = 42
 }
 
+export class CalculatedBalance {
+  currency: string;
+  amount: number;
+  waxAmount?: number = 0;
+  usdAmount?: number = 0;
+}
 export class AtomicAsset {
   asset_id: string;
   collection_name: string;

@@ -2,62 +2,69 @@
   import { format } from "./format";
   import { getCurrencyBalance } from "./integration";
   import { account, aetherPrice, caponPrice, eneftPrice, waxonPrice, waxPrice, wecanPrice } from "./store";
+import type { CalculatedBalance } from "./types";
 
-  let balances: Array<{ currency: string, amount: number }>;
+  let balances: Array<CalculatedBalance>;
+  let totalWax: number = 0.0;
+  let totalUSD: number = 0.0;
 
-  $: if ($account && $account !== "") {
+  $: if ($account && $account !== "" && $aetherPrice && $caponPrice && $eneftPrice && $waxonPrice && $wecanPrice && $waxPrice) {
     balances = undefined;
-    getCurrencyBalance($account).then(
-      (result) => balances = result.map(rs => { 
+    getBalances().then(b => {
+      balances = updateBalances(b);
+    });
+  }
+
+  async function getBalances(): Promise<Array<CalculatedBalance>> {
+    const res = await getCurrencyBalance($account);
+    if (!res) {
+      return [];
+    }
+    return res.map(rs => { 
         const split = rs.split(" ");
         return {
           currency: split[1],
           amount: Number.parseFloat(split[0])
         };
-      })
-    );
+      });
   }
 
-  function convertToWax(currency: string, amount: number): number {
-    const cur = currency.toLowerCase();
-    let price = 0.0;
-    switch(currency.toUpperCase()) {
-      case"AETHER":
-        price = $aetherPrice;
-        break;
-      case "CAPON":
-        price = $caponPrice;
-        break;
-      case "ENEFT":
-        price = $eneftPrice;
-        break;
-      case "WAXON":
-        price = $waxonPrice;
-        break;
-      case "WECAN":
-        price = $wecanPrice;
-        break;
+  function updateBalances(balances: Array<CalculatedBalance>): Array<CalculatedBalance> {
+    totalWax = 0;
+    totalUSD = 0;
+    if (balances) {
+      for(let blc of balances) {
+        const price = getPrice(blc.currency);
+        blc.waxAmount = blc.amount * price;
+        blc.usdAmount = blc.waxAmount * $waxPrice;
+        totalWax += blc.waxAmount;
+        totalUSD += blc.usdAmount;
+      }
     }
-    return amount * price;
+    return balances;
   }
 
-  function convertToUSD(currency: string, amount: number): number {
-    return convertToWax(currency, amount) * $waxPrice;
-  }
-
-  function totalInWax(): number {
-    if (!balances) {
-      return 0.0;
+  function getPrice(currency: string): number {
+    console.log("Getting price for " + currency);
+    const cur = currency.toUpperCase();
+    if ("AETHER" == cur) {
+      return $aetherPrice;
     }
-    return balances.map((b) => convertToWax(b.currency, b.amount)).reduce((prev, cur) => prev + cur, 0);
-  }
-
-  function totalInUSD(): number {
-    if (!balances) {
-      return 0.0;
+    if ("CAPON" == cur) {
+      return $caponPrice;
     }
-    return balances.map((b) => convertToUSD(b.currency, b.amount)).reduce((prev, cur) => prev + cur, 0);
-  }
+    if ("ENEFT" == cur) {
+      return $eneftPrice;
+    }
+    if ("WAXON" == cur) {
+      return $waxonPrice;
+    }
+    if ("WECAN" == cur) {
+      return $wecanPrice;
+    }
+    console.log("returning 0");
+    return 0.0;
+  } 
 </script>
 
 <main>
@@ -77,15 +84,15 @@
           <tr>
             <td>{b.currency}</td>
             <td>{format(b.amount)}</td>
-            <td>{format(convertToWax(b.currency, b.amount))}</td>
-            <td>{format(convertToUSD(b.currency, b.amount))}</td>
+            <td>{format(b.waxAmount)}</td>
+            <td>{format(b.usdAmount)}</td>
           </tr>
         {/each}
         <tr class="has-text-weight-bold has-background-info-light">
           <td>Total</td>
           <td> - </td>
-          <td>{format(totalInWax())}</td>
-          <td>{format(totalInUSD())}</td>
+          <td>{format(totalWax)}</td>
+          <td>{format(totalUSD)}</td>
         </tr>
       </table>
     {/if}

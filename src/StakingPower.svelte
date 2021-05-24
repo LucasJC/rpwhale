@@ -59,28 +59,6 @@
     rank = getRank(totalPower);
   }
 
-  function getRankOld(mp: number) {
-    let rank = "🐠";
-    switch(true) {
-      case mp < 10000 && mp > 2000:
-        rank = "🦀";
-        break;
-      case mp < 40000 && mp > 10000:
-        rank = "🐬";
-        break;
-      case mp < 100000 && mp > 40000:
-        rank = "🦈";
-        break;
-      case mp < 250000 && mp > 100000:
-        rank = "🐳";
-        break;
-      case mp > 250000:
-        rank = "🐙";
-        break;
-    }
-    return rank;
-  }
-
   function getRank(mp: number) {
     if (mp < 2000) {
       return "🐠";

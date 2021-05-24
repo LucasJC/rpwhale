@@ -93,9 +93,6 @@
           </table>
         </div>
       </div>
-      <p>
-        <span class="has-tooltip-bottom" data-tooltip="Aether price taken from Alcor Exchange API.">{$aetherPrice} Wax/Aether</span> - <span class="has-tooltip-bottom" data-tooltip="Wax price taken from CoinGecko API.">{$waxPrice} USD/Wax</span>
-      </p>
     {/if}
   </div>
 </main>

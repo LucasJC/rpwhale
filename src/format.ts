@@ -1,3 +1,4 @@
 export function format(input: number) {
-  return input.toLocaleString('en-us', { minimumFractionDigits: 2 });
+  const numberToFormat = input || 0;
+  return numberToFormat.toLocaleString('en-us', { minimumFractionDigits: 2 });
 }

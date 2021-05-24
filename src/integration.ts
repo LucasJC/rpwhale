@@ -61,7 +61,7 @@ export async function fetchAccountCollectionStaking(account: string, collection:
   if (staking) {
     staking.collection = collection;
   } else {
-    console.log(`Collection ${collection} not found`);
+    //console.log(`Collection ${collection} not found`);
   }
   return staking;
 }

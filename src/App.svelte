@@ -6,6 +6,7 @@
 import AccountInput from "./AccountInput.svelte";
 import PassiveIncome from "./PassiveIncome.svelte";
 import AccountHoldings from "./AccountHoldings.svelte";
+import Currencies from "./Currencies.svelte";
 </script>
 
 <main>
@@ -16,6 +17,7 @@ import AccountHoldings from "./AccountHoldings.svelte";
 		<StakingPower></StakingPower>
 		<PassiveIncome></PassiveIncome>
 		<AccountHoldings></AccountHoldings>
+		<Currencies></Currencies>
 	</div>
 	<Footer/>
 </main>
