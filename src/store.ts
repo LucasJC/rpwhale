@@ -2,16 +2,32 @@ import { readable, Subscriber, writable } from 'svelte/store';
 import { getAlcorPrice, getWaxPriceInUSD } from './integration';
 import { ALCOR_MARKET } from './types';
 
+
 /**
- * get account for query params
+ * account will be extracted from query params,
+ * I didn't found a svelte/store mechanism to introduce these
+ * side effects in it
  */
-function initAccount(): string {
-  const search = new URLSearchParams(document.location.search)
-  return search.get("account")
+export const accountQueryParams = {
+  /**
+  * get account for query params
+  */
+  get(): string {
+    const search = new URLSearchParams(document.location.search)
+    return search.get("account")
+  },
+
+  /**
+  * get account for query params
+  */
+  set(account: string): void {
+    const search = new URLSearchParams(document.location.search)
+    search.set("account", account)
+    history.pushState(null, null, "?" + search.toString());
+  }
 }
 
-
-export const account = writable<string>(initAccount());
+export const account = writable<string>(accountQueryParams.get());
 
 export const miningPower = writable(0.0);
 

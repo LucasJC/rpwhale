@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { account } from "./store";
+  import { account, accountQueryParams } from "./store";
 
   let accountInput: string = $account;
   function setAccount() {
     account.set(accountInput);
+    accountQueryParams.set(accountInput)
   }
 </script>
 
