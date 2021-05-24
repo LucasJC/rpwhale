@@ -3,10 +3,16 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "typecheck": "tsc --noEmit",
+    "prettier": "prettier  \"**/*.{ts,svelte}\"",
+    "format": "npm run prettier --write",
+    "format:check": "npm run prettier --check",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear",
-    "validate": "svelte-check"
+    "validate": "svelte-check",
+    "test": "npm run validate && npm run typecheck && npm run format:check",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@beyonk/svelte-google-analytics": "^2.2.0",
@@ -14,6 +20,10 @@
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-typescript": "^8.0.0",
     "@tsconfig/svelte": "^1.0.0",
+    "husky": ">=6",
+    "lint-staged": ">=10",
+    "prettier": "^2.3.0",
+    "prettier-plugin-svelte": "^2.3.0",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-livereload": "^2.0.0",
@@ -28,5 +38,8 @@
   "dependencies": {
     "@waxio/waxjs": "0.0.15",
     "sirv-cli": "^1.0.0"
+  },
+  "lint-staged": {
+    "*.{js,ts,svelte,css,md}": "prettier --write"
   }
 }
