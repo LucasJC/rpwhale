@@ -49,14 +49,14 @@
     if (!balances) {
       return 0.0;
     }
-    return balances.map((b) => convertToWax(b.currency, b.amount)).reduce((prev, cur) => prev + cur);
+    return balances.map((b) => convertToWax(b.currency, b.amount)).reduce((prev, cur) => prev + cur, 0);
   }
 
   function totalInUSD(): number {
     if (!balances) {
       return 0.0;
     }
-    return balances.map((b) => convertToUSD(b.currency, b.amount)).reduce((prev, cur) => prev + cur);
+    return balances.map((b) => convertToUSD(b.currency, b.amount)).reduce((prev, cur) => prev + cur, 0);
   }
 </script>
 
