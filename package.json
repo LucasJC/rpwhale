@@ -5,8 +5,8 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "prettier": "prettier  \"**/*.{ts,svelte}\"",
-    "format": "npm run prettier --write",
-    "format:check": "npm run prettier --check",
+    "format": "npm run prettier -- --write",
+    "format:check": "npm run prettier -- --check",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear",

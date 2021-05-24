@@ -1,16 +1,33 @@
 <script lang="ts">
   import { format } from "./format";
   import { getCurrencyBalance } from "./integration";
-  import { account, aetherPrice, caponPrice, eneftPrice, waxonPrice, waxPrice, wecanPrice } from "./store";
-import type { CalculatedBalance } from "./types";
+  import {
+    account,
+    aetherPrice,
+    caponPrice,
+    eneftPrice,
+    waxonPrice,
+    waxPrice,
+    wecanPrice,
+  } from "./store";
+  import type { CalculatedBalance } from "./types";
 
   let balances: Array<CalculatedBalance>;
   let totalWax: number = 0.0;
   let totalUSD: number = 0.0;
 
-  $: if ($account && $account !== "" && $aetherPrice && $caponPrice && $eneftPrice && $waxonPrice && $wecanPrice && $waxPrice) {
+  $: if (
+    $account &&
+    $account !== "" &&
+    $aetherPrice &&
+    $caponPrice &&
+    $eneftPrice &&
+    $waxonPrice &&
+    $wecanPrice &&
+    $waxPrice
+  ) {
     balances = undefined;
-    getBalances().then(b => {
+    getBalances().then((b) => {
       balances = updateBalances(b);
     });
   }
@@ -20,20 +37,22 @@ import type { CalculatedBalance } from "./types";
     if (!res) {
       return [];
     }
-    return res.map(rs => { 
-        const split = rs.split(" ");
-        return {
-          currency: split[1],
-          amount: Number.parseFloat(split[0])
-        };
-      });
+    return res.map((rs) => {
+      const split = rs.split(" ");
+      return {
+        currency: split[1],
+        amount: Number.parseFloat(split[0]),
+      };
+    });
   }
 
-  function updateBalances(balances: Array<CalculatedBalance>): Array<CalculatedBalance> {
+  function updateBalances(
+    balances: Array<CalculatedBalance>
+  ): Array<CalculatedBalance> {
     totalWax = 0;
     totalUSD = 0;
     if (balances) {
-      for(let blc of balances) {
+      for (let blc of balances) {
         const price = getPrice(blc.currency);
         blc.waxAmount = blc.amount * price;
         blc.usdAmount = blc.waxAmount * $waxPrice;
@@ -64,7 +83,7 @@ import type { CalculatedBalance } from "./types";
     }
     console.log("returning 0");
     return 0.0;
-  } 
+  }
 </script>
 
 <main>
@@ -88,7 +107,9 @@ import type { CalculatedBalance } from "./types";
             <td>{format(b.usdAmount)}</td>
           </tr>
         {/each}
-        <tr class="has-text-weight-bold has-background-info-light has-text-info-dark">
+        <tr
+          class="has-text-weight-bold has-background-info-light has-text-info-dark"
+        >
           <td>Total</td>
           <td> - </td>
           <td>{format(totalWax)}</td>
