@@ -11,21 +11,46 @@ export const waxPrice = readable(0.0, function start(set) {
 });
 
 export const aetherPrice = readable(0.0, function start(set) {
-  getAlcorPrice(ALCOR_MARKET.AETHER).then(ap => set(ap.last_price));
+  const interval = setInterval(() => {
+    getAlcorPrice(ALCOR_MARKET.AETHER).then(ap => set(ap.last_price));
+  }, 10000);
+  return function stop() {
+    clearInterval(interval);
+  };
 });
 
 export const wecanPrice = readable(0.0, function start(set) {
-  getAlcorPrice(ALCOR_MARKET.WECAN).then(ap => set(ap.last_price));
+  const interval = setInterval(() => {
+    getAlcorPrice(ALCOR_MARKET.WECAN).then(ap => set(ap.last_price));
+  }, 10000);
+  return function stop() {
+    clearInterval(interval);
+  };
 });
 
 export const caponPrice = readable(0.0, function start(set) {
-  getAlcorPrice(ALCOR_MARKET.CAPON).then(ap => set(ap.last_price));
+  const interval = setInterval(() => {
+    getAlcorPrice(ALCOR_MARKET.CAPON).then(ap => set(ap.last_price));
+  }, 10000);
+  return function stop() {
+    clearInterval(interval);
+  };
 });
 
 export const waxonPrice = readable(0.0, function start(set) {
-  getAlcorPrice(ALCOR_MARKET.WAXON).then(ap => set(ap.last_price));
+  const interval = setInterval(() => {
+    getAlcorPrice(ALCOR_MARKET.WAXON).then(ap => set(ap.last_price));
+  }, 10000);
+  return function stop() {
+    clearInterval(interval);
+  };
 });
 
 export const eneftPrice = readable(0.0, function start(set) {
-  getAlcorPrice(ALCOR_MARKET.ENEFT).then(ap => set(ap.last_price));
+  const interval = setInterval(() => {
+    getAlcorPrice(ALCOR_MARKET.ENEFT).then(ap => set(ap.last_price));
+  }, 10000);
+  return function stop() {
+    clearInterval(interval);
+  };
 });

@@ -7,7 +7,8 @@
   let totalPower = 0.0;
   let totalCollected = 0.0;
   let collectionsStaking: AccountCollectionStaking[];
-  let lasAccount: string;
+  let lastAccount: string;
+  let rank: string = "";
   let error: string;
 
   $: if ($account) {
@@ -18,7 +19,7 @@
     try {
       error = undefined;
       collectionsStaking = [];
-      lasAccount = $account;
+      lastAccount = $account;
       await calculate($account);
     } catch(error) {
       error = "Error performing calculation. Please try again later =(";
@@ -55,6 +56,29 @@
     totalCollected = collected;
     totalPower = total;
     miningPower.set(totalPower);
+    rank = getRank(totalPower);
+  }
+
+  function getRank(mp: number) {
+    let rank = "🐠";
+    switch(true) {
+      case mp < 10000 && mp > 2000:
+        rank = "🦀";
+        break;
+      case mp < 40000 && mp > 10000:
+        rank = "🐬";
+        break;
+      case mp < 100000 && mp > 40000:
+        rank = "🦈";
+        break;
+      case mp < 250000 && mp > 100000:
+        rank = "🐳";
+        break;
+      case mp > 250000:
+        rank = "🐙";
+        break;
+    }
+    return rank;
   }
 
 </script>
@@ -63,7 +87,10 @@
 
   <div class="section">
     {#if collectionsStaking}
-      <p class="subtitle">Account <span class="has-text-weight-bold">{lasAccount}</span> has a total mining power of <span class="has-text-weight-bold" data-tooltip="Aether generated per hour">{format(totalPower)} A/h</span></p>
+      <p class="subtitle">
+        Account <span class="has-text-weight-bold">{lastAccount}</span> has a total mining power of 
+        <span class="has-text-weight-bold" data-tooltip="Aether generated per hour">{format(totalPower)} A/h {rank}</span>
+      </p>
       <p class="subtitle">Details:</p>
       <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
         <tr>
