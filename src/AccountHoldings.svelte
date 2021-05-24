@@ -54,7 +54,7 @@
     return balances.map((blc) => {
       const price = getPrice(blc.currency);
       const waxAmount = blc.amount * price;
-      const usdAmount = (blc.waxAmount || 0) * $waxPrice;
+      const usdAmount = waxAmount * $waxPrice;
       totalWax += waxAmount;
       totalUSD += usdAmount;
 
