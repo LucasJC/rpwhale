@@ -18,7 +18,7 @@ export class AccountCollectionStaking {
 export class WaxPrice {
   wax: {
     usd: number;
-  }
+  };
 }
 
 export class AlcorPrice {
@@ -30,7 +30,7 @@ export enum ALCOR_MARKET {
   WECAN = 41,
   CAPON = 43,
   ENEFT = 45,
-  WAXON = 42
+  WAXON = 42,
 }
 
 export class CalculatedBalance {
