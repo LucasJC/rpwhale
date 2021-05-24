@@ -1,7 +1,7 @@
 <script lang="ts">
   import { account } from "./store";
 
-  let accountInput: string;
+  let accountInput: string = $account;
   function setAccount() {
     account.set(accountInput);
   }

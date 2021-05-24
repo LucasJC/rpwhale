@@ -2,11 +2,20 @@ import { readable, Subscriber, writable } from 'svelte/store';
 import { getAlcorPrice, getWaxPriceInUSD } from './integration';
 import { ALCOR_MARKET } from './types';
 
-export const account = writable("");
+/**
+ * get account for query params
+ */
+function initAccount(): string {
+  const search = new URLSearchParams(document.location.search)
+  return search.get("account")
+}
+
+
+export const account = writable<string>(initAccount());
 
 export const miningPower = writable(0.0);
 
-export const waxPrice = readable(0.0, function start(set) {
+export const waxPrice = readable(0.0, set => {
   getWaxPriceInUSD().then(wp => set(wp.wax.usd));
 });
 
