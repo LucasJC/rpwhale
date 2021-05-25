@@ -5,7 +5,9 @@
 <main>
   <section class="hero">
     <div class="hero-body">
-      <p class="title">RP Whale <span class:night-whale={$nightMode}>🐳</span></p>
+      <p class="title">
+        RP Whale <span class:night-whale={$nightMode}>🐳</span>
+      </p>
       <p class="subtitle">
         Unofficial staking calculator utility for <a
           href="https://rplanet.io"

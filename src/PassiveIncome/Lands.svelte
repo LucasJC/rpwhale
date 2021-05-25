@@ -1,35 +1,11 @@
 <script lang="ts">
   import { format } from "../format";
-  import {
-    aetherPrice,
-    caponPrice,
-    eneftPrice,
-    waxonPrice,
-    waxPrice,
-    wecanPrice,
-  } from "../store";
+  import { pricesInWax, waxPrice } from "../store";
+  import * as Price from "../domain/Price";
   import Table from "./PeriodicIncomeTable.svelte";
 
-  // TODO unify this elsewhere
-  function getPrice(currency: string): number {
-    const cur = currency.toUpperCase();
-    if ("AETHER" == cur) {
-      return $aetherPrice;
-    }
-    if ("CAPONIUM" == cur) {
-      return $caponPrice;
-    }
-    if ("ENEFTERIUM" == cur) {
-      return $eneftPrice;
-    }
-    if ("WAXON" == cur) {
-      return $waxonPrice;
-    }
-    if ("WECANITE" == cur) {
-      return $wecanPrice;
-    }
-    return 0;
-  }
+  let aetherPrice: number = 0;
+  $: aetherPrice = Price.getPrice($pricesInWax, "AETHER");
 
   export let landsYield: Array<{ id: string; value: number }> = [];
 
@@ -42,9 +18,9 @@
   }> = [];
 
   $: rows = landsYield.map(({ id, value }) => {
-    const priceInWax = getPrice(id);
+    const priceInWax = Price.getPrice($pricesInWax, id);
     const wax = value * priceInWax;
-    const aeth = wax / $aetherPrice;
+    const aeth = wax / aetherPrice;
     const usd = wax * $waxPrice;
 
     return {
@@ -77,9 +53,7 @@
 <div>
   <div class="columns">
     <div class="column">
-      <p class="subtitle has-text-centered">
-        Hourly Yield
-      </p>
+      <p class="subtitle has-text-centered">Hourly Yield</p>
       <table
         class="table is-bordered is-striped is-narrow is-fullwidth has-text-centered"
       >
@@ -97,9 +71,7 @@
     </div>
     {#each tables as table}
       <div class="column">
-        <p
-          class="subtitle has-text-centered"
-        >
+        <p class="subtitle has-text-centered">
           {table.label}
         </p>
         <Table hourlyAmount={table.mp} />

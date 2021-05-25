@@ -1,4 +1,12 @@
-import { readable, Subscriber, writable } from "svelte/store";
+import {
+  readable,
+  Subscriber,
+  writable,
+  derived,
+  Readable,
+} from "svelte/store";
+import { getCurrencyBalance } from "./dal/wax";
+import * as Balance from "./domain/Balance";
 import { getAlcorPrice, getWaxPriceInUSD } from "./integration";
 import { ALCOR_MARKET } from "./types";
 
@@ -27,6 +35,13 @@ export const accountQueryParams = {
 };
 
 export const account = writable<string>(accountQueryParams.get());
+
+export const currencyBalance: Readable<Array<Balance.CalculatedBalance>> =
+  derived(account, ($account, set) => {
+    getCurrencyBalance($account).then((balance) =>
+      set(Balance.calcBalances(balance || []))
+    );
+  });
 
 export const miningPower = writable(0.0);
 
@@ -86,3 +101,24 @@ function setAlcorPriceWithInterval(
     clearInterval(interval);
   };
 }
+
+export interface IPricesInWax {
+  AETHER: number;
+  CAPON: number;
+  ENEFT: number;
+  WAXON: number;
+  WECAN: number;
+}
+
+export const pricesInWax: Readable<IPricesInWax> = derived(
+  [aetherPrice, caponPrice, eneftPrice, waxonPrice, wecanPrice],
+  ([$aetherPrice, $caponPrice, $eneftPrice, $waxonPrice, $wecanPrice]) => {
+    return {
+      AETHER: $aetherPrice,
+      CAPON: $caponPrice,
+      ENEFT: $eneftPrice,
+      WAXON: $waxonPrice,
+      WECAN: $wecanPrice,
+    };
+  }
+);

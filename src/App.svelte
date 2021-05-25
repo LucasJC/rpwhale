@@ -18,8 +18,8 @@
     <StakingPower />
     {#if $account}
       <PassiveIncome />
+      <AccountHoldings />
     {/if}
-    <AccountHoldings />
     <Currencies />
   </div>
   <Footer />

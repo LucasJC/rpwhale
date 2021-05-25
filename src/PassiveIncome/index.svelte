@@ -38,7 +38,10 @@
       }
       landYield[mineral] += amount;
     });
-    landsYield = Object.entries(landYield).map(([id, value]) => ({ id, value }));
+    landsYield = Object.entries(landYield).map(([id, value]) => ({
+      id,
+      value,
+    }));
   }
 </script>
 
