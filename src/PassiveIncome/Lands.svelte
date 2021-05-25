@@ -102,7 +102,6 @@
       <div class="column">
         <p
           class="subtitle has-text-centered"
-          data-tooltip="Aether calculated income."
         >
           {table.label}
         </p>
