@@ -41,25 +41,25 @@
   }
 </script>
 
-<main>
-  <div class="section">
-    <p class="subtitle">Passive income rates:</p>
+<div class="section">
+  <p class="subtitle">Passive income rates:</p>
 
-    <div class="columns">
-      {#each tables as table}
-        <div class="column">
-          <p
-            class="subtitle has-text-centered"
-            data-tooltip="Aether calculated income."
-          >
-            {table.label}
-          </p>
-          <Table miningPower={table.mp} />
-        </div>
-      {/each}
-    </div>
-    {#await getLandsYield() then landsYield}
-      <LandsTable {landsYield} />
-    {/await}
+  <div class="columns">
+    {#each tables as table}
+      <div class="column">
+        <p
+          class="subtitle has-text-centered"
+          data-tooltip="Aether calculated income."
+        >
+          {table.label}
+        </p>
+        <Table miningPower={table.mp} />
+      </div>
+    {/each}
   </div>
-</main>
+
+  <p class="subtitle">Lands yield hourly:</p>
+  {#await getLandsYield() then landsYield}
+    <LandsTable {landsYield} />
+  {/await}
+</div>
