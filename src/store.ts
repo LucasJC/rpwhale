@@ -21,6 +21,7 @@ import { ALCOR_MARKET, AtomicAsset } from "./types";
  * account will be extracted from query params,
  * I didn't found a svelte/store mechanism to introduce these
  * side effects in it
+ * TODO: move to domain
  */
 export const accountQueryParams = {
   /**
@@ -80,6 +81,7 @@ export const accountLands: Readable<Array<ListingAsset>> = derived(
 
 export const miningPower = writable(0.0);
 
+// TODO move to domain
 function createNightMode() {
   const enabled = localStorage.getItem("dark-mode") || "false";
   const { subscribe, set } = writable(enabled === "true");
