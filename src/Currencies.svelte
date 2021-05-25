@@ -1,5 +1,6 @@
 <script lang="ts">
-  import {
+  import Currency from "./Currency.svelte";
+import {
     aetherPrice,
     caponPrice,
     eneftPrice,
@@ -10,41 +11,12 @@
 </script>
 
 <main>
-  <p class="has-text-centered is-italic">
-    <span
-      class="has-tooltip-bottom"
-      data-tooltip="Aether price taken from Alcor Exchange API."
-      >{$aetherPrice} Wax/Aether</span
-    >
-    -
-    <span
-      class="has-tooltip-bottom"
-      data-tooltip="Wax price taken from CoinGecko API."
-      >{$waxPrice} USD/Wax</span
-    >
-    -
-    <span
-      class="has-tooltip-bottom"
-      data-tooltip="Caponite price taken from Alcor Exchange API."
-      >{$caponPrice} Wax/CAPON</span
-    >
-    -
-    <span
-      class="has-tooltip-bottom"
-      data-tooltip="Enefterium price taken from Alcor Exchange API."
-      >{$eneftPrice} Wax/ENEFT</span
-    >
-    -
-    <span
-      class="has-tooltip-bottom"
-      data-tooltip="Waxon price taken from Alcor Exchange API."
-      >{$waxonPrice} Wax/WAXON</span
-    >
-    -
-    <span
-      class="has-tooltip-bottom"
-      data-tooltip="Wecanite price taken from Alcor Exchange API."
-      >{$wecanPrice} Wax/WECAN</span
-    > -
-  </p>
+    <div class="section columns is-centered">
+      <Currency price={$waxPrice} alt="WAX" image="image/wax.png" tooltip="USD / Wax" />
+      <Currency price={$aetherPrice} alt="AETHER" image="image/aether.png" tooltip="Wax / AETHER" />
+      <Currency price={$caponPrice} alt="CAPON" image="image/capon.png" tooltip="Wax / CAPON" />
+      <Currency price={$eneftPrice} alt="ENEFT" image="image/eneft.png" tooltip="Wax / ENEFT" />
+      <Currency price={$waxonPrice} alt="WAXON" image="image/waxon.png" tooltip="Wax / WAXON" />
+      <Currency price={$wecanPrice} alt="WECAN" image="image/wecan.png" tooltip="Wax / WECAN" />
+    </div>
 </main>
