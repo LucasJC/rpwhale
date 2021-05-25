@@ -8,7 +8,7 @@
     waxPrice,
     wecanPrice,
   } from "../store";
-  import Table from "./MiningTable.svelte";
+  import Table from "./PeriodicIncomeTable.svelte";
 
   // TODO unify this elsewhere
   function getPrice(currency: string): number {
@@ -77,14 +77,11 @@
 <div>
   <div class="columns">
     <div class="column">
-      <p
-        class="subtitle has-text-centered"
-        data-tooltip="Aether calculated income."
-      >
+      <p class="subtitle has-text-centered">
         Hourly Yield
       </p>
       <table
-        class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
+        class="table is-bordered is-striped is-narrow is-fullwidth has-text-centered"
       >
         <tr>
           <th>Mineral</th>
@@ -93,7 +90,7 @@
         {#each rows as row}
           <tr>
             <td>{row.id}</td>
-            <td>{format(row.value)}</td>
+            <td class="has-text-right">{format(row.value)}</td>
           </tr>
         {/each}
       </table>
@@ -105,7 +102,7 @@
         >
           {table.label}
         </p>
-        <Table miningPower={table.mp} />
+        <Table hourlyAmount={table.mp} />
       </div>
     {/each}
   </div>

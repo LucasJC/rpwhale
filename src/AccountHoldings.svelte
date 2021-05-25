@@ -94,7 +94,7 @@
     {#if balances.length > 0}
       <p class="subtitle">Account holdings:</p>
       <table
-        class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
+        class="table is-bordered is-striped is-narrow is-fullwidth has-text-centered"
       >
         <tr>
           <th>Currency</th>
@@ -105,9 +105,9 @@
         {#each balances as b}
           <tr>
             <td>{b.currency}</td>
-            <td>{format(b.amount)}</td>
-            <td>{format(b.waxAmount || 0)}</td>
-            <td>{format(b.usdAmount || 0)}</td>
+            <td class="has-text-right">{format(b.amount)}</td>
+            <td class="has-text-right">{format(b.waxAmount)}</td>
+            <td class="has-text-right">{format(b.usdAmount)}</td>
           </tr>
         {/each}
         <tr
@@ -115,8 +115,8 @@
         >
           <td>Total</td>
           <td> - </td>
-          <td>{format(totalWax)}</td>
-          <td>{format(totalUSD)}</td>
+          <td class="has-text-right">{format(totalWax)}</td>
+          <td class="has-text-right">{format(totalUSD)}</td>
         </tr>
       </table>
     {/if}

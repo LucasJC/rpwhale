@@ -108,7 +108,7 @@
       </p>
       <p class="subtitle">Details:</p>
       <table
-        class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"
+        class="table is-bordered is-striped is-narrow is-fullwidth has-text-centered"
       >
         <tr>
           <th>Collection</th>
@@ -118,16 +118,16 @@
         {#each collectionsStaking as cs}
           <tr>
             <td>{cs.collection}</td>
-            <td>{cs.collected}</td>
-            <td>{format(cs?.miningPower || 0)} A/h</td>
+            <td class="has-text-right">{cs.collected}</td>
+            <td class="has-text-right">{format(cs?.miningPower)} A/h</td>
           </tr>
         {/each}
         <tr
           class="has-text-weight-bold has-background-info-light has-text-info-dark"
         >
           <td>Total</td>
-          <td>{format(totalCollected)} AETHER</td>
-          <td>{format(totalPower)} A/h</td>
+          <td class="has-text-right">{format(totalCollected)} AETHER</td>
+          <td class="has-text-right">{format(totalPower)} A/h</td>
         </tr>
       </table>
     {/if}

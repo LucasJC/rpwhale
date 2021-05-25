@@ -1,6 +1,6 @@
 <script lang="ts">
   import { account, aetherPrice, miningPower, waxPrice } from "../store";
-  import Table from "./MiningTable.svelte";
+  import Table from "./PeriodicIncomeTable.svelte";
   import LandsTable from "./Lands.svelte";
   import { getAccountAssets } from "../integration";
   import am from "../am";
@@ -48,13 +48,10 @@
     <div class="columns">
       {#each tables as table}
         <div class="column">
-          <p
-            class="subtitle has-text-centered"
-            data-tooltip="Aether calculated income."
-          >
+          <p class="subtitle has-text-centered">
             {table.label}
           </p>
-          <Table miningPower={table.mp} />
+          <Table hourlyAmount={table.mp} />
         </div>
       {/each}
     </div>
