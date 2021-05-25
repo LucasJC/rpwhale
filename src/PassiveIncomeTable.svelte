@@ -25,4 +25,8 @@
     <td>monthly</td>
     <td>{format(miningPower * 24 * 30)}</td>
   </tr>
+  <tr>
+    <td>yearly</td>
+    <td>{format(miningPower * 24 * 365)}</td>
+  </tr>
 </table>
