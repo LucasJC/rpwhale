@@ -15,11 +15,11 @@
   <div class="container">
     <Header />
     <AccountInput />
-    <StakingPower />
     {#if $account}
+      <StakingPower />
       <PassiveIncome />
+      <AccountHoldings />
     {/if}
-    <AccountHoldings />
     <Currencies />
   </div>
   <Footer />

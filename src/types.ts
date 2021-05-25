@@ -33,12 +33,6 @@ export enum ALCOR_MARKET {
   WAXON = 42,
 }
 
-export interface CalculatedBalance {
-  currency: string;
-  amount: number;
-  waxAmount?: number;
-  usdAmount?: number;
-}
 export interface AtomicAsset {
   asset_id: string;
   collection_name: string;
