@@ -1,10 +1,4 @@
-//import {
-//Sale,
-//SaleSort,
-//SortOrder,
-//SaleState,
-//SaleParams,
-//} from "atomicmarket/build/API/Explorer/Types";
+export type { ListingAsset } from "atomicmarket/build/API/Explorer/Types";
 import { ExplorerApi } from "atomicmarket";
 
 const URL = "https://wax.api.atomicassets.io";
