@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { format } from "./format";
+  import { format } from "../format";
 
   export let miningPower: number = 0;
 </script>
