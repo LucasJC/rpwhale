@@ -9,7 +9,7 @@
 
   $: {
     balances = Balance.calcPrices($currencyBalance, $pricesInWax, $waxPrice);
-    const total = Balance.getTotals($currencyBalance);
+    const total = Balance.getTotals(balances);
     totalWax = total.wax;
     totalUSD = total.usd;
   }

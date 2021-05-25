@@ -1,9 +1,9 @@
 <script lang="ts">
   import { format } from "../format";
+  import type { ListingAsset } from "../dal/am";
   import { pricesInWax, waxPrice } from "../store";
   import * as Asset from "../domain/Asset";
   import Table from "./PeriodicIncomeTable.svelte";
-  import type { ListingAsset } from "../dal/am";
 
   export let lands: Array<ListingAsset> = [];
 

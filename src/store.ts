@@ -10,12 +10,20 @@ import am from "./dal/am";
 import { getCurrencyBalance } from "./dal/wax";
 import * as Balance from "./domain/Balance";
 import * as Asset from "./domain/Asset";
+import * as Staking from "./domain/Staking";
 import {
+  fetchAccountCollectionStaking,
+  fetchStakingConfigs,
   getAccountAssets,
   getAlcorPrice,
   getWaxPriceInUSD,
 } from "./integration";
-import { ALCOR_MARKET, AtomicAsset } from "./types";
+import {
+  AccountCollectionStaking,
+  ALCOR_MARKET,
+  AtomicAsset,
+  PoolConfig,
+} from "./types";
 
 /**
  * account will be extracted from query params,
@@ -77,6 +85,40 @@ export const accountLands: Readable<Array<ListingAsset>> = derived(
     doWork();
   },
   [] as Array<ListingAsset>
+);
+
+export const poolStakingConfig = readable<Map<string, PoolConfig>>(
+  new Map(),
+  (set) => {
+    fetchStakingConfigs().then((config) =>
+      set(new Map(config.map((col) => [col.id, col])))
+    );
+  }
+);
+
+export const accountStakingPower = derived(
+  [account, poolStakingConfig],
+  ([$account, $poolStakingConfig], set) => {
+    async function doWork() {
+      const collectionNames = [...$poolStakingConfig.keys()].map(
+        (collectionName) => collectionName
+      );
+      const collectionsStaking = await Promise.all(
+        collectionNames.map((col) =>
+          fetchAccountCollectionStaking($account, col)
+        )
+      );
+
+      set(
+        collectionsStaking.filter(
+          (col) => !!col
+        ) as Array<AccountCollectionStaking>
+      );
+    }
+
+    doWork();
+  },
+  [] as Array<AccountCollectionStaking>
 );
 
 export const miningPower = writable(0.0);
