@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@waxio/waxjs": "0.0.15",
+    "atomicmarket": "^0.1.1",
     "sirv-cli": "^1.0.0"
   },
   "lint-staged": {
