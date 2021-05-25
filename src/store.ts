@@ -5,10 +5,17 @@ import {
   derived,
   Readable,
 } from "svelte/store";
+import type { ListingAsset } from "./dal/am";
+import am from "./dal/am";
 import { getCurrencyBalance } from "./dal/wax";
 import * as Balance from "./domain/Balance";
-import { getAlcorPrice, getWaxPriceInUSD } from "./integration";
-import { ALCOR_MARKET } from "./types";
+import * as Asset from "./domain/Asset";
+import {
+  getAccountAssets,
+  getAlcorPrice,
+  getWaxPriceInUSD,
+} from "./integration";
+import { ALCOR_MARKET, AtomicAsset } from "./types";
 
 /**
  * account will be extracted from query params,
@@ -37,11 +44,39 @@ export const accountQueryParams = {
 export const account = writable<string>(accountQueryParams.get());
 
 export const currencyBalance: Readable<Array<Balance.CalculatedBalance>> =
-  derived(account, ($account, set) => {
-    getCurrencyBalance($account).then((balance) =>
-      set(Balance.calcBalances(balance || []))
-    );
-  });
+  derived(
+    account,
+    ($account, set) => {
+      getCurrencyBalance($account).then((balance) =>
+        set(Balance.calcBalances(balance || []))
+      );
+    },
+    [] as Array<Balance.CalculatedBalance>
+  );
+
+export const accountAssets: Readable<Array<AtomicAsset>> = derived(
+  account,
+  ($account, set) => {
+    getAccountAssets($account).then((assets) => set(assets || []));
+  },
+  [] as Array<AtomicAsset>
+);
+
+export const accountLands: Readable<Array<ListingAsset>> = derived(
+  accountAssets,
+  ($accountAssets, set) => {
+    async function doWork(): Promise<void> {
+      const lands = Asset.getLands($accountAssets);
+      const landAssets = await Promise.all(
+        lands.map((land) => am.getAsset(land.asset_id))
+      );
+      set(landAssets || []);
+    }
+
+    doWork();
+  },
+  [] as Array<ListingAsset>
+);
 
 export const miningPower = writable(0.0);
 
