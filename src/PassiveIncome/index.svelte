@@ -2,10 +2,6 @@
   import { accountLands, aetherPrice, miningPower, waxPrice } from "../store";
   import Table from "./PeriodicIncomeTable.svelte";
   import LandsTable from "./Lands.svelte";
-  import * as Asset from "../domain/Asset";
-
-  let landsYield: Array<Asset.ILandYield>;
-  $: landsYield = Asset.getLandsYield($accountLands);
 
   let stakingTables: Array<{ label: string; mp: number }>;
   $: stakingTables = [
@@ -32,9 +28,9 @@
   </div>
 
   <div class="section">
-    {#if landsYield?.length > 0}
+    {#if $accountLands?.length > 0}
       <p class="subtitle">Lands passive income:</p>
-      <LandsTable {landsYield} />
+      <LandsTable lands={$accountLands} />
     {/if}
   </div>
 </main>

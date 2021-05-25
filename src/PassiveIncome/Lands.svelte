@@ -1,48 +1,30 @@
 <script lang="ts">
   import { format } from "../format";
   import { pricesInWax, waxPrice } from "../store";
-  import * as Price from "../domain/Price";
+  import * as Asset from "../domain/Asset";
   import Table from "./PeriodicIncomeTable.svelte";
+  import type { ListingAsset } from "../dal/am";
 
-  let aetherPrice: number = 0;
-  $: aetherPrice = Price.getPrice($pricesInWax, "AETHER");
+  export let lands: Array<ListingAsset> = [];
 
-  export let landsYield: Array<{ id: string; value: number }> = [];
+  let landsYield: Array<Asset.ILandYield>;
+  $: landsYield = Asset.getLandsYield(lands);
 
-  let rows: Array<{
-    id: string;
-    value: number;
-    wax: number;
-    aeth: number;
-    usd: number;
-  }> = [];
-
-  $: rows = landsYield.map(({ id, value }) => {
-    const priceInWax = Price.getPrice($pricesInWax, id);
-    const wax = value * priceInWax;
-    const aeth = wax / aetherPrice;
-    const usd = wax * $waxPrice;
-
-    return {
-      id,
-      value,
-      wax,
-      aeth,
-      usd,
-    };
-  });
+  let rows: Array<Asset.ILandYieldPrices> = [];
+  $: rows = Asset.getLandsYieldPrices(landsYield, $pricesInWax, $waxPrice);
 
   let totalWax: number = 0;
-  $: totalWax = rows.reduce((total, { wax }) => total + wax, 0);
-
   let totalAeth: number = 0;
-  $: totalAeth = rows.reduce((total, { aeth }) => total + aeth, 0);
-
   let totalUSD: number = 0;
-  $: totalUSD = rows.reduce((total, { usd }) => total + usd, 0);
+
+  $: {
+    const { wax, aeth, usd } = Asset.aggregateLandYields(rows);
+    totalWax = wax;
+    totalAeth = aeth;
+    totalUSD = usd;
+  }
 
   let tables: Array<{ label: string; mp: number }>;
-
   $: tables = [
     { label: "Aether", mp: totalAeth },
     { label: "Wax", mp: totalWax },
