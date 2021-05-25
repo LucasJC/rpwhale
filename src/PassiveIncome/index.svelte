@@ -5,17 +5,19 @@
   import { getAccountAssets } from "../integration";
   import am from "../am";
 
-  let tables: Array<{ label: string; mp: number }>;
+  let stakingTables: Array<{ label: string; mp: number }>;
+  let landsYield: Array<{ id: string; value: number }>;
 
-  $: tables = [
+  $: stakingTables = [
     { label: "Aether", mp: $miningPower },
     { label: "Wax", mp: $miningPower * $aetherPrice },
     { label: "USD", mp: $miningPower * $aetherPrice * $waxPrice },
   ];
 
-  async function getLandsYield(): Promise<
-    Array<{ id: string; value: number }>
-  > {
+  $: if ($account) getLandsYield();
+
+  async function getLandsYield(): Promise<void> {
+    landsYield = [];
     const assets = await getAccountAssets($account);
     const rpAssets = assets.filter(
       (asset) => asset.collection_name === "rplanet"
@@ -36,8 +38,7 @@
       }
       landYield[mineral] += amount;
     });
-
-    return Object.entries(landYield).map(([id, value]) => ({ id, value }));
+    landsYield = Object.entries(landYield).map(([id, value]) => ({ id, value }));
   }
 </script>
 
@@ -46,7 +47,7 @@
     <p class="subtitle">Staking passive income:</p>
 
     <div class="columns">
-      {#each tables as table}
+      {#each stakingTables as table}
         <div class="column">
           <p class="subtitle has-text-centered">
             {table.label}
@@ -58,9 +59,9 @@
   </div>
 
   <div class="section">
-    <p class="subtitle">Lands passive income:</p>
-    {#await getLandsYield() then landsYield}
+    {#if landsYield && landsYield.length > 0}
+      <p class="subtitle">Lands passive income:</p>
       <LandsTable {landsYield} />
-    {/await}
+    {/if}
   </div>
 </main>
