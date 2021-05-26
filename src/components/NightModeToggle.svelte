@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { nightMode } from "./store";
+  import { nightMode } from "../domain/store";
 
   // add or remove dark mode stylesheet in a hacky way when nightMode state changes
   $: {

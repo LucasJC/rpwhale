@@ -5,27 +5,27 @@ import {
   derived,
   Readable,
 } from "svelte/store";
-import type { ListingAsset } from "./dal/am";
-import am from "./dal/am";
-import { getCurrencyBalance } from "./dal/wax";
-import * as Balance from "./domain/Balance";
-import * as Asset from "./domain/Asset";
+import type { ListingAsset } from "../dal/am";
+import am from "../dal/am";
+import { getCurrencyBalance } from "../dal/wax";
+import * as Balance from "../domain/Balance";
+import * as Asset from "../domain/Asset";
 import {
   fetchAccountCollectionStaking,
   fetchStakingConfigs,
   getAccountAssets,
   getAlcorPrice,
   getWaxPriceInUSD,
-} from "./integration";
+} from "../dal/integration";
 import {
   AccountCollectionStaking,
   ALCOR_MARKET,
   AtomicAsset,
   PoolConfig,
-} from "./types";
+} from "../dal/types";
 
 // reexporting for backwards compat
-import { store as account } from "./domain/Account";
+import { store as account } from "../domain/Account";
 export { account };
 
 export const currencyBalance: Readable<Array<Balance.CalculatedBalance>> =

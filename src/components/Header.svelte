@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { nightMode } from "./store";
+  import { nightMode } from "../domain/store";
 </script>
 
 <main>

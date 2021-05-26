@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { store as account } from "./domain/Account";
-  import * as Account from "./domain/Account";
+  import { store as account } from "../domain/Account";
+  import * as Account from "../domain/Account";
 
   let accountInput: string = $account;
   $: {

@@ -1,5 +1,10 @@
 <script lang="ts">
-  import { accountLands, aetherPrice, miningPower, waxPrice } from "../store";
+  import {
+    accountLands,
+    aetherPrice,
+    miningPower,
+    waxPrice,
+  } from "../../domain/store";
   import Table from "./PeriodicIncomeTable.svelte";
   import LandsTable from "./Lands.svelte";
 
