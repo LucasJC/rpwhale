@@ -24,16 +24,7 @@
 <main>
   <div class="section">
     {#if collectionsStaking}
-      <p class="subtitle">
-        Account <span class="has-text-weight-bold">{$account}</span> has a total
-        mining power of
-        <span
-          class="has-text-weight-bold"
-          data-tooltip="Aether generated per hour"
-          >{format(totalPower)} A/h {rank}</span
-        >
-      </p>
-      <p class="subtitle">Details:</p>
+      <p class="subtitle">Staked Collections Details:</p>
       <table
         class="table is-bordered is-striped is-narrow is-fullwidth has-text-centered"
       >

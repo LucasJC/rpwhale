@@ -123,6 +123,8 @@ export const accountStakingPower = derived(
 
 export const miningPower = writable(0.0);
 
+export const landsIncome = writable(0.0);
+
 // TODO move to domain
 function createNightMode() {
   const enabled = localStorage.getItem("dark-mode") || "false";

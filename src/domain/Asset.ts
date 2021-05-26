@@ -1,9 +1,12 @@
 import type { ListingAsset } from "../dal/am";
-import type { IPricesInWax } from "../store";
+import { IPricesInWax, landsIncome } from "../store";
 import type { AtomicAsset } from "../types";
 import * as Price from "./Price";
 
 export function getLands(assets: Array<AtomicAsset>): Array<AtomicAsset> {
+  // TODO change logic to not have to do this
+  landsIncome.set(0.0);
+  
   const rpAssets = assets.filter(
     (asset) => asset.collection_name === "rplanet"
   );
@@ -76,6 +79,9 @@ export function aggregateLandYields(landsYield: Array<ILandYieldPrices>) {
     totalWax += wax;
     totalUSD += usd;
   });
+
+  console.log("total USD " + totalUSD);
+  landsIncome.set(totalUSD);
 
   return {
     wax: totalWax,
