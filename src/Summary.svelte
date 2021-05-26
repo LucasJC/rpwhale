@@ -2,26 +2,51 @@
   import * as Staking from "./domain/Staking";
   import * as Balance from "./domain/Balance";
   import { format } from "./format";
-  import { account, aetherPrice, currencyBalance, landsIncome, miningPower, pricesInWax, waxPrice } from "./store";
+  import {
+    account,
+    aetherPrice,
+    currencyBalance,
+    landsIncome,
+    miningPower,
+    pricesInWax,
+    waxPrice,
+  } from "./store";
   import type { IPricesInWax } from "./store";
 
   $: rank = Staking.getRank($miningPower);
 
-  $: monthlyIncome = calculateMonthlyIncome($miningPower, $aetherPrice, $waxPrice, $landsIncome);
+  $: monthlyIncome = calculateMonthlyIncome(
+    $miningPower,
+    $aetherPrice,
+    $waxPrice,
+    $landsIncome
+  );
 
-  $: currentHoldings = calculateCurrentHoldings($currencyBalance, $pricesInWax, $waxPrice);
+  $: currentHoldings = calculateCurrentHoldings(
+    $currencyBalance,
+    $pricesInWax,
+    $waxPrice
+  );
 
-  function calculateMonthlyIncome(miningPower: number, aetherPrice: number, waxPrice: number, landsIncome: number) {
-    return 24 * 30 * ( landsIncome + (miningPower * aetherPrice * waxPrice) );
+  function calculateMonthlyIncome(
+    miningPower: number,
+    aetherPrice: number,
+    waxPrice: number,
+    landsIncome: number
+  ) {
+    return 24 * 30 * (landsIncome + miningPower * aetherPrice * waxPrice);
   }
 
   // TODO remove this logic that is repeated in AccountHoldings.svelte
-  function calculateCurrentHoldings(currencyBalance: Balance.CalculatedBalance[], pricesInWax: IPricesInWax, waxPrice: number) {
+  function calculateCurrentHoldings(
+    currencyBalance: Balance.CalculatedBalance[],
+    pricesInWax: IPricesInWax,
+    waxPrice: number
+  ) {
     const balances = Balance.calcPrices(currencyBalance, pricesInWax, waxPrice);
     const total = Balance.getTotals(balances);
     return total.usd;
   }
-
 </script>
 
 <main>
