@@ -1,6 +1,8 @@
-# rplanet-staking-configs
+# RP Whale
 
-This is a simple frontend that visualizes [RPlanet](https://rplanet.io) mining power, current holdings and passive income information for given account.
+[RP Whale](https://rpwhale.online) is a tool for the [RPlanet](https://rplanet.io) game that lets you calculate your current staking power, passive income rates and current holdings.
+
+This application was built using [Svelte](https://svelte.dev/) and [Bulma](https://bulma.io/).
 
 ## Get started
 
