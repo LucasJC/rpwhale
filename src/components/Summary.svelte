@@ -1,7 +1,7 @@
 <script lang="ts">
-  import * as Staking from "./domain/Staking";
-  import * as Balance from "./domain/Balance";
-  import { format } from "./format";
+  import * as Staking from "../domain/Staking";
+  import * as Balance from "../domain/Balance";
+  import { format } from "../domain/format";
   import {
     account,
     aetherPrice,
@@ -10,8 +10,8 @@
     miningPower,
     pricesInWax,
     waxPrice,
-  } from "./store";
-  import type { IPricesInWax } from "./store";
+  } from "../domain/store";
+  import type { IPricesInWax } from "../domain/store";
 
   $: rank = Staking.getRank($miningPower);
 

@@ -7,7 +7,7 @@
     waxonPrice,
     waxPrice,
     wecanPrice,
-  } from "./store";
+  } from "../domain/store";
 
   interface ICurr {
     price: number;
