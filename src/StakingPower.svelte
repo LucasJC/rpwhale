@@ -1,13 +1,12 @@
 <script lang="ts">
   import { format } from "./format";
-  import { account, accountStakingPower, poolStakingConfig } from "./store";
+  import { accountStakingPower, poolStakingConfig } from "./store";
   import * as Staking from "./domain/Staking";
   import type { AccountCollectionStaking } from "./types";
 
   let collectionsStaking: AccountCollectionStaking[] = [];
   let totalPower = 0.0;
   let totalCollected = 0.0;
-  let rank: string = "";
 
   $: {
     collectionsStaking = Staking.calcMiningPower(
@@ -17,7 +16,7 @@
     const { miningPower, collected } = Staking.calcTotals(collectionsStaking);
     totalPower = miningPower;
     totalCollected = collected;
-    rank = Staking.getRank(miningPower);
+    Staking.getRank(miningPower);
   }
 </script>
 
