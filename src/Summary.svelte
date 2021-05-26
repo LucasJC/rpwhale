@@ -7,7 +7,7 @@
 
   $: rank = Staking.getRank($miningPower);
 
-  $: monthlyIncome =  calculateMonthlyIncome($miningPower, $aetherPrice, $waxPrice, $landsIncome);
+  $: monthlyIncome = calculateMonthlyIncome($miningPower, $aetherPrice, $waxPrice, $landsIncome);
 
   $: currentHoldings = calculateCurrentHoldings($currencyBalance, $pricesInWax, $waxPrice);
 
