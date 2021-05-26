@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { account, accountQueryParams } from "./store";
+  import { account, accountQueryParams } from "../domain/store";
 
   let accountInput: string = $account;
   function setAccount() {

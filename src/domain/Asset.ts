@@ -1,6 +1,6 @@
 import type { ListingAsset } from "../dal/am";
-import { IPricesInWax, landsIncome } from "../store";
-import type { AtomicAsset } from "../types";
+import { IPricesInWax, landsIncome } from "../domain/store";
+import type { AtomicAsset } from "../domain/types";
 import * as Price from "./Price";
 
 export function getLands(assets: Array<AtomicAsset>): Array<AtomicAsset> {

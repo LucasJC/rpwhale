@@ -5,19 +5,19 @@ import {
   derived,
   Readable,
 } from "svelte/store";
-import type { ListingAsset } from "./dal/am";
-import am from "./dal/am";
-import { getCurrencyBalance } from "./dal/wax";
-import * as Balance from "./domain/Balance";
-import * as Asset from "./domain/Asset";
-import * as Staking from "./domain/Staking";
+import type { ListingAsset } from "../dal/am";
+import am from "../dal/am";
+import { getCurrencyBalance } from "../dal/wax";
+import * as Balance from "./Balance";
+import * as Asset from "./Asset";
+import * as Staking from "./Staking";
 import {
   fetchAccountCollectionStaking,
   fetchStakingConfigs,
   getAccountAssets,
   getAlcorPrice,
   getWaxPriceInUSD,
-} from "./integration";
+} from "../dal/integration";
 import {
   AccountCollectionStaking,
   ALCOR_MARKET,

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { format } from "../format";
+  import { format } from "../../domain/format";
 
   export let hourlyAmount: number = 0;
 </script>

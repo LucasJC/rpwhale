@@ -1,4 +1,4 @@
-import type { IPricesInWax } from "../store";
+import type { IPricesInWax } from "../domain/store";
 import * as Price from "./Price";
 
 export interface CalculatedBalance {

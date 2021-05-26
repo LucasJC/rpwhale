@@ -7,7 +7,7 @@
   import PassiveIncome from "./PassiveIncome/index.svelte";
   import AccountHoldings from "./AccountHoldings.svelte";
   import Currencies from "./Currencies.svelte";
-  import { account } from "./store";
+  import { account } from "../domain/store";
 import Summary from "./Summary.svelte";
 </script>
 

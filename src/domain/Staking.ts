@@ -1,5 +1,5 @@
-import type { AccountCollectionStaking, PoolConfig } from "../types";
-import { miningPower as miningPowerStore } from "../store";
+import type { AccountCollectionStaking, PoolConfig } from "../domain/types";
+import { miningPower as miningPowerStore } from "../domain/store";
 
 export function calcMiningPower(
   collectionsStaking: Array<AccountCollectionStaking>,

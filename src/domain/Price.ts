@@ -1,4 +1,4 @@
-import type { IPricesInWax } from "../store";
+import type { IPricesInWax } from "../domain/store";
 
 /**
  * get price in wax for a given token,

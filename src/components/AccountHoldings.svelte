@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { format } from "./format";
-  import { waxPrice, pricesInWax, currencyBalance } from "./store";
-  import * as Balance from "./domain/Balance";
+  import { format } from "../domain/format";
+  import { waxPrice, pricesInWax, currencyBalance } from "../domain/store";
+  import * as Balance from "../domain/Balance";
 
   let balances: Array<Balance.CalculatedBalance> = [];
   let totalWax: number = 0;

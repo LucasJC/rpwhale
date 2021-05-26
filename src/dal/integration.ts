@@ -4,7 +4,7 @@ import type {
   AtomicAsset,
   PoolConfig,
   WaxPrice,
-} from "./types";
+} from "../domain/types";
 
 export async function getAccountAssets(
   account: string

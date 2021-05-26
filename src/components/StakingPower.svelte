@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { format } from "./format";
-  import { account, accountStakingPower, poolStakingConfig } from "./store";
-  import * as Staking from "./domain/Staking";
-  import type { AccountCollectionStaking } from "./types";
+  import { format } from "../domain/format";
+  import { account, accountStakingPower, poolStakingConfig } from "../domain/store";
+  import * as Staking from "../domain/Staking";
+  import type { AccountCollectionStaking } from "../domain/types";
 
   let collectionsStaking: AccountCollectionStaking[] = [];
   let totalPower = 0.0;
