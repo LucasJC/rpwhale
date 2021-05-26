@@ -8,7 +8,7 @@
   import AccountHoldings from "./AccountHoldings.svelte";
   import Currencies from "./Currencies.svelte";
   import { account } from "./store";
-import Summary from "./Summary.svelte";
+  import Summary from "./Summary.svelte";
 </script>
 
 <main>
@@ -17,7 +17,7 @@ import Summary from "./Summary.svelte";
     <Header />
     <AccountInput />
     {#if $account}
-      <Summary/>
+      <Summary />
       <Currencies />
       <StakingPower />
       <PassiveIncome />

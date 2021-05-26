@@ -10,7 +10,6 @@ import am from "./dal/am";
 import { getCurrencyBalance } from "./dal/wax";
 import * as Balance from "./domain/Balance";
 import * as Asset from "./domain/Asset";
-import * as Staking from "./domain/Staking";
 import {
   fetchAccountCollectionStaking,
   fetchStakingConfigs,
@@ -25,32 +24,9 @@ import {
   PoolConfig,
 } from "./types";
 
-/**
- * account will be extracted from query params,
- * I didn't found a svelte/store mechanism to introduce these
- * side effects in it
- * TODO: move to domain
- */
-export const accountQueryParams = {
-  /**
-   * get account for query params
-   */
-  get(): string {
-    const search = new URLSearchParams(document.location.search);
-    return search.get("account") || "";
-  },
-
-  /**
-   * get account for query params
-   */
-  set(account: string): void {
-    const search = new URLSearchParams(document.location.search);
-    search.set("account", account);
-    history.pushState(null, document.title, "?" + search.toString());
-  },
-};
-
-export const account = writable<string>(accountQueryParams.get());
+// reexporting for backwards compat
+import { store as account } from "./domain/Account";
+export { account };
 
 export const currencyBalance: Readable<Array<Balance.CalculatedBalance>> =
   derived(

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "prettier": "prettier  \"**/*.{ts,svelte}\"",
+    "prettier": "prettier  \"**/*.{ts,svelte}\" \"*.{js,json}\" ",
     "format": "npm run prettier -- --write",
     "format:check": "npm run prettier -- --check",
     "build": "rollup -c",
@@ -17,7 +17,9 @@
   "devDependencies": {
     "@beyonk/svelte-google-analytics": "^2.2.0",
     "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
+    "@rollup/plugin-replace": "^2.4.2",
     "@rollup/plugin-typescript": "^8.0.0",
     "@tsconfig/svelte": "^1.0.0",
     "husky": ">=6",
@@ -36,7 +38,7 @@
     "typescript": "^4.0.0"
   },
   "dependencies": {
-    "@waxio/waxjs": "0.0.15",
+    "@waxio/waxjs": "^0.0.15",
     "atomicmarket": "^0.1.1",
     "sirv-cli": "^1.0.0"
   },

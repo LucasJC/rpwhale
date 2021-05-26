@@ -6,7 +6,7 @@ import * as Price from "./Price";
 export function getLands(assets: Array<AtomicAsset>): Array<AtomicAsset> {
   // TODO change logic to not have to do this
   landsIncome.set(0.0);
-  
+
   const rpAssets = assets.filter(
     (asset) => asset.collection_name === "rplanet"
   );
