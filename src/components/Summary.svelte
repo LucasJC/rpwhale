@@ -50,15 +50,18 @@
     <div class="level-item has-text-centered">
       <div
         class="has-tooltip-bottom has-tooltip-info"
-        data-tooltip="Staking and land passive income"
+        data-tooltip="Staking and land passive income in USD"
       >
         <p class="heading">Monthly Income</p>
         <p class="title is-3">{format(monthlyIncome)} USD</p>
       </div>
     </div>
     <div class="level-item has-text-centered">
-      <div>
-        <p class="heading">Current Holdings</p>
+      <div
+        class="has-tooltip-bottom has-tooltip-info"
+        data-tooltip="We only consider Aether + Minerls in USD"
+      >
+        <p class="heading">Current RPlanet Holdings</p>
         <p class="title is-3">{format(currentHoldings)} USD</p>
       </div>
     </div>
