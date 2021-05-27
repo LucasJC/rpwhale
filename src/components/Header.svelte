@@ -14,7 +14,7 @@
           Unofficial staking calculator utility for <a
             href="https://rplanet.io"
             target="_blank">RPlanet</a
-          > game.
+          >.
         </p>
       </div>
       <div class="column">

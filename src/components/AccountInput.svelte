@@ -38,7 +38,7 @@
           </button>
         </div>
         <div class="control" on:click={login}>
-          <button class="button is-info">
+          <button class="button is-link">
             <span class="login-wax" />
           </button>
         </div>
