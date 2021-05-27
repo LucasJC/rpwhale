@@ -1,11 +1,11 @@
 <script lang="ts">
-  import NightModeToggle from "./NightModeToggle.svelte";
+  import Donations from "./Donations/index.svelte";
 </script>
 
 <main>
   <footer class="footer">
     <div class="content has-text-centered">
-      <p>Wax address for donations: <strong>glrrk.wam</strong></p>
+      <Donations />
       <p>
         Sources available at <a href="https://github.com/LucasJC/rpwhale"
           >github</a
