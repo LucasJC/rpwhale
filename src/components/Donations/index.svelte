@@ -11,7 +11,7 @@
       {
         actions: [
           {
-            account: "eosio",
+            account: "eosio.token",
             name: "transfer",
             authorization: [
               {
