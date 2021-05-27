@@ -35,7 +35,9 @@
         {#each collectionsStaking as cs}
           <tr>
             <td>{cs.collection}</td>
-            <td class="has-text-right">{format(Number.parseFloat(cs.collected.split(" ")[0]))}</td>
+            <td class="has-text-right"
+              >{format(Number.parseFloat(cs.collected.split(" ")[0]))}</td
+            >
             <td class="has-text-right">{format(cs?.miningPower)}</td>
           </tr>
         {/each}

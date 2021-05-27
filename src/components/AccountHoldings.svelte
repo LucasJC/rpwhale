@@ -34,8 +34,14 @@
         {#each balances as b}
           <tr>
             <td>
-              <div class="image is-24x24 is-hcentered has-tooltip-right" data-tooltip={b.currency}>
-                <img src="image/{b.currency.toLowerCase()}.png" alt={b.currency} />
+              <div
+                class="image is-24x24 is-hcentered has-tooltip-right"
+                data-tooltip={b.currency}
+              >
+                <img
+                  src="image/{b.currency.toLowerCase()}.png"
+                  alt={b.currency}
+                />
               </div>
             </td>
             <td class="has-text-right">{format(b.amount)}</td>
