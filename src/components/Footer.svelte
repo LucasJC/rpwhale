@@ -12,7 +12,7 @@
         >
       </p>
       <p>
-        <a href="mailto:lucas.couchot+rplstkexpl@gmail.com">Contact me</a>
+        <a href="mailto:lucas.couchot+rplstkexpl@gmail.com">Contact us</a>
       </p>
     </div>
   </footer>
