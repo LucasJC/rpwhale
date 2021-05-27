@@ -2,6 +2,12 @@
   import * as Account from "../../domain/Account";
   import Address from "./Address.svelte";
 
+  const formatWax = new Intl.NumberFormat("en-US", {
+    style: "decimal",
+    minimumFractionDigits: 8,
+    maximumFractionDigits: 8,
+  }).format;
+
   const WAX_ADDRESS = "glrrk.wam";
   let waxToDonate: number = 200;
   // TODO this needs more work, probably enhancing the
@@ -33,7 +39,7 @@
               data: {
                 from: (Account.wax as any).userAccount,
                 to: WAX_ADDRESS,
-                quantity: `${wax} WAX`,
+                quantity: `${formatWax(wax)} WAX`,
                 memo,
               },
             },
