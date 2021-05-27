@@ -1,6 +1,6 @@
 <script lang="ts">
   import { nightMode } from "../domain/store";
-import NightModeToggle from "./NightModeToggle.svelte";
+  import NightModeToggle from "./NightModeToggle.svelte";
 </script>
 
 <main>
@@ -29,7 +29,6 @@ import NightModeToggle from "./NightModeToggle.svelte";
         </div>
       </div>
     </div>
-
   </section>
 </main>
 
