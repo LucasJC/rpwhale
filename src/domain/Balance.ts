@@ -1,6 +1,6 @@
 import { derived, Readable } from "svelte/store";
 import { getCurrencyBalance } from "../dal/wax";
-import { account, IPricesInWax } from "../domain/store";
+import { account, IPricesInWax, unclaimedAetherStore } from "../domain/store";
 import * as Price from "./Price";
 
 export interface CalculatedBalance {
@@ -11,11 +11,15 @@ export interface CalculatedBalance {
 }
 
 export const currencyBalance: Readable<Array<CalculatedBalance>> = derived(
-  account,
-  ($account, set) => {
-    getCurrencyBalance($account).then((balance) =>
-      set(calcBalances(balance || []))
-    );
+  [account, unclaimedAetherStore],
+  ([$account, $unclaimedAether], set) => {
+    getCurrencyBalance($account).then((balance) => {
+      const calculated = calcBalances(balance || []);
+      if ($unclaimedAether && $unclaimedAether > 0) {
+        calculated.push({ amount: $unclaimedAether, currency: "UNCLAIMED AETHER", usdAmount: 0.0, waxAmount: 0.0 });
+      }
+      set(calculated);
+    });
   },
   [] as Array<CalculatedBalance>
 );

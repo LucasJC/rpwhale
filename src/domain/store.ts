@@ -84,8 +84,8 @@ export const accountStakingPower = derived(
   [] as Array<AccountCollectionStaking>
 );
 
-export const miningPower = writable(0.0);
-
+export const miningPowerStore = writable(0.0);
+export const unclaimedAetherStore = writable(0.0);
 export const landsIncome = writable(0.0);
 
 // TODO move to domain

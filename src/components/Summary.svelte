@@ -6,16 +6,16 @@
     account,
     aetherPrice,
     landsIncome,
-    miningPower,
+    miningPowerStore,
     pricesInWax,
     waxPrice,
   } from "../domain/store";
   import { currencyBalance } from "../domain/Balance";
 
-  $: rank = Staking.getRank($miningPower);
+  $: rank = Staking.getRank($miningPowerStore);
 
   $: monthlyIncome =
-    24 * 30 * ($landsIncome + $miningPower * $aetherPrice * $waxPrice);
+    24 * 30 * ($landsIncome + $miningPowerStore * $aetherPrice * $waxPrice);
 
   $: currentHoldings = Balance.getAccountBalances(
     $currencyBalance,
@@ -41,7 +41,7 @@
     <div class="level-item has-text-centered">
       <div>
         <p class="heading">Staking Power</p>
-        <p class="title is-2">{format($miningPower)} A/h</p>
+        <p class="title is-2">{format($miningPowerStore)} A/h</p>
       </div>
     </div>
     <div class="level-item has-text-centered">

@@ -80,7 +80,6 @@ export function aggregateLandYields(landsYield: Array<ILandYieldPrices>) {
     totalUSD += usd;
   });
 
-  console.log("total USD " + totalUSD);
   landsIncome.set(totalUSD);
 
   return {

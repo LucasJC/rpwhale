@@ -20,10 +20,10 @@
       <div class="column">
         <div class="tabs is-right">
           <ul>
-            <!--<li><a>Calculator</a></li>
+            <li><a>Calculator</a></li>
             <li><a>Staking</a></li>
             <li><a>Glossary</a></li>
-            <li><a>Contact</a></li>-->
+            <li><a>Contact</a></li>
             <NightModeToggle />
           </ul>
         </div>

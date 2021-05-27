@@ -1,5 +1,5 @@
 import type { AccountCollectionStaking, PoolConfig } from "../dal/types";
-import { miningPower as miningPowerStore } from "../domain/store";
+import { miningPowerStore, unclaimedAetherStore } from "../domain/store";
 
 export function calcMiningPower(
   collectionsStaking: Array<AccountCollectionStaking>,
@@ -57,6 +57,7 @@ export function calcTotals(
   });
 
   miningPowerStore.set(miningPower);
+  unclaimedAetherStore.set(collected);
 
   return { collected, miningPower };
 }
