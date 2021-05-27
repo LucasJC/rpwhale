@@ -10,18 +10,21 @@ export interface CalculatedBalance {
   usdAmount: number;
 }
 
-export const currencyBalance: Readable<Array<CalculatedBalance>> =
-  derived(
-    account,
-    ($account, set) => {
-      getCurrencyBalance($account).then((balance) =>
-        set(calcBalances(balance || []))
-      );
-    },
-    [] as Array<CalculatedBalance>
-  );
+export const currencyBalance: Readable<Array<CalculatedBalance>> = derived(
+  account,
+  ($account, set) => {
+    getCurrencyBalance($account).then((balance) =>
+      set(calcBalances(balance || []))
+    );
+  },
+  [] as Array<CalculatedBalance>
+);
 
-export function getAccountBalances(currencyBalance: Array<CalculatedBalance>, pricesInWax: IPricesInWax, waxPrice: number): {
+export function getAccountBalances(
+  currencyBalance: Array<CalculatedBalance>,
+  pricesInWax: IPricesInWax,
+  waxPrice: number
+): {
   balances: Array<CalculatedBalance>;
   wax: number;
   usd: number;
@@ -31,7 +34,7 @@ export function getAccountBalances(currencyBalance: Array<CalculatedBalance>, pr
   return {
     balances,
     wax: total.wax,
-    usd: total.usd
+    usd: total.usd,
   };
 }
 

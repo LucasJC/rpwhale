@@ -14,10 +14,14 @@
 
   $: rank = Staking.getRank($miningPower);
 
-  $: monthlyIncome = 24 * 30 * ($landsIncome + $miningPower * $aetherPrice * $waxPrice);
+  $: monthlyIncome =
+    24 * 30 * ($landsIncome + $miningPower * $aetherPrice * $waxPrice);
 
-  $: currentHoldings = Balance.getAccountBalances($currencyBalance, $pricesInWax, $waxPrice).usd;
-
+  $: currentHoldings = Balance.getAccountBalances(
+    $currencyBalance,
+    $pricesInWax,
+    $waxPrice
+  ).usd;
 </script>
 
 <main>

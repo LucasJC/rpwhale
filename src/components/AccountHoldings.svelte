@@ -9,7 +9,11 @@
   let totalUSD: number = 0;
 
   $: {
-    const accountBalance = Balance.getAccountBalances($currencyBalance, $pricesInWax, $waxPrice);
+    const accountBalance = Balance.getAccountBalances(
+      $currencyBalance,
+      $pricesInWax,
+      $waxPrice
+    );
     balances = accountBalance.balances;
     totalWax = accountBalance.wax;
     totalUSD = accountBalance.usd;
