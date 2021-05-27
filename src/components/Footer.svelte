@@ -8,7 +8,7 @@
       <p>Wax address for donations: <strong>glrrk.wam</strong></p>
       <p>
         Sources available at <a
-          href="https://github.com/LucasJC/rplanet-staking-configs">github</a
+          href="https://github.com/LucasJC/rpwhale">github</a
         >
       </p>
       <p>
