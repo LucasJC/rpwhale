@@ -4,14 +4,19 @@
 
   const WAX_ADDRESS = "glrrk.wam";
   let waxToDonate: number = 200;
-  let isLoggedIn: boolean = !!(Account.wax as any).userAccount;
-  $: {
-    isLoggedIn = !!(Account.wax as any).userAccount;
-    console.log("isLoggedIn?", isLoggedIn);
-  }
+  // TODO this needs more work, probably enhancing the
+  // account store to be able to
+  // 1. refresh the app when the login is done
+  // 2. be able to tell reactively if the user is logged in or not
+  let isLoggedIn: boolean = true;
+  /*let isLoggedIn: boolean = !!(Account.wax as any).userAccount;*/
+  /*$: {*/
+  /*isLoggedIn = !!(Account.wax as any).userAccount;*/
+  /*console.log("isLoggedIn?", isLoggedIn);*/
+  /*}*/
 
   // TODO check login
-  async function donate(wax: number, memo?: string): Promise<void> {
+  async function donate(wax: number, memo: string = ""): Promise<void> {
     try {
       const result = await Account.wax.api.transact(
         {
@@ -29,7 +34,7 @@
                 from: (Account.wax as any).userAccount,
                 to: WAX_ADDRESS,
                 quantity: `${wax} WAX`,
-                memo: "This is a WaxJS/Cloud Wallet Demo.",
+                memo,
               },
             },
           ],
