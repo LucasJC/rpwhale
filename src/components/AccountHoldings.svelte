@@ -1,6 +1,7 @@
 <script lang="ts">
   import { format } from "../domain/format";
-  import { waxPrice, pricesInWax, currencyBalance } from "../domain/store";
+  import { waxPrice, pricesInWax } from "../domain/store";
+  import { currencyBalance } from "../domain/Balance";
   import * as Balance from "../domain/Balance";
 
   let balances: Array<Balance.CalculatedBalance> = [];
@@ -8,10 +9,10 @@
   let totalUSD: number = 0;
 
   $: {
-    balances = Balance.calcPrices($currencyBalance, $pricesInWax, $waxPrice);
-    const total = Balance.getTotals(balances);
-    totalWax = total.wax;
-    totalUSD = total.usd;
+    const accountBalance = Balance.getAccountBalances($currencyBalance, $pricesInWax, $waxPrice);
+    balances = accountBalance.balances;
+    totalWax = accountBalance.wax;
+    totalUSD = accountBalance.usd;
   }
 </script>
 

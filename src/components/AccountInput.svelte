@@ -33,9 +33,9 @@
           />
         </div>
         <div class="control">
-          <span class="button is-info" href="#" on:click={setAccount}>
+          <button type="submit" class="button is-info" on:click={setAccount}>
             Calculate
-          </span>
+          </button>
         </div>
         <div class="control" on:click={login}>
           <button class="button is-info">
@@ -50,8 +50,8 @@
 <style>
   .login-wax {
     background-image: url(/image/wax_wallet.png);
-    width: 100px;
-    height: 27px;
+    width: 50px;
+    height: 14px;
     background-position: 50% 50%;
     background-size: contain;
     background-repeat: no-repeat;

@@ -7,8 +7,6 @@ import {
 } from "svelte/store";
 import type { ListingAsset } from "../dal/am";
 import am from "../dal/am";
-import { getCurrencyBalance } from "../dal/wax";
-import * as Balance from "../domain/Balance";
 import * as Asset from "../domain/Asset";
 import {
   fetchAccountCollectionStaking,
@@ -27,17 +25,6 @@ import {
 // reexporting for backwards compat
 import { store as account } from "../domain/Account";
 export { account };
-
-export const currencyBalance: Readable<Array<Balance.CalculatedBalance>> =
-  derived(
-    account,
-    ($account, set) => {
-      getCurrencyBalance($account).then((balance) =>
-        set(Balance.calcBalances(balance || []))
-      );
-    },
-    [] as Array<Balance.CalculatedBalance>
-  );
 
 export const accountAssets: Readable<Array<AtomicAsset>> = derived(
   account,

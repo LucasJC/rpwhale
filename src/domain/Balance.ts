@@ -1,4 +1,6 @@
-import type { IPricesInWax } from "../domain/store";
+import { derived, Readable } from "svelte/store";
+import { getCurrencyBalance } from "../dal/wax";
+import { account, IPricesInWax } from "../domain/store";
 import * as Price from "./Price";
 
 export interface CalculatedBalance {
@@ -6,6 +8,31 @@ export interface CalculatedBalance {
   amount: number;
   waxAmount: number;
   usdAmount: number;
+}
+
+export const currencyBalance: Readable<Array<CalculatedBalance>> =
+  derived(
+    account,
+    ($account, set) => {
+      getCurrencyBalance($account).then((balance) =>
+        set(calcBalances(balance || []))
+      );
+    },
+    [] as Array<CalculatedBalance>
+  );
+
+export function getAccountBalances(currencyBalance: Array<CalculatedBalance>, pricesInWax: IPricesInWax, waxPrice: number): {
+  balances: Array<CalculatedBalance>;
+  wax: number;
+  usd: number;
+} {
+  const balances = calcPrices(currencyBalance, pricesInWax, waxPrice);
+  const total = getTotals(balances);
+  return {
+    balances,
+    wax: total.wax,
+    usd: total.usd
+  };
 }
 
 export function calcBalances(
