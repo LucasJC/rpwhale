@@ -24,9 +24,7 @@
   <div class="section">
     {#if balances.length > 0}
       <p class="subtitle">Account holdings:</p>
-      <table
-        class="table is-bordered is-striped is-narrow is-fullwidth has-text-centered"
-      >
+      <table class="table is-bordered is-narrow is-fullwidth has-text-centered">
         <tr>
           <th>Currency</th>
           <th>Amount</th>
@@ -35,7 +33,11 @@
         </tr>
         {#each balances as b}
           <tr>
-            <td>{b.currency}</td>
+            <td>
+              <div class="image is-24x24 is-hcentered has-tooltip-right" data-tooltip={b.currency}>
+                <img src="image/{b.currency.toLowerCase()}.png" alt={b.currency} />
+              </div>
+            </td>
             <td class="has-text-right">{format(b.amount)}</td>
             <td class="has-text-right">{format(b.waxAmount)}</td>
             <td class="has-text-right">{format(b.usdAmount)}</td>

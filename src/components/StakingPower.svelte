@@ -35,16 +35,16 @@
         {#each collectionsStaking as cs}
           <tr>
             <td>{cs.collection}</td>
-            <td class="has-text-right">{cs.collected}</td>
-            <td class="has-text-right">{format(cs?.miningPower)} A/h</td>
+            <td class="has-text-right">{format(Number.parseFloat(cs.collected.split(" ")[0]))}</td>
+            <td class="has-text-right">{format(cs?.miningPower)}</td>
           </tr>
         {/each}
         <tr
           class="has-text-weight-bold has-background-info-light has-text-info-dark"
         >
           <td>Total</td>
-          <td class="has-text-right">{format(totalCollected)} AETHER</td>
-          <td class="has-text-right">{format(totalPower)} A/h</td>
+          <td class="has-text-right">{format(totalCollected)}</td>
+          <td class="has-text-right">{format(totalPower)}</td>
         </tr>
       </table>
     {/if}
