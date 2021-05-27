@@ -1,5 +1,5 @@
 import type { AccountCollectionStaking, PoolConfig } from "../dal/types";
-import { miningPower as miningPowerStore } from "../domain/store";
+import { miningPowerStore, unclaimedAetherStore } from "../domain/store";
 
 export function calcMiningPower(
   collectionsStaking: Array<AccountCollectionStaking>,
@@ -26,23 +26,23 @@ export function calcMiningPower(
     });
 }
 
-export function getRank(mp: number): string {
+export function getRank(mp: number): { emoji: string; name: string } {
   if (mp < 2000) {
-    return "🐠";
+    return { emoji: "🐠", name: "Guppy" };
   }
   if (mp < 10000) {
-    return "🦀";
+    return { emoji: "🦀", name: "Crab" };
   }
   if (mp < 40000) {
-    return "🐬";
+    return { emoji: "🐬", name: "Dolphin" };
   }
   if (mp < 100000) {
-    return "🦈";
+    return { emoji: "🦈", name: "Shark" };
   }
   if (mp < 250000) {
-    return "🐳";
+    return { emoji: "🐳", name: "Whale" };
   }
-  return "🐙";
+  return { emoji: "🐙", name: "Kraken" };
 }
 
 export function calcTotals(
@@ -57,6 +57,7 @@ export function calcTotals(
   });
 
   miningPowerStore.set(miningPower);
+  unclaimedAetherStore.set(collected);
 
   return { collected, miningPower };
 }

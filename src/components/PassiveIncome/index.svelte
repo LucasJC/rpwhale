@@ -2,7 +2,7 @@
   import {
     accountLands,
     aetherPrice,
-    miningPower,
+    miningPowerStore,
     waxPrice,
   } from "../../domain/store";
   import Table from "./PeriodicIncomeTable.svelte";
@@ -10,9 +10,9 @@
 
   let stakingTables: Array<{ label: string; mp: number }>;
   $: stakingTables = [
-    { label: "Aether", mp: $miningPower },
-    { label: "Wax", mp: $miningPower * $aetherPrice },
-    { label: "USD", mp: $miningPower * $aetherPrice * $waxPrice },
+    { label: "Aether", mp: $miningPowerStore },
+    { label: "Wax", mp: $miningPowerStore * $aetherPrice },
+    { label: "USD", mp: $miningPowerStore * $aetherPrice * $waxPrice },
   ];
 </script>
 
