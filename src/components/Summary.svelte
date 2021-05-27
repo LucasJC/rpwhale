@@ -33,9 +33,9 @@
       </div>
     </div>
     <div class="level-item has-text-centered">
-      <div>
+      <div class="has-tooltip-bottom has-tooltip-info" data-tooltip="You are a {rank.name}">
         <p class="heading">Rank</p>
-        <p class="title is-1">{rank}</p>
+        <p class="title is-1">{rank.emoji}</p>
       </div>
     </div>
     <div class="level-item has-text-centered">
@@ -45,7 +45,7 @@
       </div>
     </div>
     <div class="level-item has-text-centered">
-      <div>
+      <div class="has-tooltip-bottom has-tooltip-info" data-tooltip="Staking and land passive income">
         <p class="heading">Monthly Income</p>
         <p class="title is-3">{format(monthlyIncome)} USD</p>
       </div>

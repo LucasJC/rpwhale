@@ -26,23 +26,23 @@ export function calcMiningPower(
     });
 }
 
-export function getRank(mp: number): string {
+export function getRank(mp: number): { emoji: string, name: string } {
   if (mp < 2000) {
-    return "🐠";
+    return { emoji: "🐠", name: "Guppy" };
   }
   if (mp < 10000) {
-    return "🦀";
+    return { emoji: "🦀", name: "Crab" };
   }
   if (mp < 40000) {
-    return "🐬";
+    return { emoji: "🐬", name: "Dolphin" };
   }
   if (mp < 100000) {
-    return "🦈";
+    return { emoji: "🦈", name: "Shark" };
   }
   if (mp < 250000) {
-    return "🐳";
+    return { emoji: "🐳", name: "Whale" };
   }
-  return "🐙";
+  return { emoji: "🐙", name: "Kraken" };
 }
 
 export function calcTotals(

@@ -16,7 +16,6 @@
     const { miningPower, collected } = Staking.calcTotals(collectionsStaking);
     totalPower = miningPower;
     totalCollected = collected;
-    Staking.getRank(miningPower);
   }
 </script>
 

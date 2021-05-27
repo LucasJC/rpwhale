@@ -7,7 +7,7 @@
 
 <main>
   <div
-    class="column is-flex is-flex-direction-row is-align-content-center has-tooltip-bottom"
+    class="column is-flex is-flex-direction-row is-align-content-center has-tooltip-bottom has-tooltip-info"
     data-tooltip={tooltip}
   >
     <figure class="image is-24x24">
