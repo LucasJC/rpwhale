@@ -26,7 +26,7 @@ export function calcMiningPower(
     });
 }
 
-export function getRank(mp: number): { emoji: string, name: string } {
+export function getRank(mp: number): { emoji: string; name: string } {
   if (mp < 2000) {
     return { emoji: "🐠", name: "Guppy" };
   }

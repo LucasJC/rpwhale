@@ -7,8 +7,8 @@
     <div class="content has-text-centered">
       <p>Wax address for donations: <strong>glrrk.wam</strong></p>
       <p>
-        Sources available at <a
-          href="https://github.com/LucasJC/rpwhale">github</a
+        Sources available at <a href="https://github.com/LucasJC/rpwhale"
+          >github</a
         >
       </p>
       <p>

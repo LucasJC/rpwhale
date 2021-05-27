@@ -16,7 +16,12 @@ export const currencyBalance: Readable<Array<CalculatedBalance>> = derived(
     getCurrencyBalance($account).then((balance) => {
       const calculated = calcBalances(balance || []);
       if ($unclaimedAether && $unclaimedAether > 0) {
-        calculated.push({ amount: $unclaimedAether, currency: "UNCLAIMED AETHER", usdAmount: 0.0, waxAmount: 0.0 });
+        calculated.push({
+          amount: $unclaimedAether,
+          currency: "UNCLAIMED AETHER",
+          usdAmount: 0.0,
+          waxAmount: 0.0,
+        });
       }
       set(calculated);
     });
