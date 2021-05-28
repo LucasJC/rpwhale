@@ -15,7 +15,7 @@ export interface IAccountStore {
   /* this indicates if the user manually inputed the account
    * or if she actually logged in
    */
-  loggedIn: boolean;
+  isLoggedIn: boolean;
   client: waxjs.WaxJS;
 }
 
@@ -23,7 +23,7 @@ const initial: IAccountStore = {
   account: getFromSearch() || "",
   loading: true,
   client: wax,
-  loggedIn: false,
+  isLoggedIn: false,
 };
 
 async function start(): Promise<void> {
@@ -32,7 +32,7 @@ async function start(): Promise<void> {
     store.update((state) => ({ ...state, loading: true }));
     const account = await autoLogin();
     setToSearch(account);
-    store.update((state) => ({ ...state, account, loggedIn: true }));
+    store.update((state) => ({ ...state, account, isLoggedIn: true }));
   } catch (err) {
     console.error(err);
   } finally {
@@ -62,7 +62,7 @@ export async function login(): Promise<void> {
   try {
     store.update((state) => ({ ...state, loading: true }));
     const account = (await wax.login()) as string;
-    store.update((state) => ({ ...state, account, loggedIn: true }));
+    store.update((state) => ({ ...state, account, isLoggedIn: true }));
     setToSearch(account);
   } catch (err) {
     console.log(err);

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { store as user } from "../../domain/User";
   import * as User from "../../domain/User";
   import Address from "./Address.svelte";
 
@@ -10,18 +11,7 @@
 
   const WAX_ADDRESS = "glrrk.wam";
   let waxToDonate: number = 200;
-  // TODO this needs more work, probably enhancing the
-  // account store to be able to
-  // 1. refresh the app when the login is done
-  // 2. be able to tell reactively if the user is logged in or not
-  let isLoggedIn: boolean = true;
-  /*let isLoggedIn: boolean = !!(Account.wax as any).userAccount;*/
-  /*$: {*/
-  /*isLoggedIn = !!(Account.wax as any).userAccount;*/
-  /*console.log("isLoggedIn?", isLoggedIn);*/
-  /*}*/
 
-  // TODO check login
   async function donate(wax: number, memo: string = ""): Promise<void> {
     try {
       const result = await User.wax.api.transact(
@@ -61,32 +51,32 @@
   <h3>Support our work:</h3>
   <Address address={WAX_ADDRESS} />
 
-  {#if !isLoggedIn}
+  {#if !$user.isLoggedIn}
     <p>Log in to donate directly from here:</p>
   {/if}
   <div class="donations is-flex is-justify-content-center">
     <button
       class="button is-info"
       on:click={() => donate(50)}
-      disabled={!isLoggedIn}>Donate 50 Wax</button
+      disabled={!$user.isLoggedIn}>Donate 50 Wax</button
     >
     <button
       class="button is-info"
       on:click={() => donate(100)}
-      disabled={!isLoggedIn}>Donate 100 Wax</button
+      disabled={!$user.isLoggedIn}>Donate 100 Wax</button
     >
     <input
       class="input"
       type="number"
       placeholder="Wax"
       bind:value={waxToDonate}
-      disabled={!isLoggedIn}
+      disabled={!$user.isLoggedIn}
     />
     <button
       class="button is-info"
       type="button"
       on:click={() => donate(waxToDonate)}
-      disabled={!isLoggedIn}>Donate</button
+      disabled={!$user.isLoggedIn}>Donate</button
     >
   </div>
 </div>

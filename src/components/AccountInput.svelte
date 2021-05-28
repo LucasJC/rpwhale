@@ -38,7 +38,7 @@
           </button>
         </div>
         <div class="control" on:click={login}>
-          <button class="button is-link">
+          <button class={`button is-link ${$user.loading ? "is-loading" : ""}`}>
             <span class="login-wax" />
           </button>
         </div>
