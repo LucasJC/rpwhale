@@ -1,5 +1,5 @@
 <script lang="ts">
-  import * as Account from "../../domain/Account";
+  import * as User from "../../domain/User";
   import Address from "./Address.svelte";
 
   const formatWax = new Intl.NumberFormat("en-US", {
@@ -24,7 +24,7 @@
   // TODO check login
   async function donate(wax: number, memo: string = ""): Promise<void> {
     try {
-      const result = await Account.wax.api.transact(
+      const result = await User.wax.api.transact(
         {
           actions: [
             {
@@ -32,12 +32,12 @@
               name: "transfer",
               authorization: [
                 {
-                  actor: (Account.wax as any).userAccount,
+                  actor: (User.wax as any).userAccount,
                   permission: "active",
                 },
               ],
               data: {
-                from: (Account.wax as any).userAccount,
+                from: (User.wax as any).userAccount,
                 to: WAX_ADDRESS,
                 quantity: `${formatWax(wax)} WAX`,
                 memo,

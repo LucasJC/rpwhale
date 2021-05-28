@@ -1,19 +1,19 @@
 <script lang="ts">
-  import { store as account } from "../domain/Account";
-  import * as Account from "../domain/Account";
+  import { store as user } from "../domain/User";
+  import * as User from "../domain/User";
 
-  let accountInput: string = $account;
+  let accountInput: string = $user.account;
   $: {
-    accountInput = $account;
+    accountInput = $user.account;
   }
 
   function setAccount() {
-    Account.set(accountInput);
+    User.setAccount(accountInput);
   }
 
   async function login() {
     try {
-      Account.login();
+      await User.login();
     } catch (err) {
       console.error(err);
     }
