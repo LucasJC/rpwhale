@@ -3,6 +3,7 @@ import { getFeatureRequests } from "./github";
 
 async function main(): Promise<void> {
   const issues = await getFeatureRequests();
+  console.log(issues);
 
   const path = "./src/data/featureRequests.json";
   await fs.writeFile(path, JSON.stringify(issues, null, 2));
