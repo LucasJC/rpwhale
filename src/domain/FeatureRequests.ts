@@ -4,5 +4,6 @@ import { getFeatureRequests } from "../dal/github";
 import { readable } from "svelte/store";
 
 export const store = readable<Array<IIssue>>([], (set) => {
-  getFeatureRequests().then((issues) => set(issues));
+  const issues = getFeatureRequests();
+  set(issues);
 });

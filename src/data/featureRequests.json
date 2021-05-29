@@ -1,0 +1,58 @@
+[
+  {
+    "url": "https://api.github.com/repos/LucasJC/rpwhale/issues/23",
+    "repository_url": "https://api.github.com/repos/LucasJC/rpwhale",
+    "labels_url": "https://api.github.com/repos/LucasJC/rpwhale/issues/23/labels{/name}",
+    "comments_url": "https://api.github.com/repos/LucasJC/rpwhale/issues/23/comments",
+    "events_url": "https://api.github.com/repos/LucasJC/rpwhale/issues/23/events",
+    "html_url": "https://github.com/LucasJC/rpwhale/issues/23",
+    "id": 905447255,
+    "node_id": "MDU6SXNzdWU5MDU0NDcyNTU=",
+    "number": 23,
+    "title": "test feature request",
+    "user": {
+      "login": "franleplant",
+      "id": 1852455,
+      "node_id": "MDQ6VXNlcjE4NTI0NTU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1852455?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/franleplant",
+      "html_url": "https://github.com/franleplant",
+      "followers_url": "https://api.github.com/users/franleplant/followers",
+      "following_url": "https://api.github.com/users/franleplant/following{/other_user}",
+      "gists_url": "https://api.github.com/users/franleplant/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/franleplant/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/franleplant/subscriptions",
+      "organizations_url": "https://api.github.com/users/franleplant/orgs",
+      "repos_url": "https://api.github.com/users/franleplant/repos",
+      "events_url": "https://api.github.com/users/franleplant/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/franleplant/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "labels": [
+      {
+        "id": 3039240284,
+        "node_id": "MDU6TGFiZWwzMDM5MjQwMjg0",
+        "url": "https://api.github.com/repos/LucasJC/rpwhale/labels/feature",
+        "name": "feature",
+        "color": "FE54B4",
+        "default": false,
+        "description": "Feature request"
+      }
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "assignees": [],
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2021-05-28T13:50:35Z",
+    "updated_at": "2021-05-28T13:50:35Z",
+    "closed_at": null,
+    "author_association": "COLLABORATOR",
+    "active_lock_reason": null,
+    "body": "this is a test feature request",
+    "performed_via_github_app": null
+  }
+]
