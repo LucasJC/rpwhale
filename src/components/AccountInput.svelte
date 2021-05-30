@@ -3,9 +3,6 @@
   import * as User from "../domain/User";
 
   let accountInput: string = $user.account;
-  $: {
-    accountInput = $user.account;
-  }
 
   function setAccount() {
     User.setAccount(accountInput);
@@ -14,6 +11,7 @@
   async function login() {
     try {
       await User.login();
+      accountInput = $user.account;
     } catch (err) {
       console.error(err);
     }
