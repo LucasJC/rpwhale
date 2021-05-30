@@ -2,8 +2,8 @@ name: Scheduled Deploy
 
 on:
   schedule:
-  # everyday at 21:55
-    - cron:  '55 21 * * *'
+  # everyday at 15:30
+    - cron:  '30 15 * * *'
 
 jobs:
   trigger_hook:
