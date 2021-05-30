@@ -1,19 +1,19 @@
 <script lang="ts">
-  import { store as account } from "../domain/Account";
-  import * as Account from "../domain/Account";
+  import { store as user } from "../domain/User";
+  import * as User from "../domain/User";
 
-  let accountInput: string = $account;
+  let accountInput: string = $user.account;
   $: {
-    accountInput = $account;
+    accountInput = $user.account;
   }
 
   function setAccount() {
-    Account.set(accountInput);
+    User.setAccount(accountInput);
   }
 
   async function login() {
     try {
-      Account.login();
+      await User.login();
     } catch (err) {
       console.error(err);
     }
@@ -38,8 +38,10 @@
           </button>
         </div>
         <div class="control" on:click={login}>
-          <button class="button is-link">
-            <span class="login-wax" />
+          <button class="button is-link" class:is-loading={$user.loading}>
+            {#if !$user.loading}
+              <span class="login-wax" />
+            {/if}
           </button>
         </div>
       </div>

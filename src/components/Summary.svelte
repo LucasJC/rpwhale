@@ -3,13 +3,13 @@
   import * as Balance from "../domain/Balance";
   import { format } from "../domain/format";
   import {
-    account,
     aetherPrice,
     landsIncome,
     miningPowerStore,
     pricesInWax,
     waxPrice,
   } from "../domain/store";
+  import { store as user } from "../domain/User";
   import { currencyBalance } from "../domain/Balance";
 
   $: rank = Staking.getRank($miningPowerStore);
@@ -29,7 +29,7 @@
     <div class="level-item has-text-centered">
       <div>
         <p class="heading">Account</p>
-        <p class="title is-2">{$account}</p>
+        <p class="title is-2">{$user.account}</p>
       </div>
     </div>
     <div class="level-item has-text-centered">
