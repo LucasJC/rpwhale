@@ -1,0 +1,12 @@
+name: Scheduled Deploy
+
+on:
+  schedule:
+  # everyday at 21:55
+    - cron:  '55 21 * * *'
+
+jobs:
+  trigger_hook:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -X POST https://api.vercel.com/v1/integrations/deploy/${{ secrets.VERCEL_REBUILD_HOOK_SECRET }}
