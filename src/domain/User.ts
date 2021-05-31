@@ -34,7 +34,7 @@ async function start(): Promise<void> {
     setToSearch(account);
     store.update((state) => ({ ...state, account, isLoggedIn: true }));
   } catch (err) {
-    console.error(err);
+    console.warn(err);
   } finally {
     store.update((state) => ({ ...state, loading: false }));
   }
