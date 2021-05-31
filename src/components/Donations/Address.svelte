@@ -3,7 +3,11 @@
   export let address: string = "";
 
   // TODO do this onmount only?
-  new Clipboard(".copy-wax-address");
+  try {
+    new Clipboard(".copy-wax-address");
+  } catch (err) {
+    console.log("error clipboard", err);
+  }
 </script>
 
 <p>
