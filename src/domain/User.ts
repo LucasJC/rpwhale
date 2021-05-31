@@ -5,7 +5,7 @@ export const wax = new waxjs.WaxJS(
   "https://wax.greymass.com",
   undefined,
   undefined,
-  true
+  false
 );
 
 export interface IAccountStore {
