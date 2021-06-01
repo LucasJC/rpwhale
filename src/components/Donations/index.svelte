@@ -1,6 +1,7 @@
 <script lang="ts">
   import { store as user } from "../../domain/User";
   import * as User from "../../domain/User";
+  import { store as featureRequests } from "../../domain/FeatureRequests";
   import Address from "./Address.svelte";
 
   const formatWax = new Intl.NumberFormat("en-US", {
@@ -12,7 +13,9 @@
   const WAX_ADDRESS = "glrrk.wam";
   let waxToDonate: number = 200;
 
-  async function donate(wax: number, memo: string = ""): Promise<void> {
+  let requestedFeature: string = "";
+
+  async function donate(wax: number): Promise<void> {
     try {
       const result = await User.wax.api.transact(
         {
@@ -30,7 +33,9 @@
                 from: (User.wax as any).userAccount,
                 to: WAX_ADDRESS,
                 quantity: `${formatWax(wax)} WAX`,
-                memo,
+                memo: requestedFeature
+                  ? `____feature:${requestedFeature}`
+                  : `donation`,
               },
             },
           ],
@@ -55,6 +60,16 @@
     <p>Log in to donate directly from here:</p>
   {/if}
   <div class="donations is-flex is-justify-content-center">
+    <select name="feature request" bind:value={requestedFeature}>
+      <option value="">Request a feature!</option>
+
+      {#each $featureRequests as issue}
+        <option value={issue.number}>
+          {`#${issue.number} ${issue.title}`}
+        </option>
+      {/each}
+    </select>
+
     <button
       class="button is-info"
       on:click={() => donate(50)}
@@ -79,6 +94,12 @@
       disabled={!$user.isLoggedIn}>Donate</button
     >
   </div>
+
+  <a
+    target="__blank"
+    href="https://github.com/LucasJC/rpwhale/issues?q=is%3Aopen+is%3Aissue+label%3Afeature"
+    >Check all the available feature requests or create a new one</a
+  >
 </div>
 
 <style>
