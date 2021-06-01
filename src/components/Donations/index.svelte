@@ -60,15 +60,17 @@
     <p>Log in to donate directly from here:</p>
   {/if}
   <div class="donations is-flex is-justify-content-center">
-    <select name="feature request" bind:value={requestedFeature}>
-      <option value="">Request a feature!</option>
+    <div class="select">
+      <select name="feature request" bind:value={requestedFeature}>
+        <option value="">Request a feature!</option>
 
-      {#each $featureRequests as issue}
-        <option value={issue.number}>
-          {`#${issue.number} ${issue.title}`}
-        </option>
-      {/each}
-    </select>
+        {#each $featureRequests as issue}
+          <option value={issue.number}>
+            {`#${issue.number} ${issue.title}`}
+          </option>
+        {/each}
+      </select>
+    </div>
 
     <button
       class="button is-info"
