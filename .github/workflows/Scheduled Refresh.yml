@@ -1,0 +1,12 @@
+name: Scheduled Refresh (For waking rpwhale-bot)
+
+on:
+  schedule:
+  # https://crontab.guru/every-30-minutes
+    - cron:  '*/30 * * * *'
+
+jobs:
+  trigger_hook:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo Success!
