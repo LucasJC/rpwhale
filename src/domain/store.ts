@@ -23,13 +23,12 @@ import {
 } from "../dal/types";
 
 // reexporting for backwards compat
-import { store as account } from "../domain/Account";
-export { account };
+import { store as user } from "../domain/User";
 
 export const accountAssets: Readable<Array<AtomicAsset>> = derived(
-  account,
-  ($account, set) => {
-    getAccountAssets($account).then((assets) => set(assets || []));
+  user,
+  ($user, set) => {
+    getAccountAssets($user.account).then((assets) => set(assets || []));
   },
   [] as Array<AtomicAsset>
 );
@@ -60,15 +59,15 @@ export const poolStakingConfig = readable<Map<string, PoolConfig>>(
 );
 
 export const accountStakingPower = derived(
-  [account, poolStakingConfig],
-  ([$account, $poolStakingConfig], set) => {
+  [user, poolStakingConfig],
+  ([$user, $poolStakingConfig], set) => {
     async function doWork() {
       const collectionNames = [...$poolStakingConfig.keys()].map(
         (collectionName) => collectionName
       );
       const collectionsStaking = await Promise.all(
         collectionNames.map((col) =>
-          fetchAccountCollectionStaking($account, col)
+          fetchAccountCollectionStaking($user.account, col)
         )
       );
 
