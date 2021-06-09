@@ -5,7 +5,6 @@
 
   const location = useLocation();
   let isMenuActive = false;
-  
 </script>
 
 <section class="hero">
