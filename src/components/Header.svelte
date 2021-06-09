@@ -49,7 +49,7 @@
         >
           Home
         </a>
-        <a
+        <!--<a
           class="navbar-item"
           class:is-active={$location.pathname === "/asset-staking"}
           href="/asset-staking"
@@ -64,7 +64,7 @@
           use:link
         >
           Pools
-        </a>
+        </a>-->
         <a
           class="navbar-item"
           class:is-active={$location.pathname === "/donation"}
