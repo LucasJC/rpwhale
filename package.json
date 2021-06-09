@@ -10,7 +10,7 @@
     "build": "npm run get-feature-requests && npm run build:code",
     "build:code": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public --no-clear",
+    "start": "sirv public --no-clear --single",
     "validate": "svelte-check",
     "test": "npm run validate && npm run typecheck && npm run format:check",
     "prepare": "husky install",
@@ -47,7 +47,8 @@
     "@waxio/waxjs": "^0.0.15",
     "atomicmarket": "^0.1.1",
     "clipboard": "^2.0.8",
-    "sirv-cli": "^1.0.0"
+    "sirv-cli": "^1.0.0",
+    "svelte-navigator": "^3.1.5"
   },
   "lint-staged": {
     "*.{js,ts,svelte,css,md}": "prettier --write"

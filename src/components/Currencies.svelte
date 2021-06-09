@@ -1,13 +1,6 @@
 <script lang="ts">
+  import { waxPrice, rplanetPrices } from "../domain/currencies";
   import Currency from "./Currency.svelte";
-  import {
-    aetherPrice,
-    caponPrice,
-    eneftPrice,
-    waxonPrice,
-    waxPrice,
-    wecanPrice,
-  } from "../domain/store";
 
   interface ICurr {
     price: number;
@@ -27,31 +20,31 @@
         tooltip: "USD / Wax",
       },
       {
-        price: $aetherPrice,
+        price: $rplanetPrices.AETHER,
         alt: "AETHER",
         image: "image/aether.png",
         tooltip: "Wax / AETHER",
       },
       {
-        price: $eneftPrice,
+        price: $rplanetPrices.ENEFT,
         alt: "ENEFT",
         image: "image/eneft.png",
         tooltip: "Wax / ENEFT",
       },
       {
-        price: $waxonPrice,
+        price: $rplanetPrices.WAXON,
         alt: "WAXON",
         image: "image/waxon.png",
         tooltip: "Wax / WAXON",
       },
       {
-        price: $caponPrice,
+        price: $rplanetPrices.CAPON,
         alt: "CAPON",
         image: "image/capon.png",
         tooltip: "Wax / CAPON",
       },
       {
-        price: $wecanPrice,
+        price: $rplanetPrices.WECAN,
         alt: "WECAN",
         image: "image/wecan.png",
         tooltip: "Wax / WECAN",

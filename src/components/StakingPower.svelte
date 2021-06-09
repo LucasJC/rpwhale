@@ -1,19 +1,23 @@
 <script lang="ts">
-  import { format } from "../domain/format";
-  import { accountStakingPower, poolStakingConfig } from "../domain/store";
-  import * as Staking from "../domain/Staking";
-  import type { AccountCollectionStaking } from "../dal/types";
+  import type { AccountCollectionStaking } from "../dal/rplanet";
+  import { poolsStakingConfigStore } from "../domain/rplanet";
+  import {
+    accountStakingConfigStore,
+    calcMiningPower,
+    calcTotals,
+  } from "../domain/staking";
+  import { format } from "../domain/currencies";
 
   let collectionsStaking: AccountCollectionStaking[] = [];
   let totalPower = 0.0;
   let totalCollected = 0.0;
 
   $: {
-    collectionsStaking = Staking.calcMiningPower(
-      $accountStakingPower,
-      $poolStakingConfig
+    collectionsStaking = calcMiningPower(
+      $accountStakingConfigStore,
+      $poolsStakingConfigStore
     );
-    const { miningPower, collected } = Staking.calcTotals(collectionsStaking);
+    const { miningPower, collected } = calcTotals(collectionsStaking);
     totalPower = miningPower;
     totalCollected = collected;
   }
@@ -21,8 +25,8 @@
 
 <main>
   <div class="section">
-    {#if collectionsStaking}
-      <p class="subtitle">Staked Collections Details:</p>
+    <p class="subtitle">Staked Collections Details:</p>
+    {#if collectionsStaking && collectionsStaking.length > 0}
       <table
         class="table is-bordered is-striped is-narrow is-fullwidth has-text-centered"
       >
@@ -48,6 +52,8 @@
           <td class="has-text-right">{format(totalPower)}</td>
         </tr>
       </table>
+    {:else}
+      <p>No staked assets found for this account.</p>
     {/if}
   </div>
 </main>

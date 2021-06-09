@@ -1,25 +1,22 @@
 <script lang="ts">
-  import * as Staking from "../domain/Staking";
-  import * as Balance from "../domain/Balance";
-  import { format } from "../domain/format";
-  import {
-    aetherPrice,
-    landsIncome,
-    miningPowerStore,
-    pricesInWax,
-    waxPrice,
-  } from "../domain/store";
-  import { store as user } from "../domain/User";
-  import { currencyBalance } from "../domain/Balance";
+  import * as Staking from "../domain/staking";
+  import * as Balance from "../domain/balance";
+  import { format, rplanetPrices, waxPrice } from "../domain/currencies";
+  import { userStore } from "../domain/user";
+  import { currencyBalance } from "../domain/balance";
+  import { miningPowerStore } from "../domain/staking";
+  import { landsIncomeStore } from "../domain/land";
 
   $: rank = Staking.getRank($miningPowerStore);
 
   $: monthlyIncome =
-    24 * 30 * ($landsIncome + $miningPowerStore * $aetherPrice * $waxPrice);
+    24 *
+    30 *
+    ($landsIncomeStore + $miningPowerStore * $rplanetPrices.AETHER * $waxPrice);
 
   $: currentHoldings = Balance.getAccountBalances(
     $currencyBalance,
-    $pricesInWax,
+    $rplanetPrices,
     $waxPrice
   ).usd;
 </script>
@@ -29,12 +26,12 @@
     <div class="level-item has-text-centered">
       <div>
         <p class="heading">Account</p>
-        <p class="title is-2">{$user.account}</p>
+        <p class="title is-2">{$userStore.account}</p>
       </div>
     </div>
     <div class="level-item has-text-centered">
       <div
-        class="has-tooltip-bottom has-tooltip-info"
+        class="pb-2 has-tooltip-bottom has-tooltip-info"
         data-tooltip="You are a {rank.name}"
       >
         <p class="heading">Rank</p>
@@ -49,7 +46,7 @@
     </div>
     <div class="level-item has-text-centered">
       <div
-        class="has-tooltip-bottom has-tooltip-info"
+        class="pb-2 has-tooltip-bottom has-tooltip-info"
         data-tooltip="Staking and land passive income in USD"
       >
         <p class="heading">Monthly Income</p>
@@ -58,7 +55,7 @@
     </div>
     <div class="level-item has-text-centered">
       <div
-        class="has-tooltip-bottom has-tooltip-info"
+        class="pb-2 has-tooltip-bottom has-tooltip-info"
         data-tooltip="We only consider Aether + Minerls in USD"
       >
         <p class="heading">Current RPlanet Holdings</p>

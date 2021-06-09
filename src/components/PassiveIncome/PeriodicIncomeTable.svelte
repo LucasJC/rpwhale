@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { format } from "../../domain/format";
-
+  import { format } from "../../domain/currencies";
   export let hourlyAmount: number = 0;
 </script>
 

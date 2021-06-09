@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { format } from "../domain/format";
-  import { waxPrice, pricesInWax } from "../domain/store";
-  import { currencyBalance } from "../domain/Balance";
-  import * as Balance from "../domain/Balance";
+  import { format, rplanetPrices, waxPrice } from "../domain/currencies";
+  import { currencyBalance } from "../domain/balance";
+  import * as Balance from "../domain/balance";
 
   let balances: Array<Balance.CalculatedBalance> = [];
   let totalWax: number = 0;
@@ -11,7 +10,7 @@
   $: {
     const accountBalance = Balance.getAccountBalances(
       $currencyBalance,
-      $pricesInWax,
+      $rplanetPrices,
       $waxPrice
     );
     balances = accountBalance.balances;

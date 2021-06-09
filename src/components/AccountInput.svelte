@@ -1,17 +1,20 @@
 <script lang="ts">
-  import { store as user } from "../domain/User";
-  import * as User from "../domain/User";
+  import { setToSearch, userStore, wcwLogin } from "../domain/user";
 
-  let accountInput: string = $user.account;
+  export let account: string;
+  let input: string;
 
-  function setAccount() {
-    User.setAccount(accountInput);
+  $: {
+    if (account) {
+      userStore.setAccount(account);
+      setToSearch(account);
+    }
   }
 
   async function login() {
     try {
-      await User.login();
-      accountInput = $user.account;
+      await wcwLogin();
+      input = $userStore.account;
     } catch (err) {
       console.error(err);
     }
@@ -20,24 +23,22 @@
 
 <main>
   <div class="section">
-    <form class="form" on:submit|preventDefault={setAccount}>
+    <form class="form" on:submit|preventDefault={() => (account = input)}>
       <div class="field is-grouped">
         <div class="control is-expanded">
           <input
             class="input"
             type="text"
             placeholder="WAX Account"
-            bind:value={accountInput}
+            bind:value={input}
           />
         </div>
         <div class="control">
-          <button type="submit" class="button is-info" on:click={setAccount}>
-            Calculate
-          </button>
+          <button type="submit" class="button is-info"> Calculate </button>
         </div>
         <div class="control" on:click={login}>
-          <button class="button is-link" class:is-loading={$user.loading}>
-            {#if !$user.loading}
+          <button class="button is-link" class:is-loading={$userStore.loading}>
+            {#if !$userStore.loading}
               <span class="login-wax" />
             {/if}
           </button>

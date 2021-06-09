@@ -1,8 +1,8 @@
 import { derived, Readable } from "svelte/store";
-import { getCurrencyBalance } from "../dal/wax";
-import { IPricesInWax, unclaimedAetherStore } from "../domain/store";
-import { store as user } from "../domain/User";
-import * as Price from "./Price";
+import { getRPlanetPrice, IPricesInWax } from "./currencies";
+import { getCurrencyBalance } from "./rplanet";
+import { unclaimedAetherStore } from "./staking";
+import { userStore } from "./user";
 
 export interface CalculatedBalance {
   currency: string;
@@ -12,9 +12,9 @@ export interface CalculatedBalance {
 }
 
 export const currencyBalance: Readable<Array<CalculatedBalance>> = derived(
-  [user, unclaimedAetherStore],
-  ([$user, $unclaimedAether], set) => {
-    getCurrencyBalance($user.account).then((balance) => {
+  [userStore, unclaimedAetherStore],
+  ([$userStore, $unclaimedAether], set) => {
+    getCurrencyBalance($userStore.account).then((balance) => {
       const calculated = calcBalances(balance || []);
       if ($unclaimedAether && $unclaimedAether > 0) {
         calculated.push({
@@ -68,7 +68,7 @@ export function calcPrices(
   waxPrice: number
 ): Array<CalculatedBalance> {
   return balances.map((blc) => {
-    const price = Price.getPrice(prices, blc.currency);
+    const price = getRPlanetPrice(prices, blc.currency);
     const waxAmount = blc.amount * price;
     const usdAmount = waxAmount * waxPrice;
 
