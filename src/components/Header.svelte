@@ -1,10 +1,11 @@
 <script lang="ts">
   import { nightMode } from "../domain/night-mode";
   import NightModeToggle from "./NightModeToggle.svelte";
-  import { link, Link, useLocation } from "svelte-navigator";
+  import { link, useLocation } from "svelte-navigator";
 
   const location = useLocation();
   let isMenuActive = false;
+  
 </script>
 
 <section class="hero">

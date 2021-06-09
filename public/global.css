@@ -1,3 +1,7 @@
   .desaturated {
     filter: saturate(25%);
   }
+
+  .is-hcentered {
+    margin: 0 auto;
+  }
