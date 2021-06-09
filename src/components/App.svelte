@@ -11,6 +11,11 @@
   import { userStore } from "../domain/user";
   import Summary from "./Summary.svelte";
   import { Router, Route } from "svelte-navigator";
+
+  function queryParam(search: string, key: string): any|undefined {
+    const params = new URLSearchParams(search);
+    return params.get(key);
+  }
 </script>
 
 <main>
@@ -19,8 +24,8 @@
     <Router>
       <Header />
 
-      <Route path="/">
-        <AccountInput />
+      <Route path="/" let:location>
+        <AccountInput account={queryParam(location.search, "account")}/>
         {#if $userStore.account}
           <Summary />
           <Currencies />

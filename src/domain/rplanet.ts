@@ -13,6 +13,9 @@ export const poolsStakingConfigStore = readable<Map<string, PoolConfig>>(
 export async function getCurrencyBalance(
   account: string
 ): Promise<Array<string>> {
+  if (!account) {
+    return [];
+  }
   const url = "https://api.wax.alohaeos.com/v1/chain/get_currency_balance";
   const options = {
     method: "POST",

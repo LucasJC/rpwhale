@@ -77,9 +77,10 @@ export async function wcwLogin(): Promise<void> {
       account,
       isLoggedIn: true,
     }));
+    setToSearch(account);
   } catch (err) {
     console.log(err);
-    userStore.internal.update((state) => ({ ...state, error: err }));
+    userStore.internal.update((state) => ({ ...state, error: err, loading: false }));
   } finally {
     userStore.internal.update((state) => ({ ...state, loading: false }));
   }
@@ -98,6 +99,11 @@ export function getFromSearch(): string {
  */
 export function setToSearch(account: string): void {
   const search = new URLSearchParams(document.location.search);
-  search.set("account", account);
-  history.pushState(null, document.title, "?" + search.toString());
+  if (account) {
+    search.set("account", account);
+    history.pushState(null, document.title, "?" + search.toString());
+  } else {
+    search.delete("account");
+    history.pushState(null, document.title, "/");
+  }
 }

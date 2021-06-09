@@ -1,16 +1,20 @@
 <script lang="ts">
-  import { userStore, wcwLogin } from "../domain/user";
+  import { setToSearch, userStore, wcwLogin } from "../domain/user";
 
-  let accountInput: string = $userStore.account;
+  export let account: string;
+  let input: string;
 
-  function setAccount() {
-    userStore.setAccount(accountInput);
+  $: {
+    if (account) {
+      userStore.setAccount(account);
+      setToSearch(account);
+    }
   }
 
   async function login() {
     try {
       await wcwLogin();
-      accountInput = $userStore.account;
+      input = $userStore.account;
     } catch (err) {
       console.error(err);
     }
@@ -19,18 +23,18 @@
 
 <main>
   <div class="section">
-    <form class="form" on:submit|preventDefault={setAccount}>
+    <form class="form" on:submit|preventDefault={() => account = input}>
       <div class="field is-grouped">
         <div class="control is-expanded">
           <input
             class="input"
             type="text"
             placeholder="WAX Account"
-            bind:value={accountInput}
+            bind:value={input}
           />
         </div>
         <div class="control">
-          <button type="submit" class="button is-info" on:click={setAccount}>
+          <button type="submit" class="button is-info">
             Calculate
           </button>
         </div>
