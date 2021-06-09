@@ -75,7 +75,7 @@
     </p>
 
     <fieldset disabled={!$userStore.isLoggedIn}>
-      <div class="field">
+      <div class="mt-4 field">
         <label class="label" for="feature-select"
           >1 - Select a feature to support (Optional):</label
         >
@@ -96,7 +96,7 @@
           </div>
         </div>
       </div>
-      <p class="label">2 - Proceed to make a donation:</p>
+      <p class="mt-4 label">2 - Proceed to make a donation:</p>
       <div class="field is-grouped is-grouped-multiline">
         <div class="control">
           <button class="button is-info" on:click={() => donate(50)}
