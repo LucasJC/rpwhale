@@ -23,7 +23,7 @@
 
 <main>
   <div class="section">
-    <form class="form" on:submit|preventDefault={() => account = input}>
+    <form class="form" on:submit|preventDefault={() => (account = input)}>
       <div class="field is-grouped">
         <div class="control is-expanded">
           <input
@@ -34,9 +34,7 @@
           />
         </div>
         <div class="control">
-          <button type="submit" class="button is-info">
-            Calculate
-          </button>
+          <button type="submit" class="button is-info"> Calculate </button>
         </div>
         <div class="control" on:click={login}>
           <button class="button is-link" class:is-loading={$userStore.loading}>

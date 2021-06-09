@@ -80,7 +80,11 @@ export async function wcwLogin(): Promise<void> {
     setToSearch(account);
   } catch (err) {
     console.log(err);
-    userStore.internal.update((state) => ({ ...state, error: err, loading: false }));
+    userStore.internal.update((state) => ({
+      ...state,
+      error: err,
+      loading: false,
+    }));
   } finally {
     userStore.internal.update((state) => ({ ...state, loading: false }));
   }
