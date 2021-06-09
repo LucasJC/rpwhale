@@ -10,10 +10,8 @@
   }
 </script>
 
-<p>
-  Wax address for donations: <strong>{address}</strong>
-  <button
-    class="copy-wax-address button is-small is-info"
-    data-clipboard-text={address}>Copy</button
-  >
-</p>
+<strong>{address}</strong>
+<button
+  class="ml-1 copy-wax-address button is-small is-info"
+  data-clipboard-text={address}>Copy</button
+>

@@ -5,8 +5,9 @@
 <footer class="footer">
   <div class="content has-text-centered">
     <p>
-      Sources / issues at <a href="https://github.com/LucasJC/rpwhale" target="_blank"
-        >github <span class="fab fa-github" /></a
+      Sources / issues at <a
+        href="https://github.com/LucasJC/rpwhale"
+        target="_blank">github <span class="fab fa-github" /></a
       >
     </p>
     <p>

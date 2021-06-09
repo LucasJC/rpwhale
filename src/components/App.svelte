@@ -18,7 +18,7 @@
   <div class="container">
     <Router>
       <Header />
- 
+
       <Route path="/">
         <AccountInput />
         {#if $userStore.account}
@@ -33,21 +33,15 @@
       </Route>
 
       <Route path="asset-staking">
-        <div class="section">
-          WIP
-        </div>
+        <div class="section">Work in progress!</div>
       </Route>
 
       <Route path="pools">
-        <div class="section">
-          WIP
-        </div>
+        <div class="section">Work in progress!</div>
       </Route>
-  
+
       <Route path="donation">
-        <div class="section">
-          <Donations />
-        </div>
+        <Donations />
       </Route>
     </Router>
   </div>
