@@ -1,5 +1,38 @@
-import type { AccountCollectionStaking, PoolConfig } from "../dal/types";
-import { miningPowerStore, unclaimedAetherStore } from "../domain/store";
+import { derived, writable } from "svelte/store";
+import { userStore } from "./user";
+import {
+  AccountCollectionStaking,
+  fetchAccountCollectionStaking,
+  PoolConfig,
+} from "../dal/rplanet";
+import { poolsStakingConfigStore } from "./rplanet";
+
+export const miningPowerStore = writable(0.0);
+
+export const unclaimedAetherStore = writable(0.0);
+
+export const accountStakingConfigStore = derived(
+  [userStore, poolsStakingConfigStore],
+  ([$userStore, $poolsStakingConfigStore], set) => {
+    async function doWork() {
+      const collectionNames = [...$poolsStakingConfigStore.keys()].map(
+        (collectionName) => collectionName
+      );
+      const collectionsStaking = await Promise.all(
+        collectionNames.map((col) =>
+          fetchAccountCollectionStaking($userStore.account, col)
+        )
+      );
+      set(
+        collectionsStaking.filter(
+          (col) => !!col
+        ) as Array<AccountCollectionStaking>
+      );
+    }
+    doWork();
+  },
+  [] as Array<AccountCollectionStaking>
+);
 
 export function calcMiningPower(
   collectionsStaking: Array<AccountCollectionStaking>,
@@ -9,7 +42,7 @@ export function calcMiningPower(
     .filter((cs) => poolConfig.has(cs.collection))
     .map((cs) => {
       const collectionConfig = poolConfig.get(cs.collection);
-      let miningPower: number = 0;
+      let miningPower = 0;
       if (cs.collection === "s.rplanet") {
         miningPower = cs.staked / 10000;
       } else {
@@ -47,9 +80,9 @@ export function getRank(mp: number): { emoji: string; name: string } {
 
 export function calcTotals(
   collectionsStaking: Array<AccountCollectionStaking>
-) {
-  let collected: number = 0;
-  let miningPower: number = 0;
+): { collected: number; miningPower: number } {
+  let collected = 0;
+  let miningPower = 0;
 
   collectionsStaking.forEach((cs) => {
     collected += Number(cs.collected.split(" ")[0]);

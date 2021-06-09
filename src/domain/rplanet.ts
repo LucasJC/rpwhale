@@ -1,3 +1,15 @@
+import { fetchStakingConfigs, PoolConfig } from "../dal/rplanet";
+import { readable } from "svelte/store";
+
+export const poolsStakingConfigStore = readable<Map<string, PoolConfig>>(
+  new Map(),
+  (set) => {
+    fetchStakingConfigs().then((config) =>
+      set(new Map(config.map((col) => [col.id, col])))
+    );
+  }
+);
+
 export async function getCurrencyBalance(
   account: string
 ): Promise<Array<string>> {

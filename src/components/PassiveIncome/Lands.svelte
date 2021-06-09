@@ -1,24 +1,23 @@
 <script lang="ts">
-  import { format } from "../../domain/format";
-  import type { ListingAsset } from "../../dal/am";
-  import { pricesInWax, waxPrice } from "../../domain/store";
-  import * as Asset from "../../domain/Asset";
+  import { format, rplanetPrices, waxPrice } from "../../domain/currencies";
+  import type { ListingAsset } from "../../dal/atomic-market";
+  import * as Land from "../../domain/land";
   import Table from "./PeriodicIncomeTable.svelte";
 
   export let lands: Array<ListingAsset> = [];
 
-  let landsYield: Array<Asset.ILandYield>;
-  $: landsYield = Asset.getLandsYield(lands);
+  let landsYield: Array<Land.ILandYield>;
+  $: landsYield = Land.getLandsYield(lands);
 
-  let rows: Array<Asset.ILandYieldPrices> = [];
-  $: rows = Asset.getLandsYieldPrices(landsYield, $pricesInWax, $waxPrice);
+  let rows: Array<Land.ILandYieldPrices> = [];
+  $: rows = Land.getLandsYieldPrices(landsYield, $rplanetPrices, $waxPrice);
 
   let totalWax: number = 0;
   let totalAeth: number = 0;
   let totalUSD: number = 0;
 
   $: {
-    const { wax, aeth, usd } = Asset.aggregateLandYields(rows);
+    const { wax, aeth, usd } = Land.aggregateLandYields(rows);
     totalWax = wax;
     totalAeth = aeth;
     totalUSD = usd;

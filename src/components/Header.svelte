@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { nightMode } from "../domain/store";
+  import { nightMode } from "../domain/night-mode";
   import NightModeToggle from "./NightModeToggle.svelte";
 </script>
 

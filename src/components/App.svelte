@@ -7,7 +7,7 @@
   import PassiveIncome from "./PassiveIncome/index.svelte";
   import AccountHoldings from "./AccountHoldings.svelte";
   import Currencies from "./Currencies.svelte";
-  import { store as user } from "../domain/User";
+  import { userStore } from "../domain/user";
   import Summary from "./Summary.svelte";
 </script>
 
@@ -16,7 +16,7 @@
   <div class="container">
     <Header />
     <AccountInput />
-    {#if $user.account}
+    {#if $userStore.account}
       <Summary />
       <Currencies />
       <StakingPower />

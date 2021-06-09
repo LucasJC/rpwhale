@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { store as user } from "../../domain/User";
-  import * as User from "../../domain/User";
-  import { store as featureRequests } from "../../domain/FeatureRequests";
+  import { userStore, wcw } from "../../domain/user";
+  import { store as featureRequests } from "../../domain/feature-requests";
   import Address from "./Address.svelte";
 
   const formatWax = new Intl.NumberFormat("en-US", {
@@ -17,7 +16,7 @@
 
   async function donate(wax: number): Promise<void> {
     try {
-      const result = await User.wax.api.transact(
+      const result = await wcw.api.transact(
         {
           actions: [
             {
@@ -25,12 +24,12 @@
               name: "transfer",
               authorization: [
                 {
-                  actor: (User.wax as any).userAccount,
+                  actor: (wcw as any).userAccount,
                   permission: "active",
                 },
               ],
               data: {
-                from: (User.wax as any).userAccount,
+                from: (wcw as any).userAccount,
                 to: WAX_ADDRESS,
                 quantity: `${formatWax(wax)} WAX`,
                 memo: requestedFeature
@@ -56,7 +55,7 @@
   <h3>Support our work:</h3>
   <Address address={WAX_ADDRESS} />
 
-  {#if !$user.isLoggedIn}
+  {#if !$userStore.isLoggedIn}
     <p>Log in to donate directly from here:</p>
   {/if}
   <div class="donations is-flex is-justify-content-center">
@@ -75,25 +74,25 @@
     <button
       class="button is-info"
       on:click={() => donate(50)}
-      disabled={!$user.isLoggedIn}>Donate 50 Wax</button
+      disabled={!$userStore.isLoggedIn}>Donate 50 Wax</button
     >
     <button
       class="button is-info"
       on:click={() => donate(100)}
-      disabled={!$user.isLoggedIn}>Donate 100 Wax</button
+      disabled={!$userStore.isLoggedIn}>Donate 100 Wax</button
     >
     <input
       class="input"
       type="number"
       placeholder="Wax"
       bind:value={waxToDonate}
-      disabled={!$user.isLoggedIn}
+      disabled={!$userStore.isLoggedIn}
     />
     <button
       class="button is-info"
       type="button"
       on:click={() => donate(waxToDonate)}
-      disabled={!$user.isLoggedIn}>Donate</button
+      disabled={!$userStore.isLoggedIn}>Donate</button
     >
   </div>
 

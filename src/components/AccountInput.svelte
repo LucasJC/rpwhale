@@ -1,17 +1,16 @@
 <script lang="ts">
-  import { store as user } from "../domain/User";
-  import * as User from "../domain/User";
+  import { userStore, wcwLogin } from "../domain/user";
 
-  let accountInput: string = $user.account;
+  let accountInput: string = $userStore.account;
 
   function setAccount() {
-    User.setAccount(accountInput);
+    userStore.setAccount(accountInput);
   }
 
   async function login() {
     try {
-      await User.login();
-      accountInput = $user.account;
+      await wcwLogin();
+      accountInput = $userStore.account;
     } catch (err) {
       console.error(err);
     }
@@ -36,8 +35,8 @@
           </button>
         </div>
         <div class="control" on:click={login}>
-          <button class="button is-link" class:is-loading={$user.loading}>
-            {#if !$user.loading}
+          <button class="button is-link" class:is-loading={$userStore.loading}>
+            {#if !$userStore.loading}
               <span class="login-wax" />
             {/if}
           </button>

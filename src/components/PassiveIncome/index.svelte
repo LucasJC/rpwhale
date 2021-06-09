@@ -1,25 +1,21 @@
 <script lang="ts">
-  import {
-    accountLands,
-    aetherPrice,
-    miningPowerStore,
-    waxPrice,
-  } from "../../domain/store";
   import Table from "./PeriodicIncomeTable.svelte";
   import LandsTable from "./Lands.svelte";
+  import { miningPowerStore } from "../../domain/staking";
+  import { rplanetPrices, waxPrice } from "../../domain/currencies";
+  import { accountLands } from "../../domain/land";
 
   let stakingTables: Array<{ label: string; mp: number }>;
   $: stakingTables = [
     { label: "Aether", mp: $miningPowerStore },
-    { label: "Wax", mp: $miningPowerStore * $aetherPrice },
-    { label: "USD", mp: $miningPowerStore * $aetherPrice * $waxPrice },
+    { label: "Wax", mp: $miningPowerStore * $rplanetPrices.AETHER },
+    { label: "USD", mp: $miningPowerStore * $rplanetPrices.AETHER * $waxPrice },
   ];
 </script>
 
-<main>
+{#if $miningPowerStore > 0}
   <div class="section">
     <p class="subtitle">Staking passive income:</p>
-
     <div class="columns">
       {#each stakingTables as table}
         <div class="column">
@@ -31,11 +27,11 @@
       {/each}
     </div>
   </div>
+{/if}
 
+{#if $accountLands?.length > 0}
   <div class="section">
-    {#if $accountLands?.length > 0}
-      <p class="subtitle">Lands passive income:</p>
-      <LandsTable lands={$accountLands} />
-    {/if}
+    <p class="subtitle">Lands passive income:</p>
+    <LandsTable lands={$accountLands} />
   </div>
-</main>
+{/if}
