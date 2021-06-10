@@ -11,6 +11,7 @@
   import { userStore } from "../domain/user";
   import Summary from "./Summary.svelte";
   import { Router, Route } from "svelte-navigator";
+  import AssetYield from "./AssetYield.svelte";
 
   function queryParam(search: string, key: string): any | undefined {
     const params = new URLSearchParams(search);
@@ -38,7 +39,7 @@
       </Route>
 
       <Route path="asset-staking">
-        <div class="section">Work in progress!</div>
+        <AssetYield />
       </Route>
 
       <Route path="pools">

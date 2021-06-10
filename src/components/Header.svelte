@@ -49,7 +49,7 @@
         >
           Home
         </a>
-        <!--<a
+        <a
           class="navbar-item"
           class:is-active={$location.pathname === "/asset-staking"}
           href="/asset-staking"
@@ -57,7 +57,7 @@
         >
           Asset Staking
         </a>
-        <a
+        <!--<a
           class="navbar-item"
           class:is-active={$location.pathname === "/pools"}
           href="/pools"

@@ -9,12 +9,34 @@ export interface PoolConfig {
   enabled: number;
 }
 
+export interface RarityConfig {
+  id: string;
+  contract: "simpleassets" | "atomicassets" | string;
+  collection: string;
+  schema: string;
+  name_id: string;
+  rarity_id: string;
+  img_id: string;
+  rarities: [
+    {
+      rarity: string;
+      uniq_assets: number;
+      one_asset_value: number;
+      collection_value: number;
+    }
+  ];
+}
+
 export interface AccountCollectionStaking {
   collection: string;
   user: string;
   staked: number;
   collected: string;
   miningPower?: number;
+}
+
+export async function fetchRarityConfigs(): Promise<RarityConfig[]> {
+  return getTableRows<RarityConfig>("s.rplanet", "s.rplanet", "collections");
 }
 
 export async function fetchStakingConfigs(): Promise<PoolConfig[]> {
