@@ -6,6 +6,7 @@
   import {
     poolsStakingConfigStore,
     rarityConfigStore,
+    rateModsStore,
   } from "../domain/rplanet";
 
   let assetId: string;
@@ -35,9 +36,9 @@
     const schema = asset.schema.schema_name;
     try {
       if (RPLANET_COLLECTION === collection) {
-        calculateRPlanetAssetYield(schema, rarities);
+        await calculateRPlanetAssetYield(schema, rarities);
       } else {
-        calculatePooledAssetYield(collection, schema, rarities);
+        await calculatePooledAssetYield(collection, schema, rarities);
       }
       error = undefined;
     } catch (err) {
@@ -45,7 +46,7 @@
     }
   }
 
-  function calculateRPlanetAssetYield(
+  async function calculateRPlanetAssetYield(
     schema: string,
     rarities: RarityConfig[]
   ) {
@@ -58,13 +59,25 @@
     if (schema.startsWith("rigs")) {
       assetYield = rarityConf.one_asset_value / 10000;
     } else if (schema.startsWith("elements")) {
-      throw "We are working on this!";
+      const rateMods = $rateModsStore;
+
+      const template = asset.template.template_id as any;
+      const rateMod = rateMods.get(Number.parseFloat(template));
+      console.log({
+        rateMods,
+        template,
+        rateMod,
+      });
+      if (!rateMod) {
+        throw `Template ID [${template}] not found on RPlanet ratemods configuration`;
+      }
+      assetYield = (rarityConf.one_asset_value * rateMod.modifier) / 10000000;
     } else {
       throw `Schema [${schema}] of collection [${RPLANET_COLLECTION}] is not stakeable or we don't implemented it yet!`;
     }
   }
 
-  function calculatePooledAssetYield(
+  async function calculatePooledAssetYield(
     collection: string,
     schema: string,
     rarities: RarityConfig[]
