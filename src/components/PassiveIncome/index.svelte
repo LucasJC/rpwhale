@@ -1,7 +1,7 @@
 <script lang="ts">
   import Table from "./PeriodicIncomeTable.svelte";
   import LandsTable from "./Lands.svelte";
-  import { miningPowerStore } from "../../domain/staking";
+  import { miningPowerStore } from "../../domain/account-staking";
   import { rplanetPrices, waxPrice } from "../../domain/currencies";
   import { accountLands } from "../../domain/land";
 

@@ -70,6 +70,7 @@ export default {
     replace({
       'Object.defineProperty(exports, "__esModule", { value: true });': "",
       delimiters: ["\n", "\n"],
+      preventAssignment: true,
     }),
     typescript({
       sourceMap: !production,

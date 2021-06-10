@@ -1,7 +1,12 @@
 <script lang="ts">
-  import type { ListingAsset } from "../dal/atomic-market";
-  import { atomicMarket } from "../dal/atomic-market";
-  import type { RarityConfig } from "../dal/rplanet";
+  import {
+    calculatePooledAssetYield,
+    calculateRPlanetAssetYield,
+    findAsset,
+    findSchemaRarity,
+    RPLANET_COLLECTION,
+  } from "../domain/asset-staking";
+  import type { ListingAsset } from "../domain/asset-staking";
   import { format } from "../domain/currencies";
   import {
     poolsStakingConfigStore,
@@ -16,105 +21,32 @@
   let assetRarity: string;
   let error: string | undefined;
 
-  const RPLANET_COLLECTION = "rplanet";
-
   async function calculateYield() {
     try {
-      const id = assetId.replace("#", "").trim();
-      asset = await atomicMarket().getAsset(id);
-      if (!asset) {
-        error = "Asset not found";
-        return;
-      }
-    } catch (err) {
-      error = "Asset not available";
-      return;
-    }
-
-    const rarities = $rarityConfigStore;
-    const collection = asset.collection.collection_name;
-    const schema = asset.schema.schema_name;
-    try {
-      if (RPLANET_COLLECTION === collection) {
-        await calculateRPlanetAssetYield(schema, rarities);
+      asset = await findAsset(assetId);
+      const rarities = $rarityConfigStore;
+      const schemaRarityConf = findSchemaRarity(asset, rarities);
+      assetRarity = asset.data[schemaRarityConf.rarity_id];
+      updateImage(asset, schemaRarityConf.img_id);
+      if (RPLANET_COLLECTION === asset.collection.collection_name) {
+        const rateMods = $rateModsStore;
+        assetYield = await calculateRPlanetAssetYield(
+          asset,
+          schemaRarityConf,
+          rateMods
+        );
       } else {
-        await calculatePooledAssetYield(collection, schema, rarities);
+        const pools = $poolsStakingConfigStore;
+        assetYield = await calculatePooledAssetYield(
+          asset,
+          schemaRarityConf,
+          pools
+        );
       }
       error = undefined;
     } catch (err) {
       error = err;
     }
-  }
-
-  async function calculateRPlanetAssetYield(
-    schema: string,
-    rarities: RarityConfig[]
-  ) {
-    const rarityConf = findAssetRarity(
-      asset,
-      RPLANET_COLLECTION,
-      schema,
-      rarities
-    );
-    if (schema.startsWith("rigs")) {
-      assetYield = rarityConf.one_asset_value / 10000;
-    } else if (schema.startsWith("elements")) {
-      const rateMods = $rateModsStore;
-
-      const template = asset.template.template_id as any;
-      const rateMod = rateMods.get(Number.parseFloat(template));
-      console.log({
-        rateMods,
-        template,
-        rateMod,
-      });
-      if (!rateMod) {
-        throw `Template ID [${template}] not found on RPlanet ratemods configuration`;
-      }
-      assetYield = (rarityConf.one_asset_value * rateMod.modifier) / 10000000;
-    } else {
-      throw `Schema [${schema}] of collection [${RPLANET_COLLECTION}] is not stakeable or we don't implemented it yet!`;
-    }
-  }
-
-  async function calculatePooledAssetYield(
-    collection: string,
-    schema: string,
-    rarities: RarityConfig[]
-  ) {
-    const pools = $poolsStakingConfigStore;
-    const pool = pools.get(asset.collection.collection_name);
-    if (!pool) {
-      throw "No pool found for this collection :(";
-    }
-
-    const rarityConf = findAssetRarity(asset, collection, schema, rarities);
-    const fraction = Number.parseFloat(pool.fraction.split(" ")[0]) * 10000;
-    const assetValue = rarityConf.one_asset_value;
-    assetYield = (assetValue * fraction) / (pool.staked * 10000 + assetValue);
-  }
-
-  function findAssetRarity(
-    asset: ListingAsset,
-    collection: string,
-    schema: string,
-    rarities: RarityConfig[]
-  ) {
-    const schemaRarityConf = rarities.find(
-      (rar) => rar.collection === collection && rar.schema === schema
-    );
-    if (!schemaRarityConf) {
-      throw `Schema [${schema}] was not found in collection [${collection}] configuration for RPlanet :(`;
-    }
-    assetRarity = asset.data[schemaRarityConf.rarity_id];
-    const rarityConf = schemaRarityConf.rarities.find(
-      (rar) => rar.rarity === assetRarity
-    );
-    if (!rarityConf) {
-      throw `Rarity [${assetRarity}] was not found in RPlanet configuration for collection [${collection}] and schema [${schema}] :(`;
-    }
-    updateImage(asset, schemaRarityConf.img_id);
-    return rarityConf;
   }
 
   function updateImage(asset: ListingAsset, imgField: string) {

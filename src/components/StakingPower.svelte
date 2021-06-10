@@ -5,7 +5,7 @@
     accountStakingConfigStore,
     calcMiningPower,
     calcTotals,
-  } from "../domain/staking";
+  } from "../domain/account-staking";
   import { format } from "../domain/currencies";
 
   let collectionsStaking: AccountCollectionStaking[] = [];
