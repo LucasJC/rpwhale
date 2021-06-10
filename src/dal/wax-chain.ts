@@ -6,7 +6,7 @@ export async function getTableRows<T>(
   table: string,
   lower_bound = "",
   upper_bound = ""
-): Promise<Array<T>> {
+): Promise<{ rows: Array<T>; next_key?: number }> {
   const url = WAX_CHAIN_HOST + "/v1/chain/get_table_rows";
   const options = {
     method: "POST",
@@ -26,7 +26,10 @@ export async function getTableRows<T>(
   };
   const res = await fetch(url, options);
   const body = await res.json();
-  return body.rows;
+  return {
+    rows: body.rows,
+    next_key: body.next_key,
+  };
 }
 
 /**
@@ -48,5 +51,12 @@ export interface WaxAsset {
 export async function getAccountAssets(
   account: string
 ): Promise<Array<WaxAsset>> {
-  return getTableRows("atomicassets", account, "assets", "", "");
+  const r = await getTableRows<WaxAsset>(
+    "atomicassets",
+    account,
+    "assets",
+    "",
+    ""
+  );
+  return r.rows;
 }

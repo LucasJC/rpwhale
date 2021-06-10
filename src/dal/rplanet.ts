@@ -35,12 +35,42 @@ export interface AccountCollectionStaking {
   miningPower?: number;
 }
 
+export interface RateMod {
+  id: number;
+  modifier: number;
+}
+
 export async function fetchRarityConfigs(): Promise<RarityConfig[]> {
-  return getTableRows<RarityConfig>("s.rplanet", "s.rplanet", "collections");
+  const r = await getTableRows<RarityConfig>(
+    "s.rplanet",
+    "s.rplanet",
+    "collections"
+  );
+  return r.rows;
 }
 
 export async function fetchStakingConfigs(): Promise<PoolConfig[]> {
-  return getTableRows<PoolConfig>("s.rplanet", "s.rplanet", "pools");
+  const r = await getTableRows<PoolConfig>("s.rplanet", "s.rplanet", "pools");
+  return r.rows;
+}
+
+export async function fetchRateMods(): Promise<Map<number, RateMod>> {
+  const map = new Map<number, RateMod>();
+  let mods;
+  let nextKey;
+  do {
+    console.log("getting ratemods...");
+    mods = await getTableRows<RateMod>(
+      "s.rplanet",
+      "atomicassets",
+      "ratemods",
+      nextKey
+    );
+    mods.rows.forEach((m) => map.set(m.id, m));
+    nextKey = mods.next_key?.toString();
+    console.log("NextKey: " + nextKey);
+  } while (nextKey);
+  return map;
 }
 
 export async function fetchAccountCollectionStaking(
@@ -54,7 +84,7 @@ export async function fetchAccountCollectionStaking(
     account,
     account
   );
-  const staking = result[0];
+  const staking = result.rows[0];
   if (staking) {
     staking.collection = collection;
   }
