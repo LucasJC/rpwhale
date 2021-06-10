@@ -1,4 +1,4 @@
-import { fetchStakingConfigs, PoolConfig } from "../dal/rplanet";
+import { fetchRarityConfigs, fetchStakingConfigs, PoolConfig, RarityConfig } from "../dal/rplanet";
 import { readable } from "svelte/store";
 
 export const poolsStakingConfigStore = readable<Map<string, PoolConfig>>(
@@ -9,6 +9,10 @@ export const poolsStakingConfigStore = readable<Map<string, PoolConfig>>(
     );
   }
 );
+
+export const rarityConfigStore = readable<RarityConfig[]>([], (set) => {
+  fetchRarityConfigs().then(rars => set(rars));
+});
 
 export async function getCurrencyBalance(
   account: string
