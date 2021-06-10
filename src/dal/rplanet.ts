@@ -17,12 +17,14 @@ export interface RarityConfig {
   name_id: string;
   rarity_id: string;
   img_id: string;
-  rarities: [{ 
-    rarity: string, 
-    uniq_assets: number, 
-    one_asset_value: number, 
-    collection_value: number 
-  }];
+  rarities: [
+    {
+      rarity: string;
+      uniq_assets: number;
+      one_asset_value: number;
+      collection_value: number;
+    }
+  ];
 }
 
 export interface AccountCollectionStaking {
