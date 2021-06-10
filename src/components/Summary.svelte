@@ -1,10 +1,10 @@
 <script lang="ts">
-  import * as Staking from "../domain/staking";
+  import * as Staking from "../domain/account-staking";
   import * as Balance from "../domain/balance";
   import { format, rplanetPrices, waxPrice } from "../domain/currencies";
   import { userStore } from "../domain/user";
   import { currencyBalance } from "../domain/balance";
-  import { miningPowerStore } from "../domain/staking";
+  import { miningPowerStore } from "../domain/account-staking";
   import { landsIncomeStore } from "../domain/land";
 
   $: rank = Staking.getRank($miningPowerStore);

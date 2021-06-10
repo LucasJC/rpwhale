@@ -17,14 +17,13 @@ export interface RarityConfig {
   name_id: string;
   rarity_id: string;
   img_id: string;
-  rarities: [
-    {
-      rarity: string;
-      uniq_assets: number;
-      one_asset_value: number;
-      collection_value: number;
-    }
-  ];
+  rarities: Rarity[];
+}
+export interface Rarity {
+  rarity: string;
+  uniq_assets: number;
+  one_asset_value: number;
+  collection_value: number;
 }
 
 export interface AccountCollectionStaking {
@@ -59,7 +58,6 @@ export async function fetchRateMods(): Promise<Map<number, RateMod>> {
   let mods;
   let nextKey;
   do {
-    console.log("getting ratemods...");
     mods = await getTableRows<RateMod>(
       "s.rplanet",
       "atomicassets",
@@ -68,7 +66,6 @@ export async function fetchRateMods(): Promise<Map<number, RateMod>> {
     );
     mods.rows.forEach((m) => map.set(m.id, m));
     nextKey = mods.next_key?.toString();
-    console.log("NextKey: " + nextKey);
   } while (nextKey);
   return map;
 }

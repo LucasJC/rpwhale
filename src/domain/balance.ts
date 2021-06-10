@@ -1,7 +1,7 @@
 import { derived, Readable } from "svelte/store";
 import { getRPlanetPrice, IPricesInWax } from "./currencies";
 import { getCurrencyBalance } from "./rplanet";
-import { unclaimedAetherStore } from "./staking";
+import { unclaimedAetherStore } from "./account-staking";
 import { userStore } from "./user";
 
 export interface CalculatedBalance {
