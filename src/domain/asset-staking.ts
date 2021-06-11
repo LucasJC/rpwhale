@@ -66,7 +66,6 @@ export async function calculatePooledAssetYield(
     throw "No pool found for this collection :(";
   }
   const rarity = findAssetRarity(asset, collection, schema, schemaRarityConf);
-
   const raritiesYield = raritiesYieldForSchema(schemaRarityConf, pool);
   return {
     assetYield: pooledYieldForRarity(rarity, pool),

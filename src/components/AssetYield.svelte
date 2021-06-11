@@ -14,6 +14,7 @@
     rarityConfigStore,
     rateModsStore,
   } from "../domain/rplanet";
+  import type { Rarity } from "../dal/rplanet";
 
   let assetId: string;
   let asset: ListingAsset;
