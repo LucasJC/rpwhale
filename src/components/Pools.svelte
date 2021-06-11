@@ -45,25 +45,53 @@
 </script>
 
 <div class="section">
-  <p class="title is-4">RPlanet Pools</p>
-  <!-- each collection - show name and pool size -->
-  <!-- each schema - show name -->
-  <!-- each rarity - show name and yield -->
-
+  <p class="title is-4">RPlanet Pools Explorer</p>
+  <p>
+    Here you will find every collection pool and its different rarities. <br />
+    Remember that aether yield for every rarity depends on the amount of NFTs staked.
+  </p>
   {#each [...configs] as [pool, schemas]}
-    <p class="title is-5">
-      {pool.id} <span class="tag is-info">{pool.fraction}</span>
-    </p>
-    {#each schemas as schema}
-      <p class="subtitle is-6">{schema.schema}</p>
-      <div class="tile">
-        {#each schema.rarities as rarity}
-          <div class="box m-2" class:crossed-out={rarity.aetherYield <= 0}>
-            <p><strong>{rarity.rarity}</strong></p>
-            <p>{format(rarity.aetherYield)} Aether / hour</p>
+    <div class="section">
+      <div class="level">
+        <div class="level-left">
+          <p class="is-size-5 mt-4 mb-2">
+            Pool: <strong class="is-capitalized">{pool.id}</strong>
+          </p>
+        </div>
+        <div class="level-right">
+          <span class="ml-2 tag is-danger is-medium"
+            >{format(Number.parseFloat(pool.fraction.split(" ")[0]))} Aether/hour</span
+          >
+          <span class="ml-2 tag is-medium"
+            >{format(pool.staked)} Shares Staked</span
+          >
+        </div>
+      </div>
+      <div class="box">
+        {#each schemas as schema, i}
+          <p class="is-size-5 mt-4 mb-2 has-text-centered">
+            Schema: <strong class="is-capitalized">{schema.schema}</strong>
+          </p>
+          <div class="box tile">
+            <table class="table is-narrow is-fullwidth has-text-centered">
+              {#if i == 0}
+                <tr>
+                  <th>Rarity</th>
+                  <th class="has-text-right">Aether Yield</th>
+                </tr>
+              {/if}
+              {#each schema.rarities as rarity}
+                <tr>
+                  <td class="is-italic">{rarity.rarity}</td>
+                  <td class="has-text-right"
+                    ><strong>{format(rarity.aetherYield)} A/hr</strong></td
+                  >
+                </tr>
+              {/each}
+            </table>
           </div>
         {/each}
       </div>
-    {/each}
+    </div>
   {/each}
 </div>
