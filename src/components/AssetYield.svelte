@@ -6,6 +6,7 @@
     findSchemaRarity,
     RPLANET_COLLECTION,
   } from "../domain/asset-staking";
+  import type { RarityYield } from "../domain/asset-staking";
   import type { ListingAsset } from "../domain/asset-staking";
   import { format } from "../domain/currencies";
   import {
@@ -13,14 +14,13 @@
     rarityConfigStore,
     rateModsStore,
   } from "../domain/rplanet";
-  import type { Rarity } from "../dal/rplanet";
 
   let assetId: string;
   let asset: ListingAsset;
   let assetYield: number;
   let assetImage: string | undefined;
   let assetRarity: string;
-  let otherRaritiesYield: { rarity: string; rarityYield: number }[] | undefined;
+  let otherRaritiesYield: RarityYield[] | undefined;
   let error: string | undefined;
 
   async function calculateYield() {
@@ -150,9 +150,9 @@
       </p>
       <div class="tile">
         {#each otherRaritiesYield as other}
-          <div class="box m-2" class:crossed-out={other.rarityYield <= 0}>
+          <div class="box m-2" class:crossed-out={other.aetherYield <= 0}>
             <p><strong>{other.rarity}</strong></p>
-            <p>{format(other.rarityYield)} Aether / hour</p>
+            <p>{format(other.aetherYield)} Aether / hour</p>
           </div>
         {/each}
       </div>
