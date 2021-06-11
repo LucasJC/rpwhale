@@ -1,8 +1,16 @@
 import type { PoolConfig, Rarity, RarityConfig, RateMod } from "../dal/rplanet";
 import { atomicMarket, ListingAsset } from "../dal/atomic-market";
 export type { ListingAsset } from "../dal/atomic-market";
+export type { PoolConfig, RarityConfig } from "../dal/rplanet";
 
 export const RPLANET_COLLECTION = "rplanet";
+
+export interface RarityYield {
+  rarity: string;
+  aetherYield: number;
+  collection: string;
+  schema: string;
+}
 
 export async function findAsset(assetId: string): Promise<ListingAsset> {
   try {
@@ -49,7 +57,7 @@ export async function calculatePooledAssetYield(
   pools: Map<string, PoolConfig>
 ): Promise<{
   assetYield: number;
-  otherRaritiesYield: { rarity: string; rarityYield: number }[];
+  otherRaritiesYield: RarityYield[];
 }> {
   const collection = asset.collection.collection_name;
   const schema = asset.schema.schema_name;
@@ -57,25 +65,28 @@ export async function calculatePooledAssetYield(
   if (!pool) {
     throw "No pool found for this collection :(";
   }
-  const rarityConf = findAssetRarity(
-    asset,
-    collection,
-    schema,
-    schemaRarityConf
-  );
-
-  const raritiesYield = schemaRarityConf.rarities.map((rar) => {
-    return {
-      rarity: rar.rarity,
-      rarityYield: pooledYieldForRarity(rar, pool),
-    };
-  });
+  const rarity = findAssetRarity(asset, collection, schema, schemaRarityConf);
+  const raritiesYield = raritiesYieldForSchema(schemaRarityConf, pool);
   return {
-    assetYield: pooledYieldForRarity(rarityConf, pool),
-    otherRaritiesYield: raritiesYield.sort(
-      (a, b) => a.rarityYield - b.rarityYield
-    ),
+    assetYield: pooledYieldForRarity(rarity, pool),
+    otherRaritiesYield: raritiesYield,
   };
+}
+
+export function raritiesYieldForSchema(
+  rarityConf: RarityConfig,
+  pool: PoolConfig
+): RarityYield[] {
+  return rarityConf.rarities
+    .map((rar) => {
+      return {
+        rarity: rar.rarity,
+        aetherYield: pooledYieldForRarity(rar, pool),
+        collection: rarityConf.collection,
+        schema: rarityConf.schema,
+      };
+    })
+    .sort((a, b) => a.aetherYield - b.aetherYield);
 }
 
 function pooledYieldForRarity(rarity: Rarity, pool: PoolConfig): number {

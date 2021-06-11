@@ -57,14 +57,14 @@
         >
           Asset Staking
         </a>
-        <!--<a
+        <a
           class="navbar-item"
           class:is-active={$location.pathname === "/pools"}
           href="/pools"
           use:link
         >
           Pools
-        </a>-->
+        </a>
         <a
           class="navbar-item"
           class:is-active={$location.pathname === "/donation"}

@@ -12,6 +12,7 @@
   import Summary from "./Summary.svelte";
   import { Router, Route } from "svelte-navigator";
   import AssetYield from "./AssetYield.svelte";
+  import Pools from "./Pools.svelte";
 
   function queryParam(search: string, key: string): any | undefined {
     const params = new URLSearchParams(search);
@@ -43,7 +44,7 @@
       </Route>
 
       <Route path="pools">
-        <div class="section">Work in progress!</div>
+        <Pools />
       </Route>
 
       <Route path="donation">
