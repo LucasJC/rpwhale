@@ -39,7 +39,7 @@ export async function calculateRPlanetAssetYield(
     }
     return (rarityConf.one_asset_value * rateMod.modifier) / 10000000;
   } else {
-    throw `Schema [${schema}] of collection [${RPLANET_COLLECTION}] is not stakeable or we don't implemented it yet!`;
+    throw `Schema [${schema}] of [${RPLANET_COLLECTION}] collection is not stakeable or we don't implemented it yet!`;
   }
 }
 
@@ -47,7 +47,10 @@ export async function calculatePooledAssetYield(
   asset: ListingAsset,
   schemaRarityConf: RarityConfig,
   pools: Map<string, PoolConfig>
-): Promise<number> {
+): Promise<{
+  assetYield: number;
+  otherRaritiesYield: { rarity: string; rarityYield: number }[];
+}> {
   const collection = asset.collection.collection_name;
   const schema = asset.schema.schema_name;
   const pool = pools.get(asset.collection.collection_name);
@@ -60,8 +63,24 @@ export async function calculatePooledAssetYield(
     schema,
     schemaRarityConf
   );
+
+  const raritiesYield = schemaRarityConf.rarities.map((rar) => {
+    return {
+      rarity: rar.rarity,
+      rarityYield: pooledYieldForRarity(rar, pool),
+    };
+  });
+  return {
+    assetYield: pooledYieldForRarity(rarityConf, pool),
+    otherRaritiesYield: raritiesYield.sort(
+      (a, b) => a.rarityYield - b.rarityYield
+    ),
+  };
+}
+
+function pooledYieldForRarity(rarity: Rarity, pool: PoolConfig): number {
   const fraction = Number.parseFloat(pool.fraction.split(" ")[0]) * 10000;
-  const assetValue = rarityConf.one_asset_value;
+  const assetValue = rarity.one_asset_value;
   const staked = pool.staked * 10000;
   return (assetValue * fraction) / (staked + assetValue);
 }
@@ -76,7 +95,7 @@ export function findSchemaRarity(
     (rar) => rar.collection === collection && rar.schema === schema
   );
   if (!schemaRarityConf) {
-    throw `Schema [${schema}] was not found in collection [${collection}] configuration for RPlanet :(`;
+    throw `Schema [${schema}] was not found in [${collection}] collection configuration for RPlanet :(`;
   }
   return schemaRarityConf;
 }

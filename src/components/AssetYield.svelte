@@ -13,16 +13,20 @@
     rarityConfigStore,
     rateModsStore,
   } from "../domain/rplanet";
+  import type { Rarity } from "../dal/rplanet";
 
   let assetId: string;
   let asset: ListingAsset;
   let assetYield: number;
-  let assetImage: string;
+  let assetImage: string | undefined;
   let assetRarity: string;
+  let otherRaritiesYield: { rarity: string; rarityYield: number }[] | undefined;
   let error: string | undefined;
 
   async function calculateYield() {
     try {
+      otherRaritiesYield = undefined;
+      assetImage = undefined;
       asset = await findAsset(assetId);
       const rarities = $rarityConfigStore;
       const schemaRarityConf = findSchemaRarity(asset, rarities);
@@ -37,11 +41,13 @@
         );
       } else {
         const pools = $poolsStakingConfigStore;
-        assetYield = await calculatePooledAssetYield(
+        const pooledRaritiesYield = await calculatePooledAssetYield(
           asset,
           schemaRarityConf,
           pools
         );
+        assetYield = pooledRaritiesYield.assetYield;
+        otherRaritiesYield = pooledRaritiesYield.otherRaritiesYield;
       }
       error = undefined;
     } catch (err) {
@@ -91,7 +97,14 @@
   </form>
 
   {#if error}
-    <p class="m-4 tag is-danger is-light is-medium">{error}</p>
+    <div class="columns is-centered">
+      <div class="column is-one-third has-text-centered">
+        <figure class="image">
+          <img src="image/sorry.png" alt="img" />
+        </figure>
+        <p class="has-background-danger-light has-text-danger-dark">{error}</p>
+      </div>
+    </div>
   {:else if asset}
     <div class="m-4 columns is-vcentered">
       <div class="column is-one-quarter" />
@@ -103,7 +116,9 @@
         {/if}
       </div>
       <div class="column is-one-quarter">
-        <p class="title is-4 mb-4">{format(assetYield)} Aether / hour</p>
+        <p class="title is-4 mb-4" class:crossed-out={assetYield <= 0}>
+          {format(assetYield)} Aether / hour
+        </p>
         <table class="table is-narrow has-text-centered">
           <tr>
             <th>Asset</th>
@@ -128,5 +143,25 @@
         </table>
       </div>
     </div>
+
+    {#if otherRaritiesYield}
+      <p class="title is-5">
+        Other rarities for schema "{asset.schema.schema_name}"
+      </p>
+      <div class="tile">
+        {#each otherRaritiesYield as other}
+          <div class="box m-2" class:crossed-out={other.rarityYield <= 0}>
+            <p><strong>{other.rarity}</strong></p>
+            <p>{format(other.rarityYield)} Aether / hour</p>
+          </div>
+        {/each}
+      </div>
+    {/if}
   {/if}
 </div>
+
+<style>
+  .crossed-out {
+    text-decoration: line-through;
+  }
+</style>
