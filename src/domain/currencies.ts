@@ -57,16 +57,10 @@ export function format(input: any): string {
   } else if (input && (typeof input === "string" || input instanceof String)) {
     numberToFormat = Number.parseFloat(input as string);
   }
-  const result = numberToFormat.toLocaleString("en-us", {
+  return numberToFormat.toLocaleString("en-us", {
     minimumFractionDigits: 3,
     maximumFractionDigits: 3,
   });
-  console.log({
-    message: "format",
-    input,
-    result,
-  });
-  return result;
 }
 
 const aetherPrice = readable(0.0, function start(set) {
