@@ -145,16 +145,37 @@
     </div>
 
     {#if otherRaritiesYield}
-      <p class="title is-5">
-        Other rarities for schema "{asset.schema.schema_name}"
-      </p>
-      <div class="tile">
-        {#each otherRaritiesYield as other}
-          <div class="box m-2" class:crossed-out={other.aetherYield <= 0}>
-            <p><strong>{other.rarity}</strong></p>
-            <p>{format(other.aetherYield)} Aether / hour</p>
-          </div>
-        {/each}
+      <div class="block">
+        <p class="title is-5">
+          Other rarities for schema "{asset.schema.schema_name}"
+        </p>
+
+        <table
+          class="table is-narrow is-bordered has-text-centered is-hcentered"
+        >
+          {#each otherRaritiesYield as rarity, i}
+            {#if i == 0}
+              <tr>
+                <th>Rarity</th>
+                <th class="has-text-right">Aether Yield</th>
+              </tr>
+            {/if}
+            <tr
+              class:has-background-info-light={rarity.rarity === assetRarity}
+              class:has-text-info-dark={rarity.rarity === assetRarity}
+            >
+              <td
+                class="is-italic break"
+                class:crossed-out={rarity.aetherYield <= 0}>{rarity.rarity}</td
+              >
+              <td
+                class="has-text-right"
+                class:crossed-out={rarity.aetherYield <= 0}
+                ><strong>{format(rarity.aetherYield)} A/hr</strong></td
+              >
+            </tr>
+          {/each}
+        </table>
       </div>
     {/if}
   {/if}
