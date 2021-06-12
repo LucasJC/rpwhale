@@ -14,7 +14,6 @@
     rarityConfigStore,
     rateModsStore,
   } from "../domain/rplanet";
-  import type { Rarity } from "../dal/rplanet";
 
   let assetId: string;
   let asset: ListingAsset;
@@ -160,9 +159,3 @@
     {/if}
   {/if}
 </div>
-
-<style>
-  .crossed-out {
-    text-decoration: line-through;
-  }
-</style>

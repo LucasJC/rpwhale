@@ -7,7 +7,7 @@
   let isMenuActive = false;
 </script>
 
-<section class="hero">
+<section id="header" class="hero">
   <nav class="navbar hero-body" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <div class="column">

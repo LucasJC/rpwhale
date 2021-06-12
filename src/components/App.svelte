@@ -13,6 +13,7 @@
   import { Router, Route } from "svelte-navigator";
   import AssetYield from "./AssetYield.svelte";
   import Pools from "./Pools.svelte";
+  import GoUpButton from "./GoUpButton.svelte";
 
   function queryParam(search: string, key: string): any | undefined {
     const params = new URLSearchParams(search);
@@ -29,6 +30,7 @@
       <Route path="/" let:location>
         <AccountInput account={queryParam(location.search, "account")} />
         {#if $userStore.account}
+          <GoUpButton />
           <Summary />
           <Currencies />
           <StakingPower />

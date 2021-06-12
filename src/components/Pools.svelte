@@ -13,16 +13,43 @@
     poolsStakingConfigStore,
     rarityConfigStore,
   } from "../domain/rplanet";
+  import GoUpButton from "./GoUpButton.svelte";
 
-  $: configs = load($poolsStakingConfigStore, $rarityConfigStore);
+  let collectionFilter: string | undefined;
+  let schemaFilter: string | undefined;
+  let rarityFilter: string | undefined;
+
+  $: configs = load(
+    $poolsStakingConfigStore,
+    $rarityConfigStore,
+    collectionFilter,
+    schemaFilter,
+    rarityFilter
+  );
 
   function load(
     pools: Map<string, PoolConfig>,
-    schemasRarityConf: RarityConfig[]
+    schemasRarityConf: RarityConfig[],
+    collectionFilter?: string,
+    schemaFilter?: string,
+    rarityFilter?: string
   ): Map<PoolConfig, { schema: string; rarities: RarityYield[] }[]> {
-    const schemas = schemasRarityConf.filter(
+    let schemas = schemasRarityConf.filter(
       (sch) => sch.collection !== RPLANET_COLLECTION
     );
+
+    if (collectionFilter) {
+      schemas = schemas.filter((sch) =>
+        sch.collection.includes(collectionFilter.toLowerCase())
+      );
+    }
+
+    if (schemaFilter) {
+      schemas = schemas.filter((sch) =>
+        sch.schema.includes(schemaFilter.toLowerCase())
+      );
+    }
+
     const configs = new Map<
       PoolConfig,
       { schema: string; rarities: RarityYield[] }[]
@@ -30,19 +57,37 @@
     for (let schema of schemas) {
       const pool = pools.get(schema.collection);
       if (pool) {
-        if (!configs.has(pool)) {
-          configs.set(pool, []);
-        }
-        const poolConf = configs.get(pool);
-        poolConf?.push({
-          schema: schema.schema,
-          rarities: raritiesYieldForSchema(schema, pool),
+        const rarities = raritiesYieldForSchema(schema, pool).filter((rar) => {
+          if (rarityFilter) {
+            return rar.rarity
+              .toLowerCase()
+              .includes(rarityFilter.toLowerCase());
+          }
+          return true;
         });
+        if (rarities.length > 0) {
+          if (!configs.has(pool)) {
+            configs.set(pool, []);
+          }
+          const poolConf = configs.get(pool);
+          poolConf?.push({
+            schema: schema.schema,
+            rarities,
+          });
+        }
       }
     }
     return configs;
   }
+
+  function clearFilters() {
+    collectionFilter = undefined;
+    schemaFilter = undefined;
+    rarityFilter = undefined;
+  }
 </script>
+
+<GoUpButton />
 
 <div class="section">
   <p class="title is-4">RPlanet Pools Explorer</p>
@@ -50,6 +95,39 @@
     Here you will find every collection pool and its different rarities. <br />
     Remember that aether yield for every rarity depends on the amount of NFTs staked.
   </p>
+
+  <div class="form mt-6">
+    <div class="field is-grouped">
+      <div class="control">
+        <input
+          class="input"
+          type="text"
+          placeholder="Collection"
+          bind:value={collectionFilter}
+        />
+      </div>
+      <div class="control">
+        <input
+          class="input"
+          type="text"
+          placeholder="Schema"
+          bind:value={schemaFilter}
+        />
+      </div>
+      <div class="control">
+        <input
+          class="input"
+          type="text"
+          placeholder="Rarity"
+          bind:value={rarityFilter}
+        />
+      </div>
+      <div class="cotrol">
+        <button class="button is-info" on:click={clearFilters}>Clear</button>
+      </div>
+    </div>
+  </div>
+
   {#each [...configs] as [pool, schemas]}
     <div class="section">
       <div class="level">
@@ -72,8 +150,10 @@
           <p class="is-size-5 mt-4 mb-2 has-text-centered">
             Schema: <strong class="is-capitalized">{schema.schema}</strong>
           </p>
-          <div class="box tile">
-            <table class="table is-narrow is-fullwidth has-text-centered">
+          <div>
+            <table
+              class="table is-narrow is-bordered has-text-centered is-hcentered"
+            >
               {#if i == 0}
                 <tr>
                   <th>Rarity</th>
@@ -82,14 +162,21 @@
               {/if}
               {#each schema.rarities as rarity}
                 <tr>
-                  <td class="is-italic">{rarity.rarity}</td>
-                  <td class="has-text-right"
+                  <td
+                    class="is-italic break"
+                    class:crossed-out={rarity.aetherYield <= 0}
+                    >{rarity.rarity}</td
+                  >
+                  <td
+                    class="has-text-right"
+                    class:crossed-out={rarity.aetherYield <= 0}
                     ><strong>{format(rarity.aetherYield)} A/hr</strong></td
                   >
                 </tr>
               {/each}
             </table>
           </div>
+          <hr />
         {/each}
       </div>
     </div>
