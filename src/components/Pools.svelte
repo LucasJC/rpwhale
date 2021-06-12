@@ -75,8 +75,8 @@ import GoUpButton from "./GoUpButton.svelte";
           <p class="is-size-5 mt-4 mb-2 has-text-centered">
             Schema: <strong class="is-capitalized">{schema.schema}</strong>
           </p>
-          <div class="box">
-            <table class="table is-narrow has-text-centered is-hcentered">
+          <div>
+            <table class="table is-narrow is-bordered has-text-centered is-hcentered">
               {#if i == 0}
                 <tr>
                   <th>Rarity</th>
@@ -93,6 +93,7 @@ import GoUpButton from "./GoUpButton.svelte";
               {/each}
             </table>
           </div>
+          <hr>
         {/each}
       </div>
     </div>
