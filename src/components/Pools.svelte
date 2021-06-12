@@ -97,7 +97,7 @@
   </p>
 
   <div class="form mt-6">
-    <div class="field is-grouped">
+    <div class="field is-grouped is-grouped-multiline">
       <div class="control">
         <input
           class="input"
