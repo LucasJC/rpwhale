@@ -1,13 +1,14 @@
 <script lang="ts">
-  import { setToSearch, userStore, wcwLogin } from "../domain/user";
+  import { updateSearch } from "../domain/history";
+  import { ACCOUNT_SEARCH_KEY, userStore, wcwLogin } from "../domain/user";
 
-  export let account: string;
+  export let account: string | undefined;
   let input: string;
 
   $: {
     if (account) {
       userStore.setAccount(account);
-      setToSearch(account);
+      updateSearch(ACCOUNT_SEARCH_KEY, account);
     }
   }
 
