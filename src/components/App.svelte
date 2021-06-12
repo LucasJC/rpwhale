@@ -8,17 +8,13 @@
   import PassiveIncome from "./PassiveIncome/index.svelte";
   import AccountHoldings from "./AccountHoldings.svelte";
   import Currencies from "./Currencies.svelte";
-  import { userStore } from "../domain/user";
+  import { ACCOUNT_SEARCH_KEY, userStore } from "../domain/user";
   import Summary from "./Summary.svelte";
   import { Router, Route } from "svelte-navigator";
   import AssetYield from "./AssetYield.svelte";
   import Pools from "./Pools.svelte";
   import GoUpButton from "./GoUpButton.svelte";
-
-  function queryParam(search: string, key: string): any | undefined {
-    const params = new URLSearchParams(search);
-    return params.get(key);
-  }
+  import { getFromSearch } from "../domain/history";
 </script>
 
 <main>
@@ -27,8 +23,8 @@
     <Router>
       <Header />
 
-      <Route path="/" let:location>
-        <AccountInput account={queryParam(location.search, "account")} />
+      <Route path="/">
+        <AccountInput account={getFromSearch(ACCOUNT_SEARCH_KEY)} />
         {#if $userStore.account}
           <GoUpButton />
           <Summary />
@@ -46,7 +42,11 @@
       </Route>
 
       <Route path="pools">
-        <Pools />
+        <Pools
+          collectionFilter={getFromSearch("collection")}
+          schemaFilter={getFromSearch("schema")}
+          rarityFilter={getFromSearch("rarity")}
+        />
       </Route>
 
       <Route path="donation">

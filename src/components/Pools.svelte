@@ -9,15 +9,20 @@
     RPLANET_COLLECTION,
   } from "../domain/asset-staking";
   import { format } from "../domain/currencies";
+  import { clearSearch, updateSearch } from "../domain/history";
   import {
     poolsStakingConfigStore,
     rarityConfigStore,
   } from "../domain/rplanet";
   import GoUpButton from "./GoUpButton.svelte";
 
-  let collectionFilter: string | undefined;
-  let schemaFilter: string | undefined;
-  let rarityFilter: string | undefined;
+  export const COLLECTION_SEARCH_KEY = "collection";
+  export const SCHEMA_SEARCH_KEY = "schema";
+  export const RARITY_SEARCH_KEY = "rarity";
+
+  export let collectionFilter: string | undefined;
+  export let schemaFilter: string | undefined;
+  export let rarityFilter: string | undefined;
 
   $: configs = load(
     $poolsStakingConfigStore,
@@ -26,6 +31,12 @@
     schemaFilter,
     rarityFilter
   );
+
+  function updateSearchFromFilters() {
+    updateSearch(RARITY_SEARCH_KEY, rarityFilter);
+    updateSearch(SCHEMA_SEARCH_KEY, schemaFilter);
+    updateSearch(COLLECTION_SEARCH_KEY, collectionFilter);
+  }
 
   function load(
     pools: Map<string, PoolConfig>,
@@ -37,6 +48,8 @@
     let schemas = schemasRarityConf.filter(
       (sch) => sch.collection !== RPLANET_COLLECTION
     );
+
+    updateSearchFromFilters();
 
     if (collectionFilter) {
       schemas = schemas.filter((sch) =>
@@ -84,6 +97,7 @@
     collectionFilter = undefined;
     schemaFilter = undefined;
     rarityFilter = undefined;
+    clearSearch();
   }
 </script>
 

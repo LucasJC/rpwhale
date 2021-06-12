@@ -6,14 +6,18 @@
     findSchemaRarity,
     RPLANET_COLLECTION,
   } from "../domain/asset-staking";
-  import type { RarityYield } from "../domain/asset-staking";
-  import type { ListingAsset } from "../domain/asset-staking";
+  import type {
+    RarityYield,
+    ListingAsset,
+    PoolConfig,
+  } from "../domain/asset-staking";
   import { format } from "../domain/currencies";
   import {
     poolsStakingConfigStore,
     rarityConfigStore,
     rateModsStore,
   } from "../domain/rplanet";
+  import type { RarityConfig, RateMod } from "../dal/rplanet";
 
   let assetId: string;
   let asset: ListingAsset;
@@ -23,24 +27,25 @@
   let otherRaritiesYield: RarityYield[] | undefined;
   let error: string | undefined;
 
-  async function calculateYield() {
+  async function calculateYield(
+    rarities: RarityConfig[],
+    rateMods: Map<number, RateMod>,
+    pools: Map<string, PoolConfig>
+  ) {
     try {
       otherRaritiesYield = undefined;
       assetImage = undefined;
       asset = await findAsset(assetId);
-      const rarities = $rarityConfigStore;
-      const schemaRarityConf = findSchemaRarity(asset, rarities);
+      const schemaRarityConf = await findSchemaRarity(asset, rarities);
       assetRarity = asset.data[schemaRarityConf.rarity_id];
       updateImage(asset, schemaRarityConf.img_id);
       if (RPLANET_COLLECTION === asset.collection.collection_name) {
-        const rateMods = $rateModsStore;
         assetYield = await calculateRPlanetAssetYield(
           asset,
           schemaRarityConf,
           rateMods
         );
       } else {
-        const pools = $poolsStakingConfigStore;
         const pooledRaritiesYield = await calculatePooledAssetYield(
           asset,
           schemaRarityConf,
@@ -53,6 +58,14 @@
     } catch (err) {
       error = err;
     }
+  }
+
+  function submitId() {
+    calculateYield(
+      $rarityConfigStore,
+      $rateModsStore,
+      $poolsStakingConfigStore
+    );
   }
 
   function updateImage(asset: ListingAsset, imgField: string) {
@@ -80,7 +93,7 @@
     >.
   </p>
 
-  <form class="form mt-6" on:submit|preventDefault={calculateYield}>
+  <form class="form mt-6" on:submit|preventDefault={submitId}>
     <div class="field is-grouped">
       <div class="control is-expanded">
         <input
@@ -98,7 +111,7 @@
 
   {#if error}
     <div class="columns is-centered">
-      <div class="column is-one-third has-text-centered">
+      <div class="column is-one-quarter has-text-centered">
         <figure class="image">
           <img src="image/sorry.png" alt="img" />
         </figure>

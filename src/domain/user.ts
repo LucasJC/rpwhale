@@ -1,5 +1,6 @@
 import { writable } from "svelte/store";
 import * as waxjs from "@waxio/waxjs/dist";
+import { updateSearch } from "./history";
 
 export const wcw = new waxjs.WaxJS(
   "https://wax.greymass.com",
@@ -18,12 +19,14 @@ export interface IAccountStore {
   client: waxjs.WaxJS;
 }
 
+export const ACCOUNT_SEARCH_KEY = "account";
+
 async function start(): Promise<void> {
   console.log(userStore);
   try {
     userStore.internal.update((state) => ({ ...state, loading: true }));
     const account = await autoLogin();
-    setToSearch(account);
+    updateSearch(ACCOUNT_SEARCH_KEY, account);
     userStore.internal.update((state) => ({
       ...state,
       account,
@@ -77,7 +80,7 @@ export async function wcwLogin(): Promise<void> {
       account,
       isLoggedIn: true,
     }));
-    setToSearch(account);
+    updateSearch(ACCOUNT_SEARCH_KEY, account);
   } catch (err) {
     console.log(err);
     userStore.internal.update((state) => ({
@@ -87,27 +90,5 @@ export async function wcwLogin(): Promise<void> {
     }));
   } finally {
     userStore.internal.update((state) => ({ ...state, loading: false }));
-  }
-}
-
-/**
- * get account for query params
- */
-export function getFromSearch(): string {
-  const search = new URLSearchParams(document.location.search);
-  return search.get("account") || "";
-}
-
-/**
- * get account for query params
- */
-export function setToSearch(account: string): void {
-  const search = new URLSearchParams(document.location.search);
-  if (account) {
-    search.set("account", account);
-    history.pushState(null, document.title, "?" + search.toString());
-  } else {
-    search.delete("account");
-    history.pushState(null, document.title, "/");
   }
 }
