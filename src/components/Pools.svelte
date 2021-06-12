@@ -13,7 +13,7 @@
     poolsStakingConfigStore,
     rarityConfigStore,
   } from "../domain/rplanet";
-import GoUpButton from "./GoUpButton.svelte";
+  import GoUpButton from "./GoUpButton.svelte";
 
   $: configs = load($poolsStakingConfigStore, $rarityConfigStore);
 
@@ -76,7 +76,9 @@ import GoUpButton from "./GoUpButton.svelte";
             Schema: <strong class="is-capitalized">{schema.schema}</strong>
           </p>
           <div>
-            <table class="table is-narrow is-bordered has-text-centered is-hcentered">
+            <table
+              class="table is-narrow is-bordered has-text-centered is-hcentered"
+            >
               {#if i == 0}
                 <tr>
                   <th>Rarity</th>
@@ -85,15 +87,21 @@ import GoUpButton from "./GoUpButton.svelte";
               {/if}
               {#each schema.rarities as rarity}
                 <tr>
-                  <td class="is-italic break" class:crossed-out={rarity.aetherYield <= 0}>{rarity.rarity}</td>
-                  <td class="has-text-right"  class:crossed-out={rarity.aetherYield <= 0}
+                  <td
+                    class="is-italic break"
+                    class:crossed-out={rarity.aetherYield <= 0}
+                    >{rarity.rarity}</td
+                  >
+                  <td
+                    class="has-text-right"
+                    class:crossed-out={rarity.aetherYield <= 0}
                     ><strong>{format(rarity.aetherYield)} A/hr</strong></td
                   >
                 </tr>
               {/each}
             </table>
           </div>
-          <hr>
+          <hr />
         {/each}
       </div>
     </div>

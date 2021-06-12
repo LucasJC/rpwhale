@@ -50,12 +50,23 @@ export interface IPricesInWax {
   WECAN: number;
 }
 
-export function format(input: number | undefined): string {
-  const numberToFormat = input || 0;
-  return numberToFormat.toLocaleString("en-us", {
+export function format(input: any): string {
+  let numberToFormat = 0;
+  if (input && (typeof input === "number" || input instanceof Number)) {
+    numberToFormat = input as number;
+  } else if (input && (typeof input === "string" || input instanceof String)) {
+    numberToFormat = Number.parseFloat(input as string);
+  }
+  const result = numberToFormat.toLocaleString("en-us", {
     minimumFractionDigits: 3,
     maximumFractionDigits: 3,
   });
+  console.log({
+    message: "format",
+    input,
+    result,
+  });
+  return result;
 }
 
 const aetherPrice = readable(0.0, function start(set) {
