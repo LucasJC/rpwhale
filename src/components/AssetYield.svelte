@@ -160,9 +160,3 @@
     {/if}
   {/if}
 </div>
-
-<style>
-  .crossed-out {
-    text-decoration: line-through;
-  }
-</style>

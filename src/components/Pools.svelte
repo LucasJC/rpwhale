@@ -13,6 +13,7 @@
     poolsStakingConfigStore,
     rarityConfigStore,
   } from "../domain/rplanet";
+import GoUpButton from "./GoUpButton.svelte";
 
   $: configs = load($poolsStakingConfigStore, $rarityConfigStore);
 
@@ -44,6 +45,8 @@
   }
 </script>
 
+<GoUpButton />
+
 <div class="section">
   <p class="title is-4">RPlanet Pools Explorer</p>
   <p>
@@ -72,8 +75,8 @@
           <p class="is-size-5 mt-4 mb-2 has-text-centered">
             Schema: <strong class="is-capitalized">{schema.schema}</strong>
           </p>
-          <div class="box tile">
-            <table class="table is-narrow is-fullwidth has-text-centered">
+          <div class="box">
+            <table class="table is-narrow has-text-centered is-hcentered">
               {#if i == 0}
                 <tr>
                   <th>Rarity</th>
@@ -82,8 +85,8 @@
               {/if}
               {#each schema.rarities as rarity}
                 <tr>
-                  <td class="is-italic">{rarity.rarity}</td>
-                  <td class="has-text-right"
+                  <td class="is-italic break" class:crossed-out={rarity.aetherYield <= 0}>{rarity.rarity}</td>
+                  <td class="has-text-right"  class:crossed-out={rarity.aetherYield <= 0}
                     ><strong>{format(rarity.aetherYield)} A/hr</strong></td
                   >
                 </tr>
