@@ -80,7 +80,7 @@
     Type in your NFT ID and press 'Search'.
     <br />
     <br />
-    Found any issue? Let us know 
+    Found any issue? Let us know
     <a href="https://github.com/LucasJC/rpwhale/issues/32" target="_blank"
       >here</a
     >!
