@@ -9,7 +9,7 @@
     maximumFractionDigits: 8,
   }).format;
 
-  const WAX_ADDRESS = "glrrk.wam";
+  const WAX_ADDRESS = "rpwhaleonlne";
   let waxToDonate: number = 200;
 
   let requestedFeature: string = "";
