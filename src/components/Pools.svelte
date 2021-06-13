@@ -52,8 +52,10 @@
     updateSearchFromFilters();
 
     if (collectionFilter) {
-      schemas = schemas.filter((sch) =>
-        sch.collection.includes(collectionFilter.toLowerCase())
+      schemas = schemas.filter(
+        (sch) =>
+          sch.collection.includes(collectionFilter.toLowerCase()) ||
+          sch.author.includes(collectionFilter.toLowerCase())
       );
     }
 
@@ -68,7 +70,11 @@
       { schema: string; rarities: RarityYield[] }[]
     >();
     for (let schema of schemas) {
-      const pool = pools.get(schema.collection);
+      let pool = pools.get(schema.collection);
+      if (!pool) {
+        // try for simple assets
+        pool = pools.get(schema.author);
+      }
       if (pool) {
         const rarities = raritiesYieldForSchema(schema, pool).filter((rar) => {
           if (rarityFilter) {
