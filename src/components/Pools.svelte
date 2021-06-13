@@ -52,8 +52,10 @@
     updateSearchFromFilters();
 
     if (collectionFilter) {
-      schemas = schemas.filter((sch) =>
-        sch.collection.includes(collectionFilter.toLowerCase())
+      schemas = schemas.filter(
+        (sch) =>
+          sch.collection.includes(collectionFilter.toLowerCase()) ||
+          sch.author.includes(collectionFilter.toLowerCase())
       );
     }
 
