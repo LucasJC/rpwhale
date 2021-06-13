@@ -1,47 +1,54 @@
 import type { ListingAsset } from "atomicmarket/build/API/Explorer/Types";
 import { atomicMarket } from "../dal/atomic-market";
-import { getAccountAssets, WaxAsset } from "../dal/wax-chain";
 import { derived, Readable, writable } from "svelte/store";
 import { getRPlanetPrice, IPricesInWax } from "./currencies";
 import { userStore } from "./user";
+import { RPLANET_COLLECTION } from "./asset-staking";
+
+export const enum LAND_TYPE {
+  CAPONIUM = "Caponium",
+  ENEFTERIUM = "Enefterium",
+  WAXON = "Waxon",
+  WECANITE = "Wecanite",
+}
 
 export const landsIncomeStore = writable(0.0);
 
-export const accountAssets: Readable<Array<WaxAsset>> = derived(
+export const accountAssets: Readable<ListingAsset[]> = derived(
   userStore,
   ($userStore, set) => {
-    getAccountAssets($userStore.account).then((assets) => set(assets || []));
+    atomicMarket()
+      .getAssets({
+        owner: $userStore.account,
+        collection_name: RPLANET_COLLECTION,
+      })
+      .then((assets) => set(assets || []));
   },
-  [] as Array<WaxAsset>
+  [] as ListingAsset[]
 );
 
 export const accountLands: Readable<Array<ListingAsset>> = derived(
-  accountAssets,
-  ($accountAssets, set) => {
-    async function doWork(): Promise<void> {
-      const lands = getLands($accountAssets);
-      const landAssets = await Promise.all(
-        lands.map((land) => atomicMarket().getAsset(land.asset_id))
-      );
-      set(landAssets || []);
-    }
-    doWork();
+  userStore,
+  ($userStore, set) => {
+    atomicMarket()
+      .getAssets(
+        {
+          owner: $userStore.account,
+          collection_name: RPLANET_COLLECTION,
+        },
+        0,
+        500
+      )
+      .then((assets) => {
+        landsIncomeStore.set(0.0);
+        assets = assets.filter((asset) =>
+          asset.schema.schema_name.includes("land")
+        );
+        set(assets || []);
+      });
   },
   [] as Array<ListingAsset>
 );
-
-export function getLands(assets: Array<WaxAsset>): Array<WaxAsset> {
-  // TODO change logic to not have to do this
-  landsIncomeStore.set(0.0);
-
-  const rpAssets = assets.filter(
-    (asset) => asset.collection_name === "rplanet"
-  );
-  const lands = rpAssets.filter((asset) => asset.schema_name.includes("lands"));
-
-  return lands;
-}
-
 export interface ILandYield {
   // TODO change this field to soemthing better like "mineral" or "landKind"
   id: string;

@@ -31,32 +31,3 @@ export async function getTableRows<T>(
     next_key: body.next_key,
   };
 }
-
-/**
- * @deprecated replace with atomic assets lib integration
- */
-export interface WaxAsset {
-  asset_id: string;
-  collection_name: string;
-  schema_name: string;
-  template_id: number;
-  ram_payer: string;
-  immutable_serialized_data: number[];
-  mutable_serialized_data: number[];
-}
-
-/**
- * @deprecated replace with atomic assets lib integration
- */
-export async function getAccountAssets(
-  account: string
-): Promise<Array<WaxAsset>> {
-  const r = await getTableRows<WaxAsset>(
-    "atomicassets",
-    account,
-    "assets",
-    "",
-    ""
-  );
-  return r.rows;
-}

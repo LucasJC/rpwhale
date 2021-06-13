@@ -1,4 +1,4 @@
-export enum ALCOR_MARKET {
+export const enum ALCOR_MARKET {
   AETHER = 29,
   WECAN = 41,
   CAPON = 43,

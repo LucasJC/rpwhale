@@ -1,6 +1,6 @@
 <script lang="ts">
+  import type { ListingAsset } from "../../domain/asset-staking";
   import { format, rplanetPrices, waxPrice } from "../../domain/currencies";
-  import type { ListingAsset } from "../../dal/atomic-market";
   import * as Land from "../../domain/land";
   import Table from "./PeriodicIncomeTable.svelte";
 
@@ -31,32 +31,28 @@
   ];
 </script>
 
-<div>
-  <div class="columns">
-    <div class="column">
-      <p class="subtitle has-text-centered">Hourly Yield</p>
-      <table
-        class="table is-bordered is-striped is-narrow is-fullwidth has-text-centered"
-      >
+<div class="columns">
+  <div class="column">
+    <p class="subtitle has-text-centered">Hourly Yield</p>
+    <table class="table is-bordered is-narrow is-fullwidth has-text-centered">
+      <tr>
+        <th>Mineral</th>
+        <th>Amount</th>
+      </tr>
+      {#each rows as row}
         <tr>
-          <th>Mineral</th>
-          <th>Amount</th>
+          <td class="is-capitalized">{row.id.toLowerCase()}</td>
+          <td class="has-text-right">{format(row.value)}</td>
         </tr>
-        {#each rows as row}
-          <tr>
-            <td>{row.id}</td>
-            <td class="has-text-right">{format(row.value)}</td>
-          </tr>
-        {/each}
-      </table>
-    </div>
-    {#each tables as table}
-      <div class="column">
-        <p class="subtitle has-text-centered">
-          {table.label}
-        </p>
-        <Table hourlyAmount={table.mp} />
-      </div>
-    {/each}
+      {/each}
+    </table>
   </div>
+  {#each tables as table}
+    <div class="column">
+      <p class="subtitle has-text-centered">
+        {table.label}
+      </p>
+      <Table hourlyAmount={table.mp} />
+    </div>
+  {/each}
 </div>
