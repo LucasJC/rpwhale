@@ -12,6 +12,7 @@ export interface PoolConfig {
 export interface RarityConfig {
   id: string;
   contract: "simpleassets" | "atomicassets" | string;
+  author: string;
   collection: string;
   schema: string;
   name_id: string;

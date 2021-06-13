@@ -4,11 +4,12 @@
     calculateRPlanetAssetYield,
     findAsset,
     findSchemaRarity,
+    getImageURL,
     RPLANET_COLLECTION,
   } from "../domain/asset-staking";
   import type {
     RarityYield,
-    ListingAsset,
+    StakeableAsset,
     PoolConfig,
   } from "../domain/asset-staking";
   import { format } from "../domain/currencies";
@@ -20,12 +21,12 @@
   import type { RarityConfig, RateMod } from "../dal/rplanet";
 
   let assetId: string;
-  let asset: ListingAsset;
   let assetYield: number;
   let assetImage: string | undefined;
   let assetRarity: string;
   let otherRaritiesYield: RarityYield[] | undefined;
   let error: string | undefined;
+  let asset: StakeableAsset | undefined;
 
   async function calculateYield(
     rarities: RarityConfig[],
@@ -36,10 +37,13 @@
       otherRaritiesYield = undefined;
       assetImage = undefined;
       asset = await findAsset(assetId);
+      if (!asset) {
+        throw "Asset not available";
+      }
       const schemaRarityConf = await findSchemaRarity(asset, rarities);
       assetRarity = asset.data[schemaRarityConf.rarity_id];
-      updateImage(asset, schemaRarityConf.img_id);
-      if (RPLANET_COLLECTION === asset.collection.collection_name) {
+      assetImage = getImageURL(asset, schemaRarityConf.img_id);
+      if (RPLANET_COLLECTION === asset.collection) {
         assetYield = await calculateRPlanetAssetYield(
           asset,
           schemaRarityConf,
@@ -67,30 +71,19 @@
       $poolsStakingConfigStore
     );
   }
-
-  function updateImage(asset: ListingAsset, imgField: string) {
-    const img = asset.data[imgField] as string;
-    if (img && img.startsWith("http")) {
-      assetImage = img;
-    } else {
-      assetImage = `https://ipfs.io/ipfs/${img}`;
-    }
-  }
 </script>
 
 <div class="section">
   <p class="title is-4">Asset Staking Calculator</p>
 
   <p class="mt-4">
-    Type your NFT ID into the input and press 'Search'.
+    Type in your NFT ID and press 'Search'.
     <br />
-    Please keep in mind that this calculator is still under development so you may
-    find a bug or two. We are also only considering atomic assets for now.
     <br />
-    You may let us know of any issue you encounter
+    Found any issue? Let us know 
     <a href="https://github.com/LucasJC/rpwhale/issues/32" target="_blank"
       >here</a
-    >.
+    >!
   </p>
 
   <form class="form mt-6" on:submit|preventDefault={submitId}>
@@ -135,7 +128,7 @@
         <table class="table is-narrow has-text-centered">
           <tr>
             <th>Asset</th>
-            <td>{asset.asset_id}</td>
+            <td>{assetId}</td>
           </tr>
           <tr>
             <th>Name</th>
@@ -143,15 +136,19 @@
           </tr>
           <tr>
             <th>Collection</th>
-            <td>{asset.collection.collection_name}</td>
+            <td>{asset.collection}</td>
           </tr>
           <tr>
             <th>Schema</th>
-            <td>{asset.schema.schema_name}</td>
+            <td>{asset.schema}</td>
           </tr>
           <tr>
             <th>Rarity</th>
             <td>{assetRarity}</td>
+          </tr>
+          <tr>
+            <th>Owner</th>
+            <td>{asset.owner}</td>
           </tr>
         </table>
       </div>
@@ -160,7 +157,7 @@
     {#if otherRaritiesYield}
       <div class="block">
         <p class="title is-5">
-          Other rarities for schema "{asset.schema.schema_name}"
+          Other rarities for schema "{asset.schema}"
         </p>
 
         <table

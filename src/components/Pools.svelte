@@ -68,7 +68,11 @@
       { schema: string; rarities: RarityYield[] }[]
     >();
     for (let schema of schemas) {
-      const pool = pools.get(schema.collection);
+      let pool = pools.get(schema.collection);
+      if (!pool) {
+        // try for simple assets
+        pool = pools.get(schema.author);
+      }
       if (pool) {
         const rarities = raritiesYieldForSchema(schema, pool).filter((rar) => {
           if (rarityFilter) {
