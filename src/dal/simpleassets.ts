@@ -1,5 +1,3 @@
-import { getTableRows } from "./wax-chain";
-
 export interface SimpleAsset {
   assetId: string;
   owner: string;

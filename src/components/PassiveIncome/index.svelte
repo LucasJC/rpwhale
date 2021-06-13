@@ -1,6 +1,6 @@
 <script lang="ts">
   import Table from "./PeriodicIncomeTable.svelte";
-  import LandsTable from "./Lands.svelte";
+  import LandsTable from "./LandsIncome.svelte";
   import { miningPowerStore } from "../../domain/account-staking";
   import { rplanetPrices, waxPrice } from "../../domain/currencies";
   import { accountLands } from "../../domain/land";
@@ -15,7 +15,7 @@
 
 {#if $miningPowerStore > 0}
   <div class="section">
-    <p class="subtitle">Staking passive income:</p>
+    <p class="title is-4">Staking Passive Income</p>
     <div class="columns">
       {#each stakingTables as table}
         <div class="column">
@@ -31,7 +31,7 @@
 
 {#if $accountLands?.length > 0}
   <div class="section">
-    <p class="subtitle">Lands passive income:</p>
+    <p class="title is-4">Lands Passive Income</p>
     <LandsTable lands={$accountLands} />
   </div>
 {/if}

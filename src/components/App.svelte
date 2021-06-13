@@ -2,7 +2,7 @@
   import Footer from "./Footer.svelte";
   import Header from "./Header.svelte";
   import Donations from "./Donations/index.svelte";
-  import StakingPower from "./StakingPower.svelte";
+  import AccountStaking from "./AccountStaking.svelte";
   import { GoogleAnalytics } from "@beyonk/svelte-google-analytics";
   import AccountInput from "./AccountInput.svelte";
   import PassiveIncome from "./PassiveIncome/index.svelte";
@@ -15,6 +15,7 @@
   import Pools from "./Pools.svelte";
   import GoUpButton from "./GoUpButton.svelte";
   import { getFromSearch } from "../domain/history";
+  import LandsSummary from "./LandsSummary.svelte";
 </script>
 
 <main>
@@ -29,9 +30,10 @@
           <GoUpButton />
           <Summary />
           <Currencies />
-          <StakingPower />
+          <AccountStaking />
           <PassiveIncome />
           <AccountHoldings />
+          <LandsSummary />
         {:else}
           <Currencies />
         {/if}

@@ -2,15 +2,17 @@
  * set value for given key, preserving current search
  */
 export function updateSearch(key: string, value?: string): void {
-  const currentSearch = document.location.search;
+  let currentSearch = document.location.search;
   const search = new URLSearchParams(currentSearch);
-  if (!value && !currentSearch) {
+  if (!value || value === "") {
     search.delete(key);
+  } else {
+    search.set(key, value);
+  }
+  currentSearch = search.toString();
+  if (!currentSearch || currentSearch === "") {
     clearSearch();
   } else {
-    if (value) {
-      search.set(key, value);
-    }
     history.pushState(
       null,
       document.title,
