@@ -175,7 +175,7 @@ export function findSchemaRarity(
     }
   });
   if (!schemaRarityConf) {
-    throw `Schema [${schema}] was not found in [${collection}] collection configuration for RPlanet :(`;
+    throw `Schema [${schema}] of [${collection}] collection was not found in RPlanet configuration :(`;
   }
   return schemaRarityConf;
 }
