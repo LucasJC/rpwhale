@@ -27,6 +27,7 @@
   let otherRaritiesYield: RarityYield[] | undefined;
   let error: string | undefined;
   let asset: StakeableAsset | undefined;
+  let loading: boolean = false;
 
   async function calculateYield(
     rarities: RarityConfig[],
@@ -64,12 +65,17 @@
     }
   }
 
-  function submitId() {
-    calculateYield(
-      $rarityConfigStore,
-      $rateModsStore,
-      $poolsStakingConfigStore
-    );
+  async function submitId() {
+    loading = true;
+    try {
+      calculateYield(
+        await rarityConfigStore.promise,
+        await rateModsStore.promise,
+        await poolsStakingConfigStore.promise
+      );
+    } finally {
+      loading = false;
+    }
   }
 </script>
 
@@ -97,12 +103,14 @@
         />
       </div>
       <div class="control">
-        <button type="submit" class="button is-info">Search</button>
+        <button type="submit" class="button is-info" class:is-loading={loading}
+          >Search</button
+        >
       </div>
     </div>
   </form>
 
-  {#if error}
+  {#if error && !loading}
     <div class="columns is-centered">
       <div class="column is-one-quarter has-text-centered">
         <figure class="image">
@@ -111,7 +119,7 @@
         <p class="has-background-danger-light has-text-danger-dark">{error}</p>
       </div>
     </div>
-  {:else if asset}
+  {:else if asset && !loading}
     <div class="m-4 columns is-vcentered">
       <div class="column is-one-quarter" />
       <div class="column is-one-quarter">
@@ -128,7 +136,7 @@
         <table class="table is-narrow has-text-centered">
           <tr>
             <th>Asset</th>
-            <td>{assetId}</td>
+            <td>{asset.id}</td>
           </tr>
           <tr>
             <th>Name</th>

@@ -65,7 +65,9 @@ export async function fetchRateMods(): Promise<Map<number, RateMod>> {
       "ratemods",
       nextKey
     );
-    mods.rows.forEach((m) => map.set(m.id, m));
+    for (let rm of mods.rows) {
+      map.set(rm.id, rm);
+    }
     nextKey = mods.next_key?.toString();
   } while (nextKey);
   return map;

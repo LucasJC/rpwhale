@@ -8,25 +8,49 @@ import {
 } from "../dal/rplanet";
 import { readable } from "svelte/store";
 
-export const poolsStakingConfigStore = readable<Map<string, PoolConfig>>(
-  new Map(),
-  (set) => {
-    fetchStakingConfigs().then((config) =>
-      set(new Map(config.map((col) => [col.id, col])))
-    );
-  }
-);
+function createPoolsStakingConfigStore() {
+  const internalPromise = fetchStakingConfigs().then(
+    (config) => new Map(config.map((col) => [col.id, col]))
+  );
+  const internal = readable<Map<string, PoolConfig>>(new Map(), (set) => {
+    internalPromise.then((config) => set(config));
+  });
+  return {
+    subscribe: internal.subscribe,
+    promise: internalPromise,
+  };
+}
 
-export const rarityConfigStore = readable<RarityConfig[]>([], (set) => {
-  fetchRarityConfigs().then((rars) => set(rars));
-});
+export const poolsStakingConfigStore = createPoolsStakingConfigStore();
 
-export const rateModsStore = readable<Map<number, RateMod>>(
-  new Map<number, RateMod>(),
-  (set) => {
-    fetchRateMods().then((mods) => set(mods));
-  }
-);
+function createRarityConfigStore() {
+  const internalPromise = fetchRarityConfigs();
+  const internal = readable<RarityConfig[]>([], (set) => {
+    internalPromise.then((rars) => set(rars));
+  });
+  return {
+    subscribe: internal.subscribe,
+    promise: internalPromise,
+  };
+}
+
+export const rarityConfigStore = createRarityConfigStore();
+
+function createRateModsStore() {
+  const internalPromise = fetchRateMods();
+  const internal = readable<Map<number, RateMod>>(
+    new Map<number, RateMod>(),
+    (set) => {
+      internalPromise.then((mods) => set(mods));
+    }
+  );
+  return {
+    subscribe: internal.subscribe,
+    promise: internalPromise,
+  };
+}
+
+export const rateModsStore = createRateModsStore();
 
 export async function getCurrencyBalance(
   account: string
