@@ -6,6 +6,12 @@ export type { PoolConfig, RarityConfig } from "../dal/rplanet";
 
 export const RPLANET_COLLECTION = "rplanet";
 
+export const ASSET_SEARCH_KEY = "asset";
+
+export const COLLECTION_SEARCH_KEY = "collection";
+export const SCHEMA_SEARCH_KEY = "schema";
+export const RARITY_SEARCH_KEY = "rarity";
+
 export interface RarityYield {
   rarity: string;
   aetherYield: number;

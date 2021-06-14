@@ -1,5 +1,6 @@
 <script lang="ts">
   import {
+    ASSET_SEARCH_KEY,
     calculatePooledAssetYield,
     calculateRPlanetAssetYield,
     findAsset,
@@ -19,8 +20,9 @@
     rateModsStore,
   } from "../domain/rplanet";
   import type { RarityConfig, RateMod } from "../dal/rplanet";
+  import { updateSearch } from "../domain/history";
 
-  let assetId: string;
+  export let assetId: string | undefined;
   let assetYield: number;
   let assetImage: string | undefined;
   let assetRarity: string;
@@ -29,12 +31,19 @@
   let asset: StakeableAsset | undefined;
   let loading: boolean = false;
 
+  $: {
+    updateSearch(ASSET_SEARCH_KEY, assetId);
+  }
+
   async function calculateYield(
     rarities: RarityConfig[],
     rateMods: Map<number, RateMod>,
     pools: Map<string, PoolConfig>
   ) {
     try {
+      if (!assetId) {
+        return;
+      }
       otherRaritiesYield = undefined;
       assetImage = undefined;
       asset = await findAsset(assetId);
@@ -77,6 +86,8 @@
       loading = false;
     }
   }
+  // try to submit for first load
+  submitId();
 </script>
 
 <div class="section">

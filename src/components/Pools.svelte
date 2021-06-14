@@ -5,6 +5,11 @@
     RarityConfig,
   } from "../domain/asset-staking";
   import {
+    RARITY_SEARCH_KEY,
+    SCHEMA_SEARCH_KEY,
+    COLLECTION_SEARCH_KEY,
+  } from "../domain/asset-staking";
+  import {
     raritiesYieldForSchema,
     RPLANET_COLLECTION,
   } from "../domain/asset-staking";
@@ -15,10 +20,6 @@
     rarityConfigStore,
   } from "../domain/rplanet";
   import GoUpButton from "./GoUpButton.svelte";
-
-  export const COLLECTION_SEARCH_KEY = "collection";
-  export const SCHEMA_SEARCH_KEY = "schema";
-  export const RARITY_SEARCH_KEY = "rarity";
 
   export let collectionFilter: string | undefined;
   export let schemaFilter: string | undefined;

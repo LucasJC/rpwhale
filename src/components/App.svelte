@@ -16,6 +16,12 @@
   import GoUpButton from "./GoUpButton.svelte";
   import { getFromSearch } from "../domain/history";
   import LandsSummary from "./LandsSummary.svelte";
+  import {
+    ASSET_SEARCH_KEY,
+    COLLECTION_SEARCH_KEY,
+    RARITY_SEARCH_KEY,
+    SCHEMA_SEARCH_KEY,
+  } from "../domain/asset-staking";
 </script>
 
 <main>
@@ -40,14 +46,14 @@
       </Route>
 
       <Route path="asset-staking">
-        <AssetYield />
+        <AssetYield assetId={getFromSearch(ASSET_SEARCH_KEY)} />
       </Route>
 
       <Route path="pools">
         <Pools
-          collectionFilter={getFromSearch("collection")}
-          schemaFilter={getFromSearch("schema")}
-          rarityFilter={getFromSearch("rarity")}
+          collectionFilter={getFromSearch(COLLECTION_SEARCH_KEY)}
+          schemaFilter={getFromSearch(SCHEMA_SEARCH_KEY)}
+          rarityFilter={getFromSearch(RARITY_SEARCH_KEY)}
         />
       </Route>
 
