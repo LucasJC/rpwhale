@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { format, rplanetPrices, waxPrice } from "../domain/currencies";
+  import { rplanetPrices, waxPrice } from "../domain/currencies";
   import { currencyBalance } from "../domain/balance";
   import * as Balance from "../domain/balance";
+  import FormattedPrice from "./FormattedPrice.svelte";
 
   let balances: Array<Balance.CalculatedBalance> = [];
   let totalWax: number = 0;
@@ -26,8 +27,8 @@
       <tr>
         <th>Currency</th>
         <th>Amount</th>
-        <th>Amount in Wax</th>
-        <th>Amount in USD</th>
+        <th>in Wax</th>
+        <th>in USD</th>
       </tr>
       {#each balances as b}
         <tr>
@@ -42,9 +43,9 @@
               />
             </div>
           </td>
-          <td class="has-text-right">{format(b.amount)}</td>
-          <td class="has-text-right">{format(b.waxAmount)}</td>
-          <td class="has-text-right">{format(b.usdAmount)}</td>
+          <td class="has-text-right"><FormattedPrice value={b.amount} /></td>
+          <td class="has-text-right"><FormattedPrice value={b.waxAmount} /></td>
+          <td class="has-text-right"><FormattedPrice value={b.usdAmount} /></td>
         </tr>
       {/each}
       <tr
@@ -52,8 +53,8 @@
       >
         <td>Total</td>
         <td> - </td>
-        <td class="has-text-right">{format(totalWax)}</td>
-        <td class="has-text-right">{format(totalUSD)}</td>
+        <td class="has-text-right"><FormattedPrice value={totalWax} /></td>
+        <td class="has-text-right"><FormattedPrice value={totalUSD} /></td>
       </tr>
     </table>
   </div>

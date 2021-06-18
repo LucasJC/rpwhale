@@ -1,6 +1,24 @@
 <script lang="ts">
-  import { format } from "../../domain/currencies";
-  export let hourlyAmount: number = 0;
+  import FormattedPrice from "../FormattedPrice.svelte";
+  export let labels: Array<string> = [];
+  export let hourlyValues: Array<number> = [0];
+
+  interface IRow {
+    label: string;
+    values: Array<number>;
+  }
+
+  let rows: Array<IRow> = [];
+
+  $: {
+    rows = [
+      { label: "hourly", values: hourlyValues },
+      { label: "daily", values: hourlyValues.map((v) => v * 24) },
+      { label: "weekly", values: hourlyValues.map((v) => v * 24 * 7) },
+      { label: "montly", values: hourlyValues.map((v) => v * 24 * 30) },
+      { label: "yearly", values: hourlyValues.map((v) => v * 24 * 365) },
+    ];
+  }
 </script>
 
 <table
@@ -8,26 +26,19 @@
 >
   <tr>
     <th>Period</th>
-    <th>Amount</th>
+    {#each labels as label}
+      <th>{label}</th>
+    {/each}
   </tr>
-  <tr>
-    <td>hourly</td>
-    <td class="has-text-right">{format(hourlyAmount)}</td>
-  </tr>
-  <tr>
-    <td>daily</td>
-    <td class="has-text-right">{format(hourlyAmount * 24)}</td>
-  </tr>
-  <tr>
-    <td>weekly</td>
-    <td class="has-text-right">{format(hourlyAmount * 24 * 7)}</td>
-  </tr>
-  <tr>
-    <td>monthly</td>
-    <td class="has-text-right">{format(hourlyAmount * 24 * 30)}</td>
-  </tr>
-  <tr>
-    <td>yearly</td>
-    <td class="has-text-right">{format(hourlyAmount * 24 * 365)}</td>
-  </tr>
+
+  {#each rows as row}
+    <tr>
+      <td>{row.label}</td>
+      {#each row.values as value}
+        <td class="has-text-right">
+          <FormattedPrice {value} />
+        </td>
+      {/each}
+    </tr>
+  {/each}
 </table>

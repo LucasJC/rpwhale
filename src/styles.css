@@ -1,0 +1,15 @@
+body {
+  overflow-x: hidden;
+}
+
+/* Tweaks to bulma's default styles */
+@media (max-width: 768px) {
+  .section {
+    padding: 2rem 0.5em;
+  }
+
+  .hero-body {
+    padding: 0;
+    padding-top: 2rem;
+  }
+}

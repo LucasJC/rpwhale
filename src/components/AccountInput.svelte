@@ -22,32 +22,30 @@
   }
 </script>
 
-<main>
-  <div class="section">
-    <form class="form" on:submit|preventDefault={() => (account = input)}>
-      <div class="field is-grouped">
-        <div class="control is-expanded">
-          <input
-            class="input"
-            type="text"
-            placeholder="WAX Account"
-            bind:value={input}
-          />
-        </div>
-        <div class="control">
-          <button type="submit" class="button is-info"> Calculate </button>
-        </div>
-        <div class="control" on:click={login}>
-          <button class="button is-link" class:is-loading={$userStore.loading}>
-            {#if !$userStore.loading}
-              <span class="login-wax" />
-            {/if}
-          </button>
-        </div>
+<div class="section">
+  <form class="form" on:submit|preventDefault={() => (account = input)}>
+    <div class="field is-grouped">
+      <div class="control is-expanded">
+        <input
+          class="input"
+          type="text"
+          placeholder="WAX Account"
+          bind:value={input}
+        />
       </div>
-    </form>
-  </div>
-</main>
+      <div class="control">
+        <button type="submit" class="button is-info"> Calculate </button>
+      </div>
+      <div class="control" on:click={login}>
+        <button class="button is-link" class:is-loading={$userStore.loading}>
+          {#if !$userStore.loading}
+            <span class="login-wax" />
+          {/if}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
 
 <style>
   .login-wax {

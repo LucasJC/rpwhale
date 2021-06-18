@@ -35,7 +35,11 @@
         <span aria-hidden="true" />
       </a>
     </div>
-    <div class="navbar-menu" class:is-active={isMenuActive}>
+    <div
+      class="navbar-menu"
+      class:is-active={isMenuActive}
+      on:click={() => (isMenuActive = !isMenuActive)}
+    >
       <div class="navbar-start">
         <!-- navbar items -->
       </div>

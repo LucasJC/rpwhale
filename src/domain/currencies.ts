@@ -58,8 +58,8 @@ export function format(input: any): string {
     numberToFormat = Number.parseFloat(input as string);
   }
   return numberToFormat.toLocaleString("en-us", {
-    minimumFractionDigits: 3,
-    maximumFractionDigits: 3,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   });
 }
 

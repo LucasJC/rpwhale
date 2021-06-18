@@ -53,10 +53,18 @@
   }
 </script>
 
-<main>
-  <div class="section columns is-centered">
-    {#each currencies as row}
-      <Currency {...row} />
-    {/each}
-  </div>
-</main>
+<div class="section currencies">
+  {#each currencies as row}
+    <Currency {...row} />
+  {/each}
+</div>
+
+<style>
+  .currencies {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+</style>
