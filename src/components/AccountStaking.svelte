@@ -1,4 +1,5 @@
 <script lang="ts">
+  import FormattedPrice from "./FormattedPrice.svelte";
   import type { AccountCollectionStaking } from "../dal/rplanet";
   import { poolsStakingConfigStore } from "../domain/rplanet";
   import {
@@ -37,18 +38,26 @@
       {#each collectionsStaking as cs}
         <tr>
           <td>{cs.collection}</td>
-          <td class="has-text-right"
-            >{format(Number.parseFloat(cs.collected.split(" ")[0]))}</td
-          >
-          <td class="has-text-right">{format(cs?.miningPower)}</td>
+          <td class="has-text-right">
+            <FormattedPrice
+              value={Number.parseFloat(cs.collected.split(" ")[0]) || 0}
+            />
+          </td>
+          <td class="has-text-right">
+            <FormattedPrice value={cs?.miningPower || 0} />
+          </td>
         </tr>
       {/each}
       <tr
         class="has-text-weight-bold has-background-info-light has-text-info-dark"
       >
         <td>Total</td>
-        <td class="has-text-right">{format(totalCollected)}</td>
-        <td class="has-text-right">{format(totalPower)}</td>
+        <td class="has-text-right">
+          <FormattedPrice value={totalCollected} />
+        </td>
+        <td class="has-text-right">
+          <FormattedPrice value={totalPower} />
+        </td>
       </tr>
     </table>
   {:else}
