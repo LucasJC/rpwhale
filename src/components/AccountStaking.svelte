@@ -7,7 +7,6 @@
     calcMiningPower,
     calcTotals,
   } from "../domain/account-staking";
-  import { format } from "../domain/currencies";
 
   let collectionsStaking: AccountCollectionStaking[] = [];
   let totalPower = 0.0;
