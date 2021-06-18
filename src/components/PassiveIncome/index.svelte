@@ -16,16 +16,10 @@
 {#if $miningPowerStore > 0}
   <div class="section">
     <p class="title is-4">Staking Passive Income</p>
-    <div class="columns">
-      {#each stakingTables as table}
-        <div class="column">
-          <p class="subtitle has-text-centered">
-            {table.label}
-          </p>
-          <Table hourlyAmount={table.mp} />
-        </div>
-      {/each}
-    </div>
+    <Table
+      labels={stakingTables.map((t) => t.label)}
+      hourlyValues={stakingTables.map((t) => t.mp)}
+    />
   </div>
 {/if}
 

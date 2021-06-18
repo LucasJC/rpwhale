@@ -47,12 +47,10 @@
       {/each}
     </table>
   </div>
-  {#each tables as table}
-    <div class="column">
-      <p class="subtitle has-text-centered">
-        {table.label}
-      </p>
-      <Table hourlyAmount={table.mp} />
-    </div>
-  {/each}
+  <div class="column">
+    <Table
+      labels={tables.map((t) => t.label)}
+      hourlyValues={tables.map((t) => t.mp)}
+    />
+  </div>
 </div>

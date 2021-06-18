@@ -92,40 +92,42 @@
     <p class="title is-4">Land Assets Summary</p>
     {#each locations as location}
       <p class="title is-5">Lands in {location.name}</p>
-      <table
-        class="table is-bordered is-narrow is-fullwidth has-text-centered is-hcentered"
-      >
-        <tr>
-          <th>Mineral</th>
-          <th>Location</th>
-          <th>Rarity</th>
-          <th>Level</th>
-          <th>Base Rate</th>
-          <th>Quantity</th>
-        </tr>
-        {#each location.lands as land}
-          <tr>
-            <td class={"has-text-weight-semibold " + land.colorClass}
-              >{land.mineral}</td
-            >
-            <td>{land.location}</td>
-            <td>{land.rarity}</td>
-            <td>{land.level}</td>
-            <td>{land.baseRate}</td>
-            <td>{land.quantity}</td>
-          </tr>
-        {/each}
-        <tr
-          class="has-text-weight-bold has-background-info-light has-text-info-dark"
+      <div class="table-container">
+        <table
+          class="table is-bordered is-narrow is-fullwidth has-text-centered is-hcentered"
         >
-          <td>TOTAL</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>-</td>
-          <td>{location.totalLands}</td>
-        </tr>
-      </table>
+          <tr>
+            <th>Mineral</th>
+            <th>Location</th>
+            <th>Rarity</th>
+            <th>Level</th>
+            <th>Base Rate</th>
+            <th>Quantity</th>
+          </tr>
+          {#each location.lands as land}
+            <tr>
+              <td class={"has-text-weight-semibold " + land.colorClass}
+                >{land.mineral}</td
+              >
+              <td>{land.location}</td>
+              <td>{land.rarity}</td>
+              <td>{land.level}</td>
+              <td>{land.baseRate}</td>
+              <td>{land.quantity}</td>
+            </tr>
+          {/each}
+          <tr
+            class="has-text-weight-bold has-background-info-light has-text-info-dark"
+          >
+            <td>TOTAL</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>{location.totalLands}</td>
+          </tr>
+        </table>
+      </div>
     {/each}
   </div>
 {/if}
