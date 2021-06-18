@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { format, rplanetPrices, waxPrice } from "../domain/currencies";
+  import { rplanetPrices, waxPrice } from "../domain/currencies";
   import { currencyBalance } from "../domain/balance";
   import * as Balance from "../domain/balance";
   import FormattedPrice from "./FormattedPrice.svelte";

@@ -22,7 +22,7 @@
   }
 </script>
 
-<div class="section account_input">
+<div class="section">
   <form class="form" on:submit|preventDefault={() => (account = input)}>
     <div class="field is-grouped">
       <div class="control is-expanded">
@@ -55,8 +55,5 @@
     background-position: 50% 50%;
     background-size: contain;
     background-repeat: no-repeat;
-  }
-
-  .account_input {
   }
 </style>

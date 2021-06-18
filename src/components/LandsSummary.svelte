@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { prevent_default } from "svelte/internal";
-
   import type { ListingAsset } from "../domain/asset-staking";
   import { accountLands, LAND_TYPE } from "../domain/land";
 
