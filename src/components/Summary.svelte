@@ -1,7 +1,8 @@
 <script lang="ts">
+  import FormattedPrice from "./FormattedPrice.svelte";
   import * as Staking from "../domain/account-staking";
   import * as Balance from "../domain/balance";
-  import { format, rplanetPrices, waxPrice } from "../domain/currencies";
+  import { rplanetPrices, waxPrice } from "../domain/currencies";
   import { userStore } from "../domain/user";
   import { currencyBalance } from "../domain/balance";
   import { miningPowerStore } from "../domain/account-staking";
@@ -41,7 +42,10 @@
     <div class="level-item has-text-centered">
       <div>
         <p class="heading">Staking Power</p>
-        <p class="title is-2">{format($miningPowerStore)} A/h</p>
+        <p class="title is-2">
+          <FormattedPrice value={$miningPowerStore} />
+          A/h
+        </p>
       </div>
     </div>
     <div class="level-item has-text-centered">
@@ -50,7 +54,10 @@
         data-tooltip="Staking and land passive income in USD"
       >
         <p class="heading">Monthly Income</p>
-        <p class="title is-3">{format(monthlyIncome)} USD</p>
+        <p class="title is-3">
+          <FormattedPrice value={monthlyIncome} />
+          USD
+        </p>
       </div>
     </div>
     <div class="level-item has-text-centered">
@@ -59,7 +66,10 @@
         data-tooltip="We only consider Aether + Minerls in USD"
       >
         <p class="heading">Current RPlanet Holdings</p>
-        <p class="title is-3">{format(currentHoldings)} USD</p>
+        <p class="title is-3">
+          <FormattedPrice value={currentHoldings} />
+          USD
+        </p>
       </div>
     </div>
   </nav>
