@@ -2,6 +2,32 @@ body {
   overflow-x: hidden;
 }
 
+.desaturated {
+  filter: saturate(25%);
+}
+
+.is-hcentered {
+  margin: 0 auto;
+}
+
+.break {
+  word-break: break-all;
+}
+
+.crossed-out {
+  text-decoration: line-through;
+}
+
+.floating {
+  position: fixed;
+  bottom: 2em;
+  right: 1.5em;
+}
+
+.transparent {
+  opacity: 0.4;
+}
+
 /* Tweaks to bulma's default styles */
 @media (max-width: 768px) {
   .section {

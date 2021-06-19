@@ -14,6 +14,6 @@
   }
 </script>
 
-<span class="has-tooltip-bottom has-tooltip-info" data-tooltip={format(value)}>
+<span class="has-tooltip-top has-tooltip-info" data-tooltip={format(value)}>
   {fmtValue}
 </span>
