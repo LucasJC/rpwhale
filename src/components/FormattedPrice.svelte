@@ -9,7 +9,7 @@
     try {
       fmtValue = humanFormat(Number(value.toFixed(2)), { decimals: 2 });
     } catch (err) {
-      console.error(`Failed to format number`, err);
+      console.error(`Failed to format number ${value}`, err);
     }
   }
 </script>

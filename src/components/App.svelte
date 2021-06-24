@@ -14,14 +14,11 @@
   import AssetYield from "./AssetYield.svelte";
   import Pools from "./Pools.svelte";
   import GoUpButton from "./GoUpButton.svelte";
-  import { getFromSearch } from "../domain/history";
+  import { getFromSearch, poolFilters } from "../domain/history";
   import LandsSummary from "./LandsSummary.svelte";
-  import {
-    ASSET_SEARCH_KEY,
-    COLLECTION_SEARCH_KEY,
-    RARITY_SEARCH_KEY,
-    SCHEMA_SEARCH_KEY,
-  } from "../domain/asset-staking";
+  import { ASSET_SEARCH_KEY } from "../domain/asset-staking";
+
+  console.log("app render", $poolFilters);
 </script>
 
 <main>
@@ -50,11 +47,7 @@
       </Route>
 
       <Route path="pools">
-        <Pools
-          collectionFilter={getFromSearch(COLLECTION_SEARCH_KEY)}
-          schemaFilter={getFromSearch(SCHEMA_SEARCH_KEY)}
-          rarityFilter={getFromSearch(RARITY_SEARCH_KEY)}
-        />
+        <Pools filters={$poolFilters} />
       </Route>
 
       <Route path="donation">

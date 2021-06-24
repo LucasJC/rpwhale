@@ -5,106 +5,128 @@
     RarityConfig,
   } from "../domain/asset-staking";
   import {
-    RARITY_SEARCH_KEY,
-    SCHEMA_SEARCH_KEY,
-    COLLECTION_SEARCH_KEY,
-  } from "../domain/asset-staking";
-  import {
     raritiesYieldForSchema,
     RPLANET_COLLECTION,
   } from "../domain/asset-staking";
-  import { format } from "../domain/currencies";
-  import { clearSearch, updateSearch } from "../domain/history";
+  import { clearSearch, setPoolFilters } from "../domain/history";
+  import type { IPoolFilters } from "../domain/history";
   import {
     poolsStakingConfigStore,
     rarityConfigStore,
   } from "../domain/rplanet";
   import GoUpButton from "./GoUpButton.svelte";
+  import Table from "./PoolExplorer/Table.svelte";
+  import type { IPool, ISchemaConfig } from "./PoolExplorer/types";
 
-  export let collectionFilter: string | undefined;
-  export let schemaFilter: string | undefined;
-  export let rarityFilter: string | undefined;
+  export let filters: IPoolFilters = {
+    collection: "",
+    schema: "",
+    rarity: "",
+  };
 
-  $: configs = load(
-    $poolsStakingConfigStore,
-    $rarityConfigStore,
-    collectionFilter,
-    schemaFilter,
-    rarityFilter
-  );
+  let tableData: Array<IPool> = [];
+  let filteredTableData: Array<IPool> = [];
 
-  function updateSearchFromFilters() {
-    updateSearch(RARITY_SEARCH_KEY, rarityFilter);
-    updateSearch(SCHEMA_SEARCH_KEY, schemaFilter);
-    updateSearch(COLLECTION_SEARCH_KEY, collectionFilter);
-  }
-
-  function load(
-    pools: Map<string, PoolConfig>,
-    schemasRarityConf: RarityConfig[],
-    collectionFilter?: string,
-    schemaFilter?: string,
-    rarityFilter?: string
-  ): Map<PoolConfig, { schema: string; rarities: RarityYield[] }[]> {
-    let schemas = schemasRarityConf.filter(
-      (sch) => sch.collection !== RPLANET_COLLECTION
-    );
-
-    updateSearchFromFilters();
-
-    if (collectionFilter) {
-      schemas = schemas.filter(
-        (sch) =>
-          sch.collection.includes(collectionFilter.toLowerCase()) ||
-          sch.author.includes(collectionFilter.toLowerCase())
-      );
-    }
-
-    if (schemaFilter) {
-      schemas = schemas.filter((sch) =>
-        sch.schema.includes(schemaFilter.toLowerCase())
-      );
-    }
-
-    const configs = new Map<
-      PoolConfig,
-      { schema: string; rarities: RarityYield[] }[]
-    >();
-    for (let schema of schemas) {
-      let pool = pools.get(schema.collection);
-      if (!pool) {
-        // try for simple assets
-        pool = pools.get(schema.author);
-      }
-      if (pool) {
-        const rarities = raritiesYieldForSchema(schema, pool).filter((rar) => {
-          if (rarityFilter) {
-            return rar.rarity
-              .toLowerCase()
-              .includes(rarityFilter.toLowerCase());
-          }
-          return true;
-        });
-        if (rarities.length > 0) {
-          if (!configs.has(pool)) {
-            configs.set(pool, []);
-          }
-          const poolConf = configs.get(pool);
-          poolConf?.push({
-            schema: schema.schema,
-            rarities,
-          });
-        }
-      }
-    }
-    return configs;
+  $: {
+    tableData = calcTableData($poolsStakingConfigStore, $rarityConfigStore);
+    filteredTableData = filterTableData(tableData, filters);
   }
 
   function clearFilters() {
-    collectionFilter = undefined;
-    schemaFilter = undefined;
-    rarityFilter = undefined;
     clearSearch();
+  }
+
+  function handleChange(e: Event): void {
+    const name = (e.target as any)?.name;
+    const value = (e.target as any)?.value || "";
+    setPoolFilters({ [name]: value });
+  }
+
+  function filterByCollection(
+    filters: IPoolFilters
+  ): (s: ISchemaConfig) => boolean {
+    return ({ schema }) => {
+      if (!filters.collection) {
+        return true;
+      }
+      return (
+        schema.collection.includes(filters.collection.toLowerCase()) ||
+        schema.author.includes(filters.collection.toLowerCase())
+      );
+    };
+  }
+
+  function filterBySchema(
+    filters: IPoolFilters
+  ): (s: ISchemaConfig) => boolean {
+    return ({ schema }) => {
+      if (!filters.schema) {
+        return true;
+      }
+      return schema.schema.includes(filters.schema.toLowerCase());
+    };
+  }
+
+  function filterByRarity(filters: IPoolFilters): (r: RarityYield) => boolean {
+    return ({ rarity }) => {
+      if (!filters.rarity) {
+        return true;
+      }
+      return rarity.toLowerCase().includes(filters.rarity.toLowerCase());
+    };
+  }
+
+  function filterTableData(
+    data: Array<IPool>,
+    filters: IPoolFilters
+  ): Array<IPool> {
+    return data.map((pool) => {
+      const schemas = pool.schemas
+        .filter(filterByCollection(filters))
+        .filter(filterBySchema(filters))
+        .map((schemaConfig) => ({
+          ...schemaConfig,
+          rarities: schemaConfig.rarities.filter(filterByRarity(filters)),
+        }));
+
+      return {
+        ...pool,
+        schemas,
+      };
+    });
+  }
+
+  function calcTableData(
+    pools: Map<string, PoolConfig>,
+    schemasRarityConf: RarityConfig[]
+  ): Array<IPool> {
+    const schemas = schemasRarityConf.filter(
+      (schema) => schema.collection !== RPLANET_COLLECTION
+    );
+
+    const rowMap = new Map<string, IPool>();
+
+    for (const schema of schemas) {
+      // try for simple assets
+      const pool = pools.get(schema.collection) || pools.get(schema.author);
+      if (!pool) {
+        continue;
+      }
+
+      if (!rowMap.get(pool.id)) {
+        rowMap.set(pool.id, {
+          poolConfig: pool,
+          schemas: [],
+        });
+      }
+
+      rowMap.get(pool.id)?.schemas.push({
+        schema,
+        rarities: raritiesYieldForSchema(schema, pool),
+      });
+    }
+
+    return [...rowMap.values()];
   }
 </script>
 
@@ -121,26 +143,38 @@
     <div class="field is-grouped is-grouped-multiline">
       <div class="control">
         <input
+          name="collection"
           class="input"
           type="text"
           placeholder="Collection"
-          bind:value={collectionFilter}
+          value={filters.collection}
+          on:keyup={handleChange}
+          on:blur={handleChange}
+          on:change={handleChange}
         />
       </div>
       <div class="control">
         <input
+          name="schema"
           class="input"
           type="text"
           placeholder="Schema"
-          bind:value={schemaFilter}
+          value={filters.schema}
+          on:keyup={handleChange}
+          on:blur={handleChange}
+          on:change={handleChange}
         />
       </div>
       <div class="control">
         <input
+          name="rarity"
           class="input"
           type="text"
           placeholder="Rarity"
-          bind:value={rarityFilter}
+          value={filters.rarity}
+          on:keyup={handleChange}
+          on:blur={handleChange}
+          on:change={handleChange}
         />
       </div>
       <div class="cotrol">
@@ -149,57 +183,5 @@
     </div>
   </div>
 
-  {#each [...configs] as [pool, schemas]}
-    <div class="section">
-      <div class="level">
-        <div class="level-left">
-          <p class="is-size-5 mt-4 mb-2">
-            Pool: <strong class="is-capitalized">{pool.id}</strong>
-          </p>
-        </div>
-        <div class="level-right">
-          <span class="ml-2 tag is-danger is-medium"
-            >{format(Number.parseFloat(pool.fraction.split(" ")[0]))} Aether/hour</span
-          >
-          <span class="ml-2 tag is-medium"
-            >{format(pool.staked)} Shares Staked</span
-          >
-        </div>
-      </div>
-      <div class="box">
-        {#each schemas as schema, i}
-          <p class="is-size-5 mt-4 mb-2 has-text-centered">
-            Schema: <strong class="is-capitalized">{schema.schema}</strong>
-          </p>
-          <div>
-            <table
-              class="table is-narrow is-bordered has-text-centered is-hcentered"
-            >
-              {#if i == 0}
-                <tr>
-                  <th>Rarity</th>
-                  <th class="has-text-right">Aether Yield</th>
-                </tr>
-              {/if}
-              {#each schema.rarities as rarity}
-                <tr>
-                  <td
-                    class="is-italic break"
-                    class:crossed-out={rarity.aetherYield <= 0}
-                    >{rarity.rarity}</td
-                  >
-                  <td
-                    class="has-text-right"
-                    class:crossed-out={rarity.aetherYield <= 0}
-                    ><strong>{format(rarity.aetherYield)} A/hr</strong></td
-                  >
-                </tr>
-              {/each}
-            </table>
-          </div>
-          <hr />
-        {/each}
-      </div>
-    </div>
-  {/each}
+  <Table data={filteredTableData} />
 </div>

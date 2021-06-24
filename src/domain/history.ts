@@ -1,3 +1,31 @@
+import { derived, writable } from "svelte/store";
+
+export interface IPoolFilters {
+  collection: string;
+  schema: string;
+  rarity: string;
+}
+
+export const poolFilters = writable<IPoolFilters>(
+  { collection: "", schema: "", rarity: "" },
+  (set) => {
+    set({
+      collection: getFromSearch("collection") || "",
+      schema: getFromSearch("schema") || "",
+      rarity: getFromSearch("rarity") || "",
+    });
+  }
+);
+
+export function setPoolFilters(filters: Partial<IPoolFilters>): void {
+  console.log("setpool filters", filters);
+  Object.entries(filters).forEach(([key, value]) => {
+    updateSearch(key, value);
+  });
+
+  poolFilters.update((prev) => ({ ...prev, ...filters }));
+}
+
 /**
  * set value for given key, preserving current search
  */
