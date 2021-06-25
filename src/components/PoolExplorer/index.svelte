@@ -199,7 +199,7 @@
           name="minYield"
           class="input"
           type="number"
-          placeholder="Minimun Aether/Hour Yield"
+          placeholder="Min. Aether/Hour Yield"
           value={filters.minYield}
           on:keyup={handleChange}
           on:blur={handleChange}

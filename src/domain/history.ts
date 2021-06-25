@@ -4,14 +4,13 @@ export interface IPoolFilters {
   collection: string;
   schema: string;
   rarity: string;
-  minYield: number;
+  minYield?: number;
 }
 
 export const defaultPoolFilters: IPoolFilters = {
   collection: "",
   schema: "",
   rarity: "",
-  minYield: 0.001,
 };
 
 export const poolFilters = writable<IPoolFilters>(
