@@ -17,8 +17,6 @@
   import { getFromSearch, poolFilters } from "../domain/history";
   import LandsSummary from "./LandsSummary.svelte";
   import { ASSET_SEARCH_KEY } from "../domain/asset-staking";
-
-  console.log("app render", $poolFilters);
 </script>
 
 <main>

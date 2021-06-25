@@ -1,4 +1,4 @@
-import { derived, writable } from "svelte/store";
+import { writable } from "svelte/store";
 
 export interface IPoolFilters {
   collection: string;
@@ -18,7 +18,6 @@ export const poolFilters = writable<IPoolFilters>(
 );
 
 export function setPoolFilters(filters: Partial<IPoolFilters>): void {
-  console.log("setpool filters", filters);
   Object.entries(filters).forEach(([key, value]) => {
     updateSearch(key, value);
   });

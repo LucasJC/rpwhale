@@ -3,20 +3,20 @@
     RarityYield,
     PoolConfig,
     RarityConfig,
-  } from "../domain/asset-staking";
+  } from "../../domain/asset-staking";
   import {
     raritiesYieldForSchema,
     RPLANET_COLLECTION,
-  } from "../domain/asset-staking";
-  import { clearSearch, setPoolFilters } from "../domain/history";
-  import type { IPoolFilters } from "../domain/history";
+  } from "../../domain/asset-staking";
+  import { clearSearch, setPoolFilters } from "../../domain/history";
+  import type { IPoolFilters } from "../../domain/history";
   import {
     poolsStakingConfigStore,
     rarityConfigStore,
-  } from "../domain/rplanet";
-  import GoUpButton from "./GoUpButton.svelte";
-  import Table from "./PoolExplorer/Table.svelte";
-  import type { IPool, ISchemaConfig } from "./PoolExplorer/types";
+  } from "../../domain/rplanet";
+  import GoUpButton from "../GoUpButton.svelte";
+  import Table from "../PoolExplorer/Table.svelte";
+  import type { IPool, ISchemaConfig } from "./types";
 
   export let filters: IPoolFilters = {
     collection: "",
