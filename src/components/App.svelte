@@ -12,7 +12,7 @@
   import Summary from "./Summary.svelte";
   import { Router, Route } from "svelte-navigator";
   import AssetYield from "./AssetYield.svelte";
-  import Pools from "./Pools.svelte";
+  import Pools from "./PoolExplorer/index.svelte";
   import GoUpButton from "./GoUpButton.svelte";
   import { getFromSearch, poolFilters } from "../domain/history";
   import LandsSummary from "./LandsSummary.svelte";
