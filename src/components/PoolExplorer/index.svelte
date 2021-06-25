@@ -10,6 +10,7 @@
   } from "../../domain/asset-staking";
   import { clearSearch, setPoolFilters } from "../../domain/history";
   import type { IPoolFilters } from "../../domain/history";
+  import { defaultPoolFilters } from "../../domain/history";
   import {
     poolsStakingConfigStore,
     rarityConfigStore,
@@ -18,18 +19,23 @@
   import Table from "../PoolExplorer/Table.svelte";
   import type { IPool, ISchemaConfig } from "./types";
 
-  export let filters: IPoolFilters = {
-    collection: "",
-    schema: "",
-    rarity: "",
-  };
+  export let filters: IPoolFilters = defaultPoolFilters;
 
   let tableData: Array<IPool> = [];
   let filteredTableData: Array<IPool> = [];
+  let totalCount: number = 0;
+  let filteredCount: number = 0;
 
   $: {
     tableData = calcTableData($poolsStakingConfigStore, $rarityConfigStore);
     filteredTableData = filterTableData(tableData, filters);
+
+    totalCount = tableData.flatMap((pool) =>
+      pool.schemas.flatMap((schema) => schema.rarities)
+    ).length;
+    filteredCount = filteredTableData.flatMap((pool) =>
+      pool.schemas.flatMap((schema) => schema.rarities)
+    ).length;
   }
 
   function clearFilters() {
@@ -76,6 +82,15 @@
     };
   }
 
+  function filterByYield(filters: IPoolFilters): (r: RarityYield) => boolean {
+    return ({ aetherYield }) => {
+      if (!filters.minYield) {
+        return true;
+      }
+      return filters.minYield <= aetherYield;
+    };
+  }
+
   function filterTableData(
     data: Array<IPool>,
     filters: IPoolFilters
@@ -86,7 +101,9 @@
         .filter(filterBySchema(filters))
         .map((schemaConfig) => ({
           ...schemaConfig,
-          rarities: schemaConfig.rarities.filter(filterByRarity(filters)),
+          rarities: schemaConfig.rarities
+            .filter(filterByRarity(filters))
+            .filter(filterByYield(filters)),
         }));
 
       return {
@@ -177,10 +194,23 @@
           on:change={handleChange}
         />
       </div>
+      <div class="control">
+        <input
+          name="minYield"
+          class="input"
+          type="number"
+          placeholder="Minimun Aether/Hour Yield"
+          value={filters.minYield}
+          on:keyup={handleChange}
+          on:blur={handleChange}
+          on:change={handleChange}
+        />
+      </div>
       <div class="cotrol">
         <button class="button is-info" on:click={clearFilters}>Clear</button>
       </div>
     </div>
+    <p>Showing {filteredCount} of {totalCount}</p>
   </div>
 
   <Table data={filteredTableData} />
