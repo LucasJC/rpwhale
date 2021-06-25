@@ -10,11 +10,11 @@
     <thead>
       <tr>
         <th>Pool</th>
-        <th>Aether/hour</th>
+        <th>A/hr</th>
         <th>Shares Staked</th>
         <th>Schema</th>
         <th>Rarity</th>
-        <th>Aether/hour</th>
+        <th>A/hr</th>
       </tr>
     </thead>
     <tbody>
@@ -34,7 +34,7 @@
               <td>
                 {schema.schema.schema}
               </td>
-              <td>
+              <td class="pools__rarity" title={rarity.rarity}>
                 {rarity.rarity}
               </td>
               <td>
@@ -47,3 +47,12 @@
     </tbody>
   </table>
 </div>
+
+<style>
+  .pools__rarity {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+</style>
