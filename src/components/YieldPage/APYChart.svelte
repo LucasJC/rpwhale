@@ -14,11 +14,24 @@
     .map((_, index) => moment().add(index, "month"));
 
   $: {
-    data = next12Months.map((date, index) => ({
-      group: "no-compounding",
+    let mpy = apy?.mpy() || 0.1;
+    if (mpy == Infinity) {
+      mpy = 0.1;
+    }
+
+    const linear = next12Months.map((date, index) => ({
+      group: "no compounding",
       x: date.toDate(),
-      y: capital + capital * apy.mpy() * index,
+      y: capital + capital * mpy * index,
     }));
+
+    const compounding = next12Months.map((date, index) => ({
+      group: "compounding monthly",
+      x: date.toDate(),
+      y: capital * (1 + mpy) ** index,
+    }));
+
+    data = [...linear, ...compounding];
   }
 </script>
 
