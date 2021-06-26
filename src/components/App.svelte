@@ -17,6 +17,7 @@
   import { getFromSearch, poolFilters } from "../domain/history";
   import LandsSummary from "./LandsSummary.svelte";
   import { ASSET_SEARCH_KEY } from "../domain/asset-staking";
+  import AdBlock from "./AdBlock.svelte";
 </script>
 
 <main>
