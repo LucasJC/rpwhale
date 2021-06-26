@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { rplanetPrices, waxPrice } from "../../domain/currencies";
-  import { APY } from "../../domain/apy";
+  import type { APY } from "../../domain/apy";
 
   export let apy: APY;
 

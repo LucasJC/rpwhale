@@ -27,9 +27,10 @@
   <div class="columns is-desktop">
     <form class="form column apy__form" on:submit={(e) => e.preventDefault()}>
       <div class="field">
-        <label class="label">Wax per Aether/Hour</label>
+        <label for="yield-rate" class="label">Wax per Aether/Hour</label>
         <div class="control">
           <input
+            id="yield-rate"
             class="input"
             type="number"
             placeholder="1.9"
@@ -39,9 +40,10 @@
       </div>
 
       <div class="field">
-        <label class="label">Initial Capital (USD)</label>
+        <label for="initial-capital" class="label">Initial Capital (USD)</label>
         <div class="control">
           <input
+            id="initial-capital"
             class="input"
             type="number"
             placeholder="1000 USD"

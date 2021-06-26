@@ -2,7 +2,7 @@
   import moment from "moment";
   import { ScaleTypes } from "@carbon/charts/interfaces/enums";
   import { LineChart } from "@carbon/charts-svelte";
-  import { APY } from "../../domain/apy";
+  import type { APY } from "../../domain/apy";
 
   export let apy: APY;
   export let capital: number = 1000;
