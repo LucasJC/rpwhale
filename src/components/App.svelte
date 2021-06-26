@@ -18,6 +18,7 @@
   import LandsSummary from "./LandsSummary.svelte";
   import { ASSET_SEARCH_KEY } from "../domain/asset-staking";
   import AdBlock from "./AdBlock.svelte";
+  import Yield from "./Yield.svelte";
 </script>
 
 <GoogleAnalytics properties={["G-1WNKLF5N10"]} />
@@ -45,6 +46,10 @@
 
     <Route path="pools">
       <Pools filters={$poolFilters} />
+    </Route>
+
+    <Route path="yield">
+      <Yield />
     </Route>
 
     <Route path="donation">

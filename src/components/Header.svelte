@@ -71,6 +71,14 @@
         </a>
         <a
           class="navbar-item"
+          class:is-active={$location.pathname === "/yield"}
+          href="/yield"
+          use:link
+        >
+          APY
+        </a>
+        <a
+          class="navbar-item"
           class:is-active={$location.pathname === "/donation"}
           href="/donation"
           use:link
