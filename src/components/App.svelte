@@ -17,7 +17,6 @@
   import { getFromSearch, poolFilters } from "../domain/history";
   import LandsSummary from "./LandsSummary.svelte";
   import { ASSET_SEARCH_KEY } from "../domain/asset-staking";
-  import AdBlock from "./AdBlock.svelte";
 </script>
 
 <main>
@@ -25,7 +24,6 @@
   <div class="container">
     <Router>
       <Header />
-      <AdBlock />
       <Route path="/">
         <AccountInput account={getFromSearch(ACCOUNT_SEARCH_KEY)} />
         {#if $userStore.account}
