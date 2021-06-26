@@ -1,1 +1,10 @@
-{@html "<script async src=\"https:\/\/pagead2.googlesyndication.com\/pagead\/js\/adsbygoogle.js\"><\/script>\r\n<!-- header -->\r\n<ins class=\"adsbygoogle\"\r\n     style=\"display:block\"\r\n     data-ad-client=\"ca-pub-2782475715084716\"\r\n     data-ad-slot=\"2351287168\"\r\n     data-ad-format=\"auto\"\r\n     data-full-width-responsive=\"true\"><\/ins>\r\n<script>\r\n     (adsbygoogle = window.adsbygoogle || []).push({});\r\n<\/script>"}
+<!-- header -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-2782475715084716"
+     data-ad-slot="2351287168"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
