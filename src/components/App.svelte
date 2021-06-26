@@ -25,7 +25,6 @@
   <div class="container">
     <Router>
       <Header />
-      <AdBlock />
       <Route path="/">
         <AccountInput account={getFromSearch(ACCOUNT_SEARCH_KEY)} />
         {#if $userStore.account}
