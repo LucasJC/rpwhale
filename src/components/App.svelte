@@ -18,7 +18,7 @@
   import LandsSummary from "./LandsSummary.svelte";
   import { ASSET_SEARCH_KEY } from "../domain/asset-staking";
   import AdBlock from "./AdBlock.svelte";
-  import Yield from "./Yield.svelte";
+  import Yield from "./YieldPage/index.svelte";
 </script>
 
 <GoogleAnalytics properties={["G-1WNKLF5N10"]} />

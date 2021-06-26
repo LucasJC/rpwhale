@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { rplanetPrices, waxPrice } from "../domain/currencies";
-  import { currencyBalance } from "../domain/balance";
-  import * as Balance from "../domain/balance";
-  import FormattedPrice from "./FormattedPrice.svelte";
-  import { getAPY, APY } from "../domain/apy";
+  import { rplanetPrices, waxPrice } from "../../domain/currencies";
+  import { getAPY, APY } from "../../domain/apy";
+  import APYTable from "./APYTable.svelte";
 
   let waxPerAH: number = 1.9;
   let capital: number = 1000;
@@ -53,40 +51,7 @@
     </form>
 
     <div class="column">
-      <table class="table">
-        <tbody>
-          <tr>
-            <th> Hourly </th>
-            <th>
-              {apy.hpyFormatted()}
-            </th>
-          </tr>
-          <tr>
-            <th> Daily </th>
-            <th>
-              {apy.dpyFormatted()}
-            </th>
-          </tr>
-          <tr>
-            <th> Weekly </th>
-            <th>
-              {apy.wpyFormatted()}
-            </th>
-          </tr>
-          <tr>
-            <th> Monthly </th>
-            <th>
-              {apy.mpyFormatted()}
-            </th>
-          </tr>
-          <tr>
-            <th> Yearly (APY) </th>
-            <th>
-              {apy.apyFormatted()}
-            </th>
-          </tr>
-        </tbody>
-      </table>
+      <APYTable {apy} />
     </div>
   </div>
 </div>
