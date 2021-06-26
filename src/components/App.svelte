@@ -21,6 +21,13 @@
   import Yield from "./YieldPage/index.svelte";
 </script>
 
+<svelte:head>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/@carbon/charts/styles.min.css"
+  />
+</svelte:head>
+
 <GoogleAnalytics properties={["G-1WNKLF5N10"]} />
 <div class="container">
   <Router>

@@ -2,6 +2,7 @@
   import { rplanetPrices, waxPrice } from "../../domain/currencies";
   import { getAPY, APY } from "../../domain/apy";
   import APYTable from "./APYTable.svelte";
+  import APYChart from "./APYChart.svelte";
 
   let waxPerAH: number = 1.9;
   let capital: number = 1000;
@@ -54,6 +55,8 @@
       <APYTable {apy} />
     </div>
   </div>
+
+  <APYChart {apy} {capital} />
 </div>
 
 <style>
