@@ -2,7 +2,7 @@
   import moment from "moment";
   import { ScaleTypes } from "@carbon/charts/interfaces/enums";
   import { LineChart } from "@carbon/charts-svelte";
-  import type { APY } from "../../domain/apy";
+  import { APY } from "../../domain/apy";
 
   export let apy: APY;
   export let capital: number = 1000;
@@ -14,10 +14,7 @@
     .map((_, index) => moment().add(index, "month"));
 
   $: {
-    let mpy = apy?.mpy() || 0.1;
-    if (mpy == Infinity) {
-      mpy = 0.1;
-    }
+    const mpy = APY.getBoundedMpy(apy);
 
     const linear = next12Months.map((date, index) => ({
       group: "no compounding",
@@ -28,7 +25,7 @@
     const compounding = next12Months.map((date, index) => ({
       group: "compounding monthly",
       x: date.toDate(),
-      y: capital * (1 + mpy) ** index,
+      y: capital * (1 + mpy) ** (index + 1),
     }));
 
     data = [...linear, ...compounding];
