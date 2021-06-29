@@ -150,7 +150,7 @@
 <GoUpButton />
 
 <div class="section">
-  <p class="title is-4">RPlanet Pools Explorer</p>
+  <h2 class="title is-4">RPlanet Pools Explorer</h2>
   <p>
     Here you will find every collection pool and its different rarities. <br />
     Remember that aether yield for every rarity depends on the amount of NFTs staked.

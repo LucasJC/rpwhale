@@ -18,7 +18,15 @@
   import LandsSummary from "./LandsSummary.svelte";
   import { ASSET_SEARCH_KEY } from "../domain/asset-staking";
   import AdBlock from "./AdBlock.svelte";
+  import Yield from "./YieldPage/index.svelte";
 </script>
+
+<svelte:head>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/@carbon/charts/styles.min.css"
+  />
+</svelte:head>
 
 <GoogleAnalytics properties={["G-1WNKLF5N10"]} />
 <div class="container">
@@ -45,6 +53,10 @@
 
     <Route path="pools">
       <Pools filters={$poolFilters} />
+    </Route>
+
+    <Route path="yield">
+      <Yield />
     </Route>
 
     <Route path="donation">
