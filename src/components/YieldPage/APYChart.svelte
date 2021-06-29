@@ -8,8 +8,10 @@
   export let capital: number = 1000;
 
   let data = [{ group: "no-compounding", x: new Date(), y: 10 }];
+
+  // this actually has 13 items representing the 0 month
   const next12Months = "x"
-    .repeat(12)
+    .repeat(13)
     .split("")
     .map((_, index) => moment().add(index, "month"));
 
@@ -19,13 +21,13 @@
     const linear = next12Months.map((date, index) => ({
       group: "no compounding",
       x: date.toDate(),
-      y: capital + capital * mpy * (index + 1),
+      y: capital + capital * mpy * index,
     }));
 
     const compounding = next12Months.map((date, index) => ({
       group: "compounding monthly",
       x: date.toDate(),
-      y: capital * (1 + mpy) ** (index + 1),
+      y: capital * (1 + mpy) ** index,
     }));
 
     data = [...linear, ...compounding];
