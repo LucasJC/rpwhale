@@ -19,7 +19,7 @@
     const linear = next12Months.map((date, index) => ({
       group: "no compounding",
       x: date.toDate(),
-      y: capital + capital * mpy * index,
+      y: capital + capital * mpy * (index + 1),
     }));
 
     const compounding = next12Months.map((date, index) => ({
