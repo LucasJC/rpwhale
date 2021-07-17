@@ -44,17 +44,18 @@
     "typescript": "^4.0.0"
   },
   "dependencies": {
-    "@carbon/charts": "^0.41.77",
-    "@carbon/charts-svelte": "^0.41.77",
-    "@waxio/waxjs": "^0.0.15",
-    "atomicmarket": "^0.1.1",
-    "carbon-components": "^10.38.0",
-    "clipboard": "^2.0.8",
+    "warning": "4.0.0",
+    "@carbon/charts": "0.41.77",
+    "@carbon/charts-svelte": "0.41.77",
+    "@waxio/waxjs": "0.0.15",
+    "atomicmarket": "0.1.1",
+    "carbon-components": "10.38.0",
+    "clipboard": "2.0.8",
     "d3": "5.x",
-    "human-format": "^0.11.0",
-    "moment": "^2.29.1",
-    "sirv-cli": "^1.0.0",
-    "svelte-navigator": "^3.1.5"
+    "human-format": "0.11.0",
+    "moment": "2.29.1",
+    "sirv-cli": "1.0.0",
+    "svelte-navigator": "3.1.5"
   },
   "lint-staged": {
     "*.{js,ts,svelte,css,md}": "prettier --write"
