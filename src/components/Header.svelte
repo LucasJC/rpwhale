@@ -1,12 +1,7 @@
 <script lang="ts">
+  import type { NavbarItem } from "../domain/navbar";
   import Navbar from "./Navbar.svelte";
-  const items = [
-    { url: "/", label: "Home" },
-    { url: "/asset-staking", label: "Asset Staking" },
-    { url: "/pools", label: "Pools" },
-    { url: "/yield", label: "APY" },
-    { url: "/donation", label: "Donation" },
-  ];
+  export let items: NavbarItem[];
 </script>
 
 <section id="header" class="hero">

@@ -2,10 +2,9 @@
   import { nightMode } from "../domain/night-mode";
   import NightModeToggle from "./NightModeToggle.svelte";
   import { link, useLocation } from "svelte-navigator";
-  export let items: {
-    url: string;
-    label: string;
-  }[];
+  import type { NavbarItem } from "../domain/navbar";
+
+  export let items: NavbarItem[];
   const location = useLocation();
   let isMenuActive = false;
 </script>

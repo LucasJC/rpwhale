@@ -1,67 +1,47 @@
 <script lang="ts">
-  import Footer from "./Footer.svelte";
   import Header from "./Header.svelte";
   import Donations from "./Donations/index.svelte";
-  import AccountStaking from "./AccountStaking.svelte";
   import { GoogleAnalytics } from "@beyonk/svelte-google-analytics";
-  import AccountInput from "./AccountInput.svelte";
-  import PassiveIncome from "./PassiveIncome/index.svelte";
-  import AccountHoldings from "./AccountHoldings.svelte";
-  import Currencies from "./Currencies.svelte";
-  import { ACCOUNT_SEARCH_KEY, userStore } from "../domain/user";
-  import Summary from "./Summary.svelte";
   import { Router, Route } from "svelte-navigator";
   import AssetYield from "./AssetYield.svelte";
   import Pools from "./PoolExplorer/index.svelte";
-  import GoUpButton from "./GoUpButton.svelte";
   import { getFromSearch, poolFilters } from "../domain/history";
-  import LandsSummary from "./LandsSummary.svelte";
-  import { ASSET_SEARCH_KEY } from "../domain/asset-staking";
-  import AdBlock from "./AdBlock.svelte";
   import Yield from "./YieldPage/index.svelte";
+  import CurrenciesCalculator from "./CurrenciesCalculator.svelte";
+  import type { NavbarItem } from "../domain/navbar";
+  import Home from "./Home.svelte";
+  import { ASSET_SEARCH_KEY } from "../domain/asset-staking";
+  const items: NavbarItem[] = [
+    { url: "/", label: "Home" },
+    { url: "/asset-staking", label: "Asset Staking" },
+    { url: "/pools", label: "Pools" },
+    { url: "/yield", label: "APY" },
+    { url: "/donation", label: "Donation" },
+    { url: "/calculator", label: "Calculator" },
+  ];
 </script>
-
-<svelte:head>
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/@carbon/charts/styles.min.css"
-  />
-</svelte:head>
 
 <GoogleAnalytics properties={["G-1WNKLF5N10"]} />
 <div class="container">
   <Router>
-    <Header />
+    <Header {items} />
     <Route path="/">
-      <AccountInput account={getFromSearch(ACCOUNT_SEARCH_KEY)} />
-      {#if $userStore.account}
-        <GoUpButton />
-        <Summary />
-        <Currencies />
-        <AccountStaking />
-        <PassiveIncome />
-        <AccountHoldings />
-        <LandsSummary />
-      {:else}
-        <Currencies />
-      {/if}
+      <Home />
     </Route>
-
     <Route path="asset-staking">
       <AssetYield assetId={getFromSearch(ASSET_SEARCH_KEY)} />
     </Route>
-
+    <Route path="calculator">
+      <CurrenciesCalculator />
+    </Route>
     <Route path="pools">
       <Pools filters={$poolFilters} />
     </Route>
-
     <Route path="yield">
       <Yield />
     </Route>
-
     <Route path="donation">
       <Donations />
     </Route>
   </Router>
 </div>
-<!--<Footer />-->
