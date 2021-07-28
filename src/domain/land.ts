@@ -59,7 +59,8 @@ export function getLandsYield(lands: Array<ListingAsset>): Array<ILandYield> {
   const landYield: { [id: string]: number } = {};
   lands.forEach((land) => {
     const mineral = land.data?.name?.toUpperCase();
-    const amount = land.data?.base_rate;
+    const amount = land.data?.base_rate * (Math.pow(1.02, Number.parseFloat(land.data?.level)));
+    debugger;
     if (!landYield[mineral]) {
       landYield[mineral] = 0;
     }
