@@ -1,4 +1,6 @@
 <script lang="ts">
+import Currencies from "./Currencies.svelte";
+
   let currencies = [
     {
       currency: "",
@@ -7,4 +9,6 @@
   ];
 </script>
 
-<div class="section" />
+<div class="section">
+  <Currencies />
+</div>
