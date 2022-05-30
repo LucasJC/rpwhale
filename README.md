@@ -1,6 +1,6 @@
 # RP Whale
 
-[RP Whale](https://rpwhale.online) is a tool for the [RPlanet](https://rplanet.io) game that lets you calculate your current staking power, passive income rates and current holdings.
+[RP Whale](https://rpwhale-lucasjc.vercel.app/) is a tool for the [RPlanet](https://rplanet.io) game that lets you calculate your current staking power, passive income rates and current holdings.
 
 This application was built using [Svelte](https://svelte.dev/) and [Bulma](https://bulma.io/).
 
